@@ -3,6 +3,11 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Menu, X, Heart, MessageCircle, Send, Bookmark, ShoppingBag, ChevronDown, Check, Camera, Zap, TrendingUp } from 'lucide-react';
 import './index.css';
 
+/* ===== GLITCH TEXT ===== */
+function GlitchText({ children, tag: Tag = 'span' }) {
+  return <Tag className="glitch" data-text={children}>{children}</Tag>;
+}
+
 /* ===== FLOATING SOCIAL ===== */
 function FloatingLike({ style, delay = 0 }) {
   return (
@@ -42,7 +47,7 @@ function Header() {
   return (
     <>
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
-        <a href="#" className="header-logo">BBS<span>.</span></a>
+        <a href="#" className="header-logo">Brands by Status</a>
         <nav className="header-nav">
           <a href="#work">Work</a>
           <a href="#how">How</a>
@@ -75,7 +80,7 @@ function Hero() {
 
       <div className="hero-content">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
-          <h1>You bring the audience.<br /><span className="accent">We bring the merch.</span></h1>
+          <h1><GlitchText>You bring the audience.</GlitchText><br /><span className="accent">We bring the merch.</span></h1>
           <p className="hero-sub">Your followers are already asking "where'd you get that?" — let's give them an answer.</p>
           <a href="#apply" className="hero-cta">Apply Now <ArrowRight size={16} /></a>
         </motion.div>
@@ -254,7 +259,7 @@ function Journey() {
       {/* STEP 4 — You sell */}
       <div className="quote-section">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <p className="quote-text">You post. They buy. <em>That's it.</em></p>
+          <p className="quote-text"><GlitchText>You post. They buy.</GlitchText> <em>That's it.</em></p>
         </motion.div>
       </div>
 
@@ -279,7 +284,7 @@ function TheDeal() {
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center' }}>
           <div className="section-label">The deal</div>
-          <h2 className="section-title" style={{ textAlign: 'center' }}>We bet on you. Literally.</h2>
+          <h2 className="section-title" style={{ textAlign: 'center' }}><GlitchText>We bet on you. Literally.</GlitchText></h2>
           <p className="section-sub" style={{ margin: '0 auto', textAlign: 'center' }}>
             We don't charge a flat monthly fee. We take a percentage of sales — which means if you don't sell, we don't eat. That's how confident we are. But it means we only work with creators who actually <em>promote</em>.
           </p>
@@ -302,6 +307,19 @@ function TheDeal() {
           </motion.div>
         </div>
       </div>
+    </section>
+  );
+}
+
+/* ===== STATUS SHOWCASE ===== */
+function StatusShowcase() {
+  return (
+    <section className="status-showcase">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+        <div className="section-label">The Brand</div>
+        <h2 className="section-title" style={{ textAlign: 'center', marginBottom: 48 }}><GlitchText>Status.</GlitchText></h2>
+        <img src="/portfolio/status-tvs.png" alt="Status brand" />
+      </motion.div>
     </section>
   );
 }
@@ -427,7 +445,7 @@ function CTA() {
   return (
     <section className="cta">
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-        <h2>Stop leaving money<br />in the comments.</h2>
+        <h2><GlitchText>Stop leaving money</GlitchText><br />in the comments.</h2>
         <p>Every "where'd you get that??" is a sale you're not making.</p>
         <a href="#apply" className="cta-btn">Apply Now <ArrowRight size={16} /></a>
       </motion.div>
@@ -441,7 +459,7 @@ function Footer() {
     <footer className="site-footer">
       <div className="footer-inner">
         <div>
-          <div className="footer-logo">BBS<span>.</span></div>
+          <div className="footer-logo">Brands by Status</div>
           <p className="footer-desc">Merch stores for creators who are done leaving money on the table.</p>
         </div>
         <div className="footer-links">
@@ -470,6 +488,7 @@ export default function App() {
       <ThePitch />
       <Journey />
       <TheDeal />
+      <StatusShowcase />
       <Portfolio />
       <Ticker items={['Lifestyle photos', 'Dropshipping', 'TikTok Shop', 'Link in bio', 'Merch drops', 'Email blasts']} variant="light" />
       <ApplicationForm />

@@ -427,7 +427,8 @@ export default function MiniShift() {
       {/* HERO */}
       <div className="ms-hero">
         <img className="ms-hero-bg" src="/shift/street-crossing.png" alt="" />
-        <div className="ms-hero-grad" />
+        <video src="/shift/shift-hero.mp4" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
+        <div className="ms-hero-grad" style={{ zIndex: 2 }} />
         <div className="ms-hero-inner">
           <img src="/shift/shift-logo.png" alt="Shift" className="ms-hero-logo" />
           <div className="ms-hero-tag">Life Keeps Moving</div>

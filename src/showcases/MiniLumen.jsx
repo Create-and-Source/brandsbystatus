@@ -478,7 +478,8 @@ export default function MiniLumen() {
       {/* HERO */}
       <div className="ml-hero">
         <img className="ml-hero-bg" src="/lumen/hero-wide.png" alt="" />
-        <div className="ml-hero-overlay" />
+        <video src="/lumen/hero-desktop.mp4" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
+        <div className="ml-hero-overlay" style={{ zIndex: 2 }} />
         <div className="ml-hero-content">
           <img src="/lumen/lumen-logo-v2.png" alt="Club Lumen" className="ml-hero-logo" />
           <div className="ml-hero-tagline">The Morning Rave&trade; &mdash; Phoenix, AZ</div>

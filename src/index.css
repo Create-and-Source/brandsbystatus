@@ -509,10 +509,13 @@ img { max-width: 100%; display: block; }
   .spread {
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none;
   }
   .spread-reverse { grid-template-columns: 1fr; }
-  .spread-img img { height: 50vh; }
+  .spread-img img { height: 50vh; object-fit: cover; }
   .spread-text { padding: 40px 24px; }
+  .spread-title { font-size: 24px; }
+  .spread-body { font-size: 14px; }
 
   .strip-label { padding: 0 24px; }
   .strip { padding: 0 24px; gap: 6px; }

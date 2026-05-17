@@ -106,11 +106,6 @@ export default function App() {
         <span className="sep">&bull;</span>
       </Marquee>
 
-      {/* ===== FULL BLEED — STATUS NEWSPAPER ===== */}
-      <section className="full-bleed">
-        <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
-      </section>
-
       {/* ===== FULL BLEED — STEAMING RACK ===== */}
       <section className="full-bleed">
         <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
@@ -119,8 +114,8 @@ export default function App() {
       {/* ===== HOW IT WORKS ===== */}
       <section className="text-block">
         <motion.div {...fade}>
-          <h2>Here's how it works.</h2>
-          <p style={{ marginTop: 16, color: 'var(--muted)' }}>$500 – $2,000 to start. We take a percentage of sales after that — so we only win when you do.</p>
+          <h2>We build merch brands for creators.</h2>
+          <p style={{ marginTop: 16, color: 'var(--muted)' }}>Product design. Lifestyle photography. A fully custom online store. Fulfillment handled. Starting at $500 – $2,000.</p>
         </motion.div>
       </section>
 
@@ -144,7 +139,7 @@ export default function App() {
           <p className="spread-body">Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
         </motion.div>
         <div className="spread-img">
-          <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
+          <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
         </div>
       </section>
 
@@ -188,7 +183,6 @@ export default function App() {
           <div className="browser-scroll">
             <div className="browser-bar">
               <span /><span /><span />
-              <div className="browser-url">clublumen-store.vercel.app</div>
             </div>
             <div className="browser-body">
               <MiniLumen />
@@ -208,7 +202,6 @@ export default function App() {
           <div className="browser-scroll">
             <div className="browser-bar browser-bar-dark">
               <span /><span /><span />
-              <div className="browser-url browser-url-dark">shift-store.vercel.app</div>
             </div>
             <div className="browser-body">
               <MiniShift />

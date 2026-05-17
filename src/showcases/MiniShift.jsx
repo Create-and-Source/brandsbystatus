@@ -553,7 +553,7 @@ export default function MiniShift() {
           <img src="/shift/chinatown.jpg" alt="" />
         </div>
         <div className="ms-pg-item">
-          <img src="/shift/nyc-crosswalk.png" alt="" />
+          <img src="/shift/nyc-convertible.png" alt="" />
         </div>
         <div className="ms-pg-item">
           <img src="/shift/car-meet.png" alt="" />
@@ -578,7 +578,7 @@ export default function MiniShift() {
           <div className="ms-spread-link">Shop Racing &rarr;</div>
         </div>
         <div className="ms-spread-img">
-          <img src="/shift/car-meet.png" alt="" />
+          <video src="/shift/shift-racing.mp4" autoPlay muted loop playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
       </div>
 

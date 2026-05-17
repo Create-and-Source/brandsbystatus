@@ -130,8 +130,39 @@ img { max-width: 100%; display: block; }
 .scroll-row {
   overflow: hidden;
   margin-bottom: 8px;
+  position: relative;
+}
+.scroll-row::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(to left, var(--bg), transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 .scroll-row:last-child { margin-bottom: 0; }
+.scroll-hint {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  padding: 0 48px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.scroll-hint-arrow {
+  animation: nudge 1.5s ease-in-out infinite;
+}
+@keyframes nudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
 .scroll-row-track {
   display: flex;
   gap: 8px;

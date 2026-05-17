@@ -200,6 +200,7 @@ export default function App() {
             ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
+        <div className="scroll-hint">Swipe to explore <span className="scroll-hint-arrow">→</span></div>
       </div>
 
       {/* ===== 03 — WE BUILD THE STORE ===== */}

@@ -111,10 +111,16 @@ export default function App() {
         <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
       </section>
 
+      {/* ===== FULL BLEED — STEAMING RACK ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
+      </section>
+
       {/* ===== HOW IT WORKS ===== */}
       <section className="text-block">
         <motion.div {...fade}>
           <h2>Here's how it works.</h2>
+          <p style={{ marginTop: 16, color: 'var(--muted)' }}>$500 – $2,000 to start. We take a percentage of sales after that — so we only win when you do.</p>
         </motion.div>
       </section>
 
@@ -138,7 +144,7 @@ export default function App() {
           <p className="spread-body">Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
         </motion.div>
         <div className="spread-img">
-          <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
+          <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
         </div>
       </section>
 
@@ -166,7 +172,7 @@ export default function App() {
         <motion.div {...fade}>
           <span className="step-label">03</span>
           <h3 className="step-title">We build your store.</h3>
-          <p>Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
+          <p>A fully custom e-commerce website designed around your brand — your colors, your vibe, your products. Real checkout. Real fulfillment. We handle inventory, shipping, and customer service. You just send traffic and watch it sell.</p>
         </motion.div>
       </section>
 

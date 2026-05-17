@@ -1,21 +1,20 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import './index.css';
 
-const fade = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
+const fade = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-50px' }, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } };
 
-/* Floating social elements */
 const socials = [
   { text: '2.4K', icon: '♥', x: '8%', y: '25%', delay: 0 },
-  { text: '@jess NEED this', icon: '💬', x: '85%', y: '35%', delay: 1.2 },
-  { text: '$127 sold', icon: '🛒', x: '78%', y: '70%', delay: 2.4 },
-  { text: '1,847 views', icon: '👁', x: '12%', y: '65%', delay: 0.8 },
-  { text: '+$89', icon: '💰', x: '90%', y: '20%', delay: 1.8 },
-  { text: 'Added to cart', icon: '🛍', x: '5%', y: '80%', delay: 3.0 },
+  { text: '@jess NEED this', icon: '💬', x: '82%', y: '32%', delay: 1.2 },
+  { text: '$127 sold', icon: '🛒', x: '75%', y: '68%', delay: 2.4 },
+  { text: '1,847 views', icon: '👁', x: '10%', y: '62%', delay: 0.8 },
+  { text: '+$89', icon: '💰', x: '88%', y: '18%', delay: 1.8 },
+  { text: 'Added to cart', icon: '🛍', x: '6%', y: '78%', delay: 3.0 },
 ];
 
-function FloatingElement({ text, icon, x, y, delay }) {
+function FloatingPill({ text, icon, x, y, delay }) {
   return (
     <motion.div
       className="float-pill"
@@ -37,87 +36,104 @@ export default function App() {
 
   return (
     <>
-      {/* ===== HERO ===== */}
+      {/* ===== HERO — full bleed video ===== */}
       <section className="hero">
         <video src="/portfolio/eastwood-video.mp4" autoPlay muted loop playsInline className="hero-video" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <motion.div {...fade}>
             <h1>You bring the audience.<br />We bring the merch.</h1>
-            <a href="#apply" className="btn">Apply Now <ArrowRight size={16} /></a>
+            <a href="#apply" className="btn btn-white">Apply Now <ArrowRight size={16} /></a>
           </motion.div>
         </div>
-        {socials.map((s, i) => <FloatingElement key={i} {...s} />)}
+        {socials.map((s, i) => <FloatingPill key={i} {...s} />)}
       </section>
 
-      {/* ===== STEP 1: THEY SEND ===== */}
-      <section className="step">
-        <motion.div className="step-text" {...fade}>
-          <div className="step-num">01</div>
+      {/* ===== FULL BLEED — STATUS RACK ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
+      </section>
+
+      {/* ===== STEP 01 — text centered ===== */}
+      <section className="text-block">
+        <motion.div {...fade}>
+          <span className="step-label">01</span>
           <h2>You send us the vision.</h2>
           <p>A mood board. A Pinterest link. Some screenshots. Literally whatever you have — we take it from there.</p>
         </motion.div>
-        <div className="collage collage-inputs">
-          <motion.img src="/portfolio/lumen-brandboard.png" alt="" className="c1" {...fade} />
-          <motion.img src="/portfolio/shift-input-1.jpeg" alt="" className="c2" {...fade} transition={{ delay: 0.1 }} />
-          <motion.img src="/portfolio/shift-input-2.png" alt="" className="c3" {...fade} transition={{ delay: 0.2 }} />
-        </div>
       </section>
 
-      {/* ===== STEP 2: WE CREATE ===== */}
-      <section className="step step-alt">
-        <div className="collage collage-photos">
-          <motion.img src="/portfolio/lumen-2.png" alt="" className="c1" {...fade} />
-          <motion.img src="/portfolio/shift-girls.png" alt="" className="c2" {...fade} transition={{ delay: 0.1 }} />
-          <motion.img src="/portfolio/lumen-1.png" alt="" className="c3" {...fade} transition={{ delay: 0.15 }} />
-          <motion.img src="/portfolio/shift-crosswalk.png" alt="" className="c4" {...fade} transition={{ delay: 0.2 }} />
-          <motion.img src="/portfolio/lumen-3.png" alt="" className="c5" {...fade} transition={{ delay: 0.1 }} />
-          <motion.img src="/portfolio/shift-subway.png" alt="" className="c6" {...fade} transition={{ delay: 0.25 }} />
-        </div>
-        <motion.div className="step-text" {...fade}>
-          <div className="step-num">02</div>
+      {/* ===== SIDE BY SIDE — inputs ===== */}
+      <section className="duo">
+        <motion.img src="/portfolio/lumen-brandboard.png" alt="" {...fade} />
+        <motion.img src="/portfolio/shift-input-1.jpeg" alt="" {...fade} transition={{ delay: 0.15 }} />
+      </section>
+
+      {/* ===== STEP 02 ===== */}
+      <section className="text-block">
+        <motion.div {...fade}>
+          <span className="step-label">02</span>
           <h2>We create the entire product line.</h2>
           <p>Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
         </motion.div>
       </section>
 
-      {/* ===== STEP 3: THE STORE ===== */}
-      <section className="step">
-        <motion.div className="step-text" {...fade}>
-          <div className="step-num">03</div>
+      {/* ===== FULL BLEED — STATUS FLATLAY ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-flatlay.png" alt="" {...fade} />
+      </section>
+
+      {/* ===== TRIO — lifestyle shots ===== */}
+      <section className="trio">
+        <motion.img src="/portfolio/lumen-2.png" alt="" {...fade} />
+        <motion.img src="/portfolio/shift-girls.png" alt="" {...fade} transition={{ delay: 0.1 }} />
+        <motion.img src="/portfolio/lumen-1.png" alt="" {...fade} transition={{ delay: 0.2 }} />
+      </section>
+
+      {/* ===== STEP 03 ===== */}
+      <section className="text-block">
+        <motion.div {...fade}>
+          <span className="step-label">03</span>
           <h2>We build your store.</h2>
           <p>Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
         </motion.div>
-        <div className="collage collage-stores">
-          <motion.div className="browser" {...fade}>
-            <div className="browser-bar"><span /><span /><span /></div>
-            <img src="/portfolio/lumen-store-hero.png" alt="Club Lumen Store" />
-          </motion.div>
-          <motion.div className="browser browser-offset" {...fade} transition={{ delay: 0.15 }}>
-            <div className="browser-bar"><span /><span /><span /></div>
-            <img src="/portfolio/shift-store-hero.png" alt="Shift Store" />
-          </motion.div>
-        </div>
       </section>
 
-      {/* ===== STEP 4: THEY SELL ===== */}
-      <section className="step step-alt">
-        <div className="collage collage-lifestyle">
-          <motion.img src="/portfolio/lumen-5.png" alt="" className="c1" {...fade} />
-          <motion.img src="/portfolio/shift-4.png" alt="" className="c2" {...fade} transition={{ delay: 0.1 }} />
-          <motion.img src="/portfolio/lumen-welcomed.png" alt="" className="c3" {...fade} transition={{ delay: 0.15 }} />
-          <motion.img src="/portfolio/shift-5.png" alt="" className="c4" {...fade} transition={{ delay: 0.2 }} />
-        </div>
-        <motion.div className="step-text" {...fade}>
-          <div className="step-num">04</div>
+      {/* ===== BROWSER FRAMES ===== */}
+      <section className="browsers">
+        <motion.div className="browser" {...fade}>
+          <div className="browser-bar"><span /><span /><span /></div>
+          <img src="/portfolio/lumen-store-hero.png" alt="Club Lumen Store" />
+        </motion.div>
+        <motion.div className="browser" {...fade} transition={{ delay: 0.15 }}>
+          <div className="browser-bar"><span /><span /><span /></div>
+          <img src="/portfolio/shift-store-hero.png" alt="Shift Store" />
+        </motion.div>
+      </section>
+
+      {/* ===== STEP 04 ===== */}
+      <section className="text-block">
+        <motion.div {...fade}>
+          <span className="step-label">04</span>
           <h2>You post. They buy.</h2>
           <p>Link in bio. TikTok Shop. Go live. Your audience finally has somewhere to throw money. We take a percentage — so we only win when you do.</p>
         </motion.div>
       </section>
 
-      {/* ===== STATUS IMAGE ===== */}
-      <section className="showcase">
-        <motion.img src="/portfolio/status-rack.png" alt="Status" {...fade} />
+      {/* ===== FULL BLEED — HOODIE MODEL ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
+      </section>
+
+      {/* ===== LIFESTYLE DUO ===== */}
+      <section className="duo">
+        <motion.img src="/portfolio/shift-crosswalk.png" alt="" {...fade} />
+        <motion.img src="/portfolio/lumen-5.png" alt="" {...fade} transition={{ delay: 0.15 }} />
+      </section>
+
+      {/* ===== FULL BLEED — STATUS RACK (original) ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
       </section>
 
       {/* ===== APPLY ===== */}

@@ -1,33 +1,20 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Menu, X, Heart, MessageCircle, Send, Bookmark, ShoppingBag, Camera, Zap, TrendingUp, ChevronDown, Check } from 'lucide-react';
+import { ArrowRight, Menu, X, Heart, MessageCircle, Send, Bookmark, ShoppingBag, ChevronDown, Check, Camera, Zap, TrendingUp } from 'lucide-react';
 import './index.css';
 
-/* ===== SOCIAL FLOATING ELEMENTS ===== */
+/* ===== FLOATING SOCIAL ===== */
 function FloatingLike({ style, delay = 0 }) {
   return (
-    <motion.div
-      className="floating-social"
-      style={style}
-      initial={{ opacity: 0, scale: 0, y: 20 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 0.5, delay }}
-    >
-      <Heart size={14} fill="#E1306C" stroke="#E1306C" />
-      <span>2.4K</span>
+    <motion.div className="floating-social" style={style} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay }}>
+      <Heart size={14} fill="#E1306C" stroke="#E1306C" /><span>2.4K</span>
     </motion.div>
   );
 }
 
 function FloatingComment({ text, user, style, delay = 0 }) {
   return (
-    <motion.div
-      className="floating-comment"
-      style={style}
-      initial={{ opacity: 0, scale: 0.8, x: -20 }}
-      animate={{ opacity: 1, scale: 1, x: 0 }}
-      transition={{ duration: 0.5, delay }}
-    >
+    <motion.div className="floating-comment" style={style} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay }}>
       <strong>@{user}</strong> {text}
     </motion.div>
   );
@@ -35,13 +22,7 @@ function FloatingComment({ text, user, style, delay = 0 }) {
 
 function FloatingNotif({ text, style, delay = 0 }) {
   return (
-    <motion.div
-      className="floating-notif"
-      style={style}
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay }}
-    >
+    <motion.div className="floating-notif" style={style} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay }}>
       <ShoppingBag size={12} /> {text}
     </motion.div>
   );
@@ -68,14 +49,10 @@ function Header() {
           <a href="#apply">Apply</a>
         </nav>
         <a href="#apply" className="header-cta">Apply Now</a>
-        <button className="mobile-menu-btn" onClick={() => setMobileOpen(true)}>
-          <Menu size={24} />
-        </button>
+        <button className="mobile-menu-btn" onClick={() => setMobileOpen(true)}><Menu size={24} /></button>
       </header>
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
-        <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
-          <X size={28} />
-        </button>
+        <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}><X size={28} /></button>
         <a href="#work" onClick={() => setMobileOpen(false)}>Work</a>
         <a href="#how" onClick={() => setMobileOpen(false)}>How</a>
         <a href="#apply" onClick={() => setMobileOpen(false)}>Apply</a>
@@ -88,44 +65,27 @@ function Header() {
 function Hero() {
   return (
     <section className="hero">
-      <div className="hero-img-wrap">
-        <video
-          src="/portfolio/hero-video.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="hero-video"
-        />
-        <div className="hero-img-overlay" />
-        <FloatingLike style={{ top: '15%', right: '8%' }} delay={1} />
-        <FloatingComment user="jess" text="NEED this hoodie 🔥" style={{ bottom: '28%', left: '5%' }} delay={1.5} />
-        <FloatingNotif text="3 orders just now" style={{ top: '30%', left: '8%' }} delay={2} />
-        <FloatingComment user="marcus" text="link?? 👀" style={{ top: '45%', right: '5%' }} delay={2.3} />
-        <motion.div
-          className="hero-ig-bar"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-        >
-          <div className="ig-actions">
-            <Heart size={22} /> <MessageCircle size={22} /> <Send size={22} />
-          </div>
-          <Bookmark size={22} />
+      <video src="/portfolio/hero-video.mp4" autoPlay muted loop playsInline className="hero-video" />
+      <div className="hero-overlay" />
+
+      <FloatingLike style={{ top: '20%', right: '12%' }} delay={1} />
+      <FloatingComment user="jess" text="NEED this hoodie 🔥" style={{ bottom: '30%', left: '6%' }} delay={1.5} />
+      <FloatingNotif text="3 orders just now" style={{ top: '35%', left: '8%' }} delay={2} />
+      <FloatingComment user="marcus" text="link?? 👀" style={{ top: '50%', right: '8%' }} delay={2.3} />
+
+      <div className="hero-content">
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}>
+          <h1>You bring the audience.<br /><span className="accent">We bring the merch.</span></h1>
+          <p className="hero-sub">Your followers are already asking "where'd you get that?" — let's give them an answer.</p>
+          <a href="#apply" className="hero-cta">Apply Now <ArrowRight size={16} /></a>
         </motion.div>
       </div>
-      <motion.div
-        className="hero-text"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-      >
-        <h1>You bring the audience.<br /><span className="accent">We bring the merch.</span></h1>
-        <p className="hero-sub">Your followers are already asking "where'd you get that?" — let's give them an answer.</p>
-        <a href="#apply" className="hero-cta">
-          Apply Now <ArrowRight size={16} />
-        </a>
+
+      <motion.div className="hero-ig-bar" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+        <div className="ig-actions"><Heart size={22} /> <MessageCircle size={22} /> <Send size={22} /></div>
+        <Bookmark size={22} />
       </motion.div>
+
       <motion.div className="scroll-hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}>
         <ChevronDown size={20} />
       </motion.div>
@@ -148,25 +108,36 @@ function Ticker({ items, variant = 'dark' }) {
   );
 }
 
-/* ===== SOCIAL PROOF STRIP ===== */
+/* ===== SOCIAL PROOF ===== */
 function SocialProof() {
   return (
     <motion.section className="social-proof" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-      <div className="proof-item">
-        <div className="proof-number">0</div>
-        <div className="proof-label">inventory needed</div>
-      </div>
+      <div className="proof-item"><div className="proof-number">0</div><div className="proof-label">inventory needed</div></div>
       <div className="proof-divider" />
-      <div className="proof-item">
-        <div className="proof-number">100%</div>
-        <div className="proof-label">done for you</div>
-      </div>
+      <div className="proof-item"><div className="proof-number">100%</div><div className="proof-label">done for you</div></div>
       <div className="proof-divider" />
-      <div className="proof-item">
-        <div className="proof-number">$0</div>
-        <div className="proof-label">upfront product cost</div>
-      </div>
+      <div className="proof-item"><div className="proof-number">$0</div><div className="proof-label">upfront product cost</div></div>
     </motion.section>
+  );
+}
+
+/* ===== FULL BLEED PHOTO ROW ===== */
+function PhotoRow({ images, height = 360 }) {
+  return (
+    <div className="photo-grid" style={{ gridTemplateColumns: `repeat(${images.length}, 1fr)` }}>
+      {images.map((img, i) => (
+        <motion.div key={i} className="photo-item" style={{ height }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+          <img src={img.src} alt="" />
+          {img.label && (
+            <div className="photo-caption">
+              <div className="photo-caption-brand">{img.brand}</div>
+              <div className="photo-caption-title">{img.label}</div>
+            </div>
+          )}
+          <div className="photo-overlay"><Heart size={18} fill="white" stroke="white" /></div>
+        </motion.div>
+      ))}
+    </div>
   );
 }
 
@@ -174,7 +145,7 @@ function SocialProof() {
 function ThePitch() {
   return (
     <section className="section pitch">
-      <motion.div className="container" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+      <motion.div className="container" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <p className="pitch-text">
           You already have the <span className="highlight">followers</span>. The <span className="highlight">engagement</span>. The <span className="highlight">community</span>. You just don't have a store yet.
         </p>
@@ -184,46 +155,133 @@ function ThePitch() {
   );
 }
 
-/* ===== HOW IT WORKS ===== */
-function HowItWorks() {
-  const steps = [
-    { icon: <Camera size={24} />, title: 'Send us your vibe', desc: 'A mood board. A Pinterest link. A napkin sketch. Whatever you got — we take it from there.' },
-    { icon: <Zap size={24} />, title: 'We build the whole thing', desc: 'Product photos. Store. Checkout. Fulfillment. Your brand, your look — we handle the backend.' },
-    { icon: <TrendingUp size={24} />, title: 'You post, they buy', desc: 'Link in bio. TikTok Shop. Go live. Your audience finally has something to throw money at.' },
-  ];
-
+/* ===== THE JOURNEY — STEP BY STEP ===== */
+function Journey() {
   return (
-    <section className="section section-warm" id="how">
-      <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <div className="section-label">Dead simple</div>
-          <h2 className="section-title">Your only job is being you.</h2>
+    <section id="how">
+      {/* STEP 1 — They Upload */}
+      <div className="journey-step">
+        <div className="journey-text-col">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="section-label">Step 01</div>
+            <h2 className="section-title">You send us the vibe.</h2>
+            <p className="section-sub">A mood board. A Pinterest link. Some mockups on your phone. Literally whatever you have — that's all we need to get started.</p>
+          </motion.div>
+        </div>
+        <motion.div className="journey-img-col" initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <div className="client-uploads">
+            <img src="/portfolio/lumen-brandboard.png" alt="Brand board" className="upload-img upload-main" />
+            <img src="/portfolio/shift-input-1.jpeg" alt="Client mockup" className="upload-img upload-float upload-float-1" />
+            <img src="/portfolio/shift-input-2.png" alt="Pinterest inspo" className="upload-img upload-float upload-float-2" />
+          </div>
         </motion.div>
-        <div className="steps-row">
-          {steps.map((s, i) => (
-            <motion.div key={i} className="step-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}>
-              <div className="step-num">0{i + 1}</div>
-              <div className="step-icon">{s.icon}</div>
-              <h3>{s.title}</h3>
-              <p>{s.desc}</p>
-            </motion.div>
-          ))}
+      </div>
+
+      {/* STEP 2 — We Create */}
+      <PhotoRow
+        images={[
+          { src: '/portfolio/lumen-1.png', brand: 'Club Lumen', label: 'Cherry Lips Tank' },
+          { src: '/portfolio/shift-girls.png', brand: 'Shift', label: 'Palm Trees & Hoodies' },
+          { src: '/portfolio/lumen-2.png', brand: 'Club Lumen', label: 'Good Energy Hoodie' },
+          { src: '/portfolio/shift-crosswalk.png', brand: 'Shift', label: 'NYC Crosswalk' },
+        ]}
+        height={420}
+      />
+
+      <div className="journey-step journey-step-reverse">
+        <motion.div className="journey-img-col" initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <div className="photo-stack">
+            <img src="/portfolio/lumen-3.png" alt="Morning Rave Hoodie" className="stack-img stack-1" />
+            <img src="/portfolio/shift-1.png" alt="Shift Street" className="stack-img stack-2" />
+            <img src="/portfolio/lumen-6.png" alt="Coffee Shop" className="stack-img stack-3" />
+          </div>
+        </motion.div>
+        <div className="journey-text-col">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="section-label">Step 02</div>
+            <h2 className="section-title">We create your entire product line.</h2>
+            <p className="section-sub">Lifestyle photography. Product designs. Everything styled and shot to match your brand — no studio, no models, no limits on what we can create.</p>
+          </motion.div>
         </div>
       </div>
+
+      {/* More photos */}
+      <PhotoRow
+        images={[
+          { src: '/portfolio/shift-subway.png', brand: 'Shift', label: 'Subway' },
+          { src: '/portfolio/lumen-disco.png', brand: 'Club Lumen', label: 'Disco Ball Crop' },
+          { src: '/portfolio/shift-pizza.png', brand: 'Shift', label: 'Pizza Shop' },
+        ]}
+        height={380}
+      />
+
+      {/* STEP 3 — The Store */}
+      <div className="journey-step">
+        <div className="journey-text-col">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="section-label">Step 03</div>
+            <h2 className="section-title">We build your store. The whole thing.</h2>
+            <p className="section-sub">Fully custom e-commerce site with your branding, your products, checkout, and automatic fulfillment. You send traffic. We handle the rest.</p>
+          </motion.div>
+        </div>
+        <motion.div className="journey-img-col" initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <div className="browser-frame">
+            <div className="browser-dots"><span /><span /><span /></div>
+            <div className="browser-url">clublumen-store.vercel.app</div>
+            <img src="/portfolio/lumen-store-hero.png" alt="Club Lumen Store" className="browser-screenshot" />
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Second store */}
+      <div className="journey-step journey-step-reverse">
+        <motion.div className="journey-img-col" initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+          <div className="browser-frame">
+            <div className="browser-dots"><span /><span /><span /></div>
+            <div className="browser-url">shift-store.vercel.app</div>
+            <img src="/portfolio/shift-store-hero.png" alt="Shift Store" className="browser-screenshot" />
+          </div>
+        </motion.div>
+        <div className="journey-text-col">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="section-label">Another one</div>
+            <h2 className="section-title">Different brand. Same magic.</h2>
+            <p className="section-sub">NYC streetwear. Desert disco. Coastal americana. Whatever your aesthetic — we make it a store that your audience actually wants to buy from.</p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* STEP 4 — You sell */}
+      <div className="quote-section">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <p className="quote-text">You post. They buy. <em>That's it.</em></p>
+        </motion.div>
+      </div>
+
+      {/* Big photo grid */}
+      <PhotoRow
+        images={[
+          { src: '/portfolio/lumen-5.png' },
+          { src: '/portfolio/shift-4.png' },
+          { src: '/portfolio/lumen-welcomed.png' },
+          { src: '/portfolio/shift-5.png' },
+        ]}
+        height={360}
+      />
     </section>
   );
 }
 
-/* ===== DEAL SECTION ===== */
+/* ===== THE DEAL ===== */
 function TheDeal() {
   return (
-    <section className="section the-deal">
+    <section className="section">
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center' }}>
           <div className="section-label">The deal</div>
-          <h2 className="section-title">We bet on you. Literally.</h2>
-          <p className="section-sub" style={{ margin: '0 auto' }}>
-            We don't charge a flat monthly fee. We take a percentage of sales — which means if you don't sell, we don't eat. That's how confident we are in what we build. But it also means we only work with creators who actually <em>promote</em>.
+          <h2 className="section-title" style={{ textAlign: 'center' }}>We bet on you. Literally.</h2>
+          <p className="section-sub" style={{ margin: '0 auto', textAlign: 'center' }}>
+            We don't charge a flat monthly fee. We take a percentage of sales — which means if you don't sell, we don't eat. That's how confident we are. But it means we only work with creators who actually <em>promote</em>.
           </p>
         </motion.div>
         <div className="deal-cards">
@@ -248,16 +306,13 @@ function TheDeal() {
   );
 }
 
-/* ===== PORTFOLIO — IG STYLE ===== */
+/* ===== IG-STYLE PORTFOLIO POSTS ===== */
 function PortfolioPost({ img, brand, caption, likes, comments, delay = 0 }) {
   return (
     <motion.div className="ig-post" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay }}>
       <div className="ig-post-header">
         <div className="ig-avatar" />
-        <div>
-          <div className="ig-handle">@{brand}</div>
-          <div className="ig-location">Built by BBS</div>
-        </div>
+        <div><div className="ig-handle">@{brand}</div><div className="ig-location">Built by BBS</div></div>
       </div>
       <div className="ig-post-img"><img src={img} alt={brand} /></div>
       <div className="ig-post-actions">
@@ -277,59 +332,17 @@ function Portfolio() {
   return (
     <section className="section" id="work">
       <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <div className="section-label">The proof</div>
-          <h2 className="section-title">Mood boards in. Merch empires out.</h2>
-          <p className="section-sub">Real brands we built from scratch. Real stores generating real revenue.</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 16 }}>
+          <div className="section-label">On the feed</div>
+          <h2 className="section-title" style={{ textAlign: 'center' }}>This is what it looks like when it hits.</h2>
         </motion.div>
         <div className="portfolio-grid">
           <PortfolioPost img="/portfolio/lumen-2.png" brand="clublumen" caption="Good Energy Club hoodie just dropped 🎧☀️ link in bio" likes="4,821" comments="347" />
           <PortfolioPost img="/portfolio/shift-girls.png" brand="wearshift" caption="Palm trees & hoodies. The vibes are immaculate 🌴" likes="6,203" comments="512" delay={0.15} />
-          <PortfolioPost img="/portfolio/lumen-1.png" brand="clublumen" caption="Cherry lips tank is back in stock 💋 morning rave essentials" likes="3,147" comments="289" delay={0.3} />
+          <PortfolioPost img="/portfolio/lumen-1.png" brand="clublumen" caption="Cherry lips tank is back in stock 💋" likes="3,147" comments="289" delay={0.3} />
         </div>
       </div>
     </section>
-  );
-}
-
-/* ===== BEFORE / AFTER ===== */
-function BeforeAfter() {
-  return (
-    <section className="section section-warm">
-      <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div className="section-label">The glow up</div>
-          <h2 className="section-title">They sent a Pinterest board.<br />We sent back a brand.</h2>
-        </motion.div>
-        <div className="ba-row">
-          <motion.div className="ba-card" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="ba-label">What they gave us</div>
-            <img src="/portfolio/lumen-brandboard.png" alt="Brand board" />
-            <p className="ba-caption">A mood board and a dream</p>
-          </motion.div>
-          <div className="ba-arrow"><ArrowRight size={32} /></div>
-          <motion.div className="ba-card" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <div className="ba-label ba-label-after">What we delivered</div>
-            <img src="/portfolio/lumen-5.png" alt="Finished brand" />
-            <p className="ba-caption">A whole merch line with lifestyle photos</p>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ===== MINI GALLERY ===== */
-function MiniGallery() {
-  return (
-    <div className="mini-gallery">
-      {['/portfolio/lumen-3.png', '/portfolio/shift-crosswalk.png', '/portfolio/lumen-4.png', '/portfolio/shift-subway.png'].map((src, i) => (
-        <motion.div key={i} className="mini-gallery-item" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-          <img src={src} alt="" />
-          <div className="mini-gallery-overlay"><Heart size={16} fill="white" stroke="white" /></div>
-        </motion.div>
-      ))}
-    </div>
   );
 }
 
@@ -337,43 +350,27 @@ function MiniGallery() {
 function ApplicationForm() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', handle: '', platform: '', followers: '', vibe: '', link: '' });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }));
 
   return (
-    <section className="section section-dark" id="apply">
+    <section className="apply-section" id="apply">
       <div className="container" style={{ maxWidth: 640 }}>
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
-          <div className="section-label" style={{ color: 'var(--accent)' }}>Apply</div>
+          <div className="section-label">Apply</div>
           <h2 className="section-title" style={{ color: 'white' }}>We don't work with everyone.</h2>
-          <p className="section-sub" style={{ color: 'rgba(255,255,255,0.5)', margin: '0 auto' }}>
-            We invest our time and skills into your brand — so we need to know you'll actually promote it. Fill this out and we'll be in touch.
+          <p className="section-sub" style={{ color: 'var(--text2)', margin: '0 auto' }}>
+            We invest our time and skills into your brand — so we need to know you'll actually promote it.
           </p>
         </motion.div>
 
         {submitted ? (
-          <motion.div
-            className="form-success"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
+          <motion.div className="form-success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
             <div className="success-icon"><Check size={32} /></div>
             <h3>Application received.</h3>
             <p>We'll check out your profile and get back to you within 48 hours. If the vibe is right, we move fast.</p>
           </motion.div>
         ) : (
-          <motion.form
-            className="apply-form"
-            onSubmit={handleSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <motion.form className="apply-form" onSubmit={e => { e.preventDefault(); setSubmitted(true); }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="form-row">
               <div className="form-group">
                 <label>Your name</label>
@@ -416,9 +413,7 @@ function ApplicationForm() {
               <label>Link to a mood board, Pinterest, or inspo (optional)</label>
               <input type="text" placeholder="Pinterest, Google Drive, or website link" value={form.link} onChange={e => update('link', e.target.value)} />
             </div>
-            <button type="submit" className="form-submit">
-              Submit Application <ArrowRight size={16} />
-            </button>
+            <button type="submit" className="form-submit">Submit Application <ArrowRight size={16} /></button>
             <p className="form-fine">We review every application. If it's a fit, you'll hear from us within 48 hours.</p>
           </motion.form>
         )}
@@ -431,7 +426,7 @@ function ApplicationForm() {
 function CTA() {
   return (
     <section className="cta">
-      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
         <h2>Stop leaving money<br />in the comments.</h2>
         <p>Every "where'd you get that??" is a sale you're not making.</p>
         <a href="#apply" className="cta-btn">Apply Now <ArrowRight size={16} /></a>
@@ -473,12 +468,10 @@ export default function App() {
       <Ticker items={['You bring the audience', 'We bring the merch', 'No inventory', 'No risk', 'All vibes']} />
       <SocialProof />
       <ThePitch />
-      <HowItWorks />
+      <Journey />
       <TheDeal />
-      <Ticker items={['Lifestyle photos', 'Dropshipping', 'TikTok Shop', 'Link in bio', 'Merch drops', 'Email blasts']} variant="light" />
       <Portfolio />
-      <BeforeAfter />
-      <MiniGallery />
+      <Ticker items={['Lifestyle photos', 'Dropshipping', 'TikTok Shop', 'Link in bio', 'Merch drops', 'Email blasts']} variant="light" />
       <ApplicationForm />
       <CTA />
       <Footer />

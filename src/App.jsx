@@ -132,8 +132,6 @@ export default function App() {
         <span className="sep">&bull;</span>
         <span>MERCH</span>
         <span className="sep">&bull;</span>
-        <span>PHOTOGRAPHY</span>
-        <span className="sep">&bull;</span>
         <span>E-COMMERCE</span>
         <span className="sep">&bull;</span>
       </Marquee>

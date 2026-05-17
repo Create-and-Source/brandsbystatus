@@ -173,12 +173,10 @@ img { max-width: 100%; display: block; }
   letter-spacing: 3px;
   text-transform: uppercase;
   white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px var(--border);
+  color: var(--dim);
 }
 .marquee-item .filled {
   color: var(--black);
-  -webkit-text-stroke: none;
 }
 .marquee-item .sep {
   color: var(--dim);

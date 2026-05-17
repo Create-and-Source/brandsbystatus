@@ -104,9 +104,9 @@ export default function App() {
         <span className="sep">&bull;</span>
       </Marquee>
 
-      {/* ===== FULL BLEED — STATUS RACK MODEL ===== */}
+      {/* ===== FULL BLEED — STATUS NEWSPAPER ===== */}
       <section className="full-bleed">
-        <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
+        <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
       </section>
 
       {/* ===== HOW IT WORKS INTRO ===== */}
@@ -187,6 +187,11 @@ export default function App() {
           <h2 className="spread-title">We build your store.</h2>
           <p className="spread-body">Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
         </motion.div>
+      </section>
+
+      {/* ===== FULL BLEED — STATUS RACK MODEL ===== */}
+      <section className="full-bleed">
+        <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
       </section>
 
       {/* ===== PHOTO GRID ===== */}

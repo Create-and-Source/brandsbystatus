@@ -340,61 +340,10 @@ img { max-width: 100%; display: block; }
   aspect-ratio: auto;
 }
 
-/* ===== SCROLLABLE BROWSERS ===== */
-.browser-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  padding: 40px 48px 80px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.browser-col {}
-
-.browser-scroll {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-}
-.browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  background: #FAFAFA;
-}
-.browser-bar span { width: 10px; height: 10px; border-radius: 50%; }
-.browser-bar span:nth-child(1) { background: #ff5f57; }
-.browser-bar span:nth-child(2) { background: #ffbd2e; }
-.browser-bar span:nth-child(3) { background: #28c840; }
-.browser-url {
-  margin-left: 12px;
-  font-size: 11px;
-  color: var(--dim);
-  letter-spacing: 0.5px;
-  background: #F0F0F0;
-  padding: 4px 12px;
-  border-radius: 4px;
-  flex: 1;
-  max-width: 240px;
-}
-.browser-body {
-  height: 500px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.browser-body::-webkit-scrollbar { width: 6px; }
-.browser-body::-webkit-scrollbar-track { background: transparent; }
-.browser-body::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
-.browser-body img { width: 100%; display: block; }
-
 /* ===== BROWSER SHOWCASE ===== */
 .browser-section {
   padding: 0 48px 60px;
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 .browser-showcase {
@@ -442,6 +391,7 @@ img { max-width: 100%; display: block; }
   height: 600px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
 }
 .browser-body::-webkit-scrollbar { width: 6px; }
 .browser-body::-webkit-scrollbar-track { background: transparent; }
@@ -568,9 +518,6 @@ img { max-width: 100%; display: block; }
 
   .photo-grid { grid-template-columns: 1fr 1fr; }
   .photo-grid-item.tall { grid-row: span 1; aspect-ratio: 1; }
-
-  .browser-section { grid-template-columns: 1fr; padding: 24px; gap: 24px; }
-  .browser-body { height: 360px; }
 
   .browser-section { padding: 0 16px 40px; }
   .browser-body { height: 450px; }

@@ -15,7 +15,7 @@ export default function MiniLumen() {
         /* HERO */
         .ml-hero {
           position: relative;
-          height: 500px;
+          height: 400px;
           overflow: hidden;
         }
         .ml-hero > img {
@@ -288,6 +288,20 @@ export default function MiniLumen() {
           width: 100%;
           aspect-ratio: 1;
           object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+          .ml-hero { height: 280px; }
+          .ml-hero-inner { padding-bottom: 30px; }
+          .ml-hero-logo { width: 80px; }
+          .ml-marquee-item { font-size: 28px; padding: 0 12px; }
+          .ml-pillars { gap: 24px; padding: 32px 16px; }
+          .ml-intro { padding: 36px 20px; }
+          .ml-intro h2 { font-size: 20px; }
+          .ml-products { padding: 0 16px 32px; }
+          .ml-spread { grid-template-columns: 1fr; min-height: auto; }
+          .ml-spread-text { padding: 24px 16px; }
+          .ml-spread-img img { height: 200px; }
         }
       `}</style>
 

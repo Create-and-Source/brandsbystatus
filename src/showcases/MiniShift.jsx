@@ -15,7 +15,7 @@ export default function MiniShift() {
         /* HERO */
         .ms-hero {
           position: relative;
-          height: 500px;
+          height: 400px;
           overflow: hidden;
         }
         .ms-hero img {
@@ -258,6 +258,18 @@ export default function MiniShift() {
           grid-row: span 2;
           aspect-ratio: auto;
           height: 100%;
+        }
+
+        @media (max-width: 768px) {
+          .ms-hero { height: 280px; }
+          .ms-hero-inner { padding-bottom: 30px; }
+          .ms-hero-logo { width: 120px; }
+          .ms-marquee-item { font-size: 28px; padding: 0 12px; }
+          .ms-intro { padding: 40px 20px; }
+          .ms-intro h2 { font-size: 20px; }
+          .ms-products { padding: 0 16px 32px; }
+          .ms-photos { grid-template-columns: 1fr 1fr; }
+          .ms-photos .ms-tall { grid-row: span 1; aspect-ratio: 1; }
         }
       `}</style>
 

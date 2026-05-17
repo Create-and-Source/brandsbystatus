@@ -1,8 +1,53 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Menu, X, Sparkles, Palette, ShoppingBag, BarChart3, Mail, Megaphone } from 'lucide-react';
+import { ArrowRight, Menu, X, Heart, MessageCircle, Send, Bookmark, ShoppingBag, Camera, Zap, TrendingUp, ChevronDown, Check } from 'lucide-react';
 import './index.css';
 
+/* ===== SOCIAL FLOATING ELEMENTS ===== */
+function FloatingLike({ style, delay = 0 }) {
+  return (
+    <motion.div
+      className="floating-social"
+      style={style}
+      initial={{ opacity: 0, scale: 0, y: 20 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.5, delay }}
+    >
+      <Heart size={14} fill="#E1306C" stroke="#E1306C" />
+      <span>2.4K</span>
+    </motion.div>
+  );
+}
+
+function FloatingComment({ text, user, style, delay = 0 }) {
+  return (
+    <motion.div
+      className="floating-comment"
+      style={style}
+      initial={{ opacity: 0, scale: 0.8, x: -20 }}
+      animate={{ opacity: 1, scale: 1, x: 0 }}
+      transition={{ duration: 0.5, delay }}
+    >
+      <strong>@{user}</strong> {text}
+    </motion.div>
+  );
+}
+
+function FloatingNotif({ text, style, delay = 0 }) {
+  return (
+    <motion.div
+      className="floating-notif"
+      style={style}
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay }}
+    >
+      <ShoppingBag size={12} /> {text}
+    </motion.div>
+  );
+}
+
+/* ===== HEADER ===== */
 function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,45 +61,86 @@ function Header() {
   return (
     <>
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
-        <a href="#" className="header-logo">Brands by <span>Status</span></a>
+        <a href="#" className="header-logo">BBS<span>.</span></a>
         <nav className="header-nav">
           <a href="#work">Work</a>
-          <a href="#process">Process</a>
-          <a href="#pricing">Pricing</a>
+          <a href="#how">How</a>
+          <a href="#apply">Apply</a>
         </nav>
-        <a href="#contact" className="header-cta">Start Your Brand</a>
+        <a href="#apply" className="header-cta">Apply Now</a>
         <button className="mobile-menu-btn" onClick={() => setMobileOpen(true)}>
           <Menu size={24} />
         </button>
       </header>
-
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
         <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
           <X size={28} />
         </button>
         <a href="#work" onClick={() => setMobileOpen(false)}>Work</a>
-        <a href="#process" onClick={() => setMobileOpen(false)}>Process</a>
-        <a href="#pricing" onClick={() => setMobileOpen(false)}>Pricing</a>
-        <a href="#contact" onClick={() => setMobileOpen(false)}>Start Your Brand</a>
+        <a href="#how" onClick={() => setMobileOpen(false)}>How</a>
+        <a href="#apply" onClick={() => setMobileOpen(false)}>Apply</a>
       </div>
     </>
   );
 }
 
-function Marquee() {
-  const items = [
-    'Merch Stores', 'AI Photography', 'Dropshipping', 'Brand Design',
-    'Lifestyle Mockups', 'Shopify Alternative', 'Creator Merch', 'TikTok Shop',
-  ];
-
+/* ===== HERO ===== */
+function Hero() {
   return (
-    <div className="marquee">
-      <div className="marquee-track">
-        {[...Array(3)].map((_, rep) =>
+    <section className="hero">
+      <div className="hero-img-wrap">
+        <video
+          src="/portfolio/hero-video.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="hero-video"
+        />
+        <div className="hero-img-overlay" />
+        <FloatingLike style={{ top: '15%', right: '8%' }} delay={1} />
+        <FloatingComment user="jess" text="NEED this hoodie 🔥" style={{ bottom: '28%', left: '5%' }} delay={1.5} />
+        <FloatingNotif text="3 orders just now" style={{ top: '30%', left: '8%' }} delay={2} />
+        <FloatingComment user="marcus" text="link?? 👀" style={{ top: '45%', right: '5%' }} delay={2.3} />
+        <motion.div
+          className="hero-ig-bar"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <div className="ig-actions">
+            <Heart size={22} /> <MessageCircle size={22} /> <Send size={22} />
+          </div>
+          <Bookmark size={22} />
+        </motion.div>
+      </div>
+      <motion.div
+        className="hero-text"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        <h1>You bring the audience.<br /><span className="accent">We bring the merch.</span></h1>
+        <p className="hero-sub">Your followers are already asking "where'd you get that?" — let's give them an answer.</p>
+        <a href="#apply" className="hero-cta">
+          Apply Now <ArrowRight size={16} />
+        </a>
+      </motion.div>
+      <motion.div className="scroll-hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.5 }}>
+        <ChevronDown size={20} />
+      </motion.div>
+    </section>
+  );
+}
+
+/* ===== TICKER ===== */
+function Ticker({ items, variant = 'dark' }) {
+  return (
+    <div className={`ticker ticker-${variant}`}>
+      <div className="ticker-track">
+        {[...Array(4)].map((_, rep) =>
           items.map((item, i) => (
-            <span className="marquee-text" key={`${rep}-${i}`}>
-              {item} <span className="highlight">/</span>
-            </span>
+            <span className="ticker-item" key={`${rep}-${i}`}>{item} <span className="ticker-dot">/</span></span>
           ))
         )}
       </div>
@@ -62,238 +148,62 @@ function Marquee() {
   );
 }
 
-function Hero() {
+/* ===== SOCIAL PROOF STRIP ===== */
+function SocialProof() {
   return (
-    <section className="hero">
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 0.2 }}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-      >
-        <div className="hero-label">Merch Store Creation for Creators</div>
-        <h1>Your vision.<br />Your brand.<br />Built by us.</h1>
-        <p className="hero-sub">
-          You bring the mood board. We build the entire merch empire — AI product photos, dropshipping store, ongoing drops, and marketing. You just show up and sell.
+    <motion.section className="social-proof" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+      <div className="proof-item">
+        <div className="proof-number">0</div>
+        <div className="proof-label">inventory needed</div>
+      </div>
+      <div className="proof-divider" />
+      <div className="proof-item">
+        <div className="proof-number">100%</div>
+        <div className="proof-label">done for you</div>
+      </div>
+      <div className="proof-divider" />
+      <div className="proof-item">
+        <div className="proof-number">$0</div>
+        <div className="proof-label">upfront product cost</div>
+      </div>
+    </motion.section>
+  );
+}
+
+/* ===== THE PITCH ===== */
+function ThePitch() {
+  return (
+    <section className="section pitch">
+      <motion.div className="container" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
+        <p className="pitch-text">
+          You already have the <span className="highlight">followers</span>. The <span className="highlight">engagement</span>. The <span className="highlight">community</span>. You just don't have a store yet.
         </p>
-        <a href="#contact" className="hero-cta">
-          Let's Build Your Store <ArrowRight size={16} />
-        </a>
+        <p className="pitch-sub">We fix that.</p>
       </motion.div>
     </section>
   );
 }
 
+/* ===== HOW IT WORKS ===== */
 function HowItWorks() {
-  return (
-    <section className="section section-cream" id="process">
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="section-label">How It Works</div>
-          <div className="section-title">Three steps to your own merch brand</div>
-          <p className="section-subtitle">No inventory. No design skills needed. No tech headaches. Just your creative vision.</p>
-        </motion.div>
-
-        <div className="how-it-works">
-          {[
-            {
-              num: '1',
-              title: 'Share Your Vision',
-              desc: 'Send us a mood board, Pinterest inspo, rough sketches, or even just a vibe. We take whatever you have and run with it.',
-            },
-            {
-              num: '2',
-              title: 'We Build Everything',
-              desc: 'AI-generated lifestyle photography. Product designs. Full e-commerce store. Dropshipping backend. All done for you.',
-            },
-            {
-              num: '3',
-              title: 'You Sell & Grow',
-              desc: 'Promote to your audience. We handle fulfillment, drops, email marketing, and store updates. You keep selling.',
-            },
-          ].map((step, i) => (
-            <motion.div
-              key={i}
-              className="step"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.15 }}
-            >
-              <div className="step-number">{step.num}</div>
-              <h3>{step.title}</h3>
-              <p>{step.desc}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function PortfolioSection() {
-  return (
-    <section id="work">
-      {/* Club Lumen Case */}
-      <div className="portfolio-case">
-        <div className="case-images">
-          <img src="/portfolio/lumen-2.png" alt="Club Lumen Good Energy Hoodie" />
-        </div>
-        <motion.div
-          className="case-content"
-          style={{ background: 'var(--cream)' }}
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="case-brand">Client: Club Lumen</div>
-          <h2 className="case-title">The Morning Rave — Phoenix, AZ</h2>
-          <p className="case-desc">
-            A sober-curious morning rave needed merch that captured their desert-meets-disco energy. They gave us a brand board. We gave them a full product line with AI-generated lifestyle photography, a complete store, and ongoing drops.
-          </p>
-          <div className="case-tags">
-            <span className="case-tag">9 Products</span>
-            <span className="case-tag">AI Photography</span>
-            <span className="case-tag">Dropshipping Store</span>
-            <span className="case-tag">Email Marketing</span>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Shift Case */}
-      <div className="portfolio-case">
-        <div className="case-images">
-          <img src="/portfolio/shift-1.png" alt="Shift Streetwear" />
-        </div>
-        <motion.div
-          className="case-content"
-          style={{ background: 'var(--warm-gray)' }}
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="case-brand">Client: Shift</div>
-          <h2 className="case-title">NYC Streetwear, AI-Generated</h2>
-          <p className="case-desc">
-            A streetwear brand started with clothing mockups and a Pinterest board. We built a custom AI image generator for their specific aesthetic, created an entire lifestyle photography catalog, and launched their dropshipping store.
-          </p>
-          <div className="case-tags">
-            <span className="case-tag">Custom AI Tool</span>
-            <span className="case-tag">Streetwear</span>
-            <span className="case-tag">Full Store Build</span>
-            <span className="case-tag">Product Design</span>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function BeforeAfter() {
-  return (
-    <section className="before-after">
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center', marginBottom: 20 }}
-        >
-          <div className="section-label">The Transformation</div>
-          <div className="section-title">From mood board to merch empire</div>
-          <p className="section-subtitle" style={{ margin: '0 auto' }}>
-            This is what your clients give us vs. what we deliver. The gap is where the magic happens.
-          </p>
-        </motion.div>
-
-        <div className="before-after-grid">
-          <motion.div
-            className="before-col"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3>What they gave us</h3>
-            <img src="/portfolio/lumen-brandboard.png" alt="Club Lumen brand board" style={{ borderRadius: 12 }} />
-          </motion.div>
-
-          <div className="arrow-col">
-            <ArrowRight size={40} />
-          </div>
-
-          <motion.div
-            className="after-col"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h3>What we built</h3>
-            <img src="/portfolio/lumen-1.png" alt="Club Lumen finished product" style={{ borderRadius: 12 }} />
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Gallery() {
-  return (
-    <div className="gallery">
-      <img src="/portfolio/lumen-3.png" alt="Morning Rave Hoodie" />
-      <img src="/portfolio/shift-2.png" alt="Shift NYC" />
-      <img src="/portfolio/lumen-4.png" alt="Move Your Body Tee" />
-      <img src="/portfolio/shift-3.png" alt="Shift Coffee Shop" />
-      <img src="/portfolio/lumen-5.png" alt="Club Lumen Pool Party" />
-      <img src="/portfolio/shift-4.png" alt="Shift Car Meet" />
-    </div>
-  );
-}
-
-function Services() {
-  const services = [
-    { icon: <Sparkles size={22} />, title: 'AI Product Photography', desc: 'Custom AI-generated lifestyle mockups that look like a real photoshoot. No models, no studio, no limits.' },
-    { icon: <Palette size={22} />, title: 'Product Design', desc: 'From concept to print-ready designs. Apparel, accessories, whatever your brand needs.' },
-    { icon: <ShoppingBag size={22} />, title: 'Full Store Build', desc: 'Complete e-commerce website with your branding, product pages, and checkout — ready to sell.' },
-    { icon: <BarChart3 size={22} />, title: 'Dropshipping Backend', desc: 'No inventory risk. Orders fulfilled automatically. You sell, we ship.' },
-    { icon: <Mail size={22} />, title: 'Email & SMS Marketing', desc: 'Klaviyo-powered campaigns. Drop announcements, abandoned carts, welcome flows.' },
-    { icon: <Megaphone size={22} />, title: 'Ongoing Merch Drops', desc: 'New designs and seasonal collections. Keep your audience coming back for more.' },
+  const steps = [
+    { icon: <Camera size={24} />, title: 'Send us your vibe', desc: 'A mood board. A Pinterest link. A napkin sketch. Whatever you got — we take it from there.' },
+    { icon: <Zap size={24} />, title: 'We build the whole thing', desc: 'Product photos. Store. Checkout. Fulfillment. Your brand, your look — we handle the backend.' },
+    { icon: <TrendingUp size={24} />, title: 'You post, they buy', desc: 'Link in bio. TikTok Shop. Go live. Your audience finally has something to throw money at.' },
   ];
 
   return (
-    <section className="section" id="services">
+    <section className="section section-warm" id="how">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-        >
-          <div className="section-label">What's Included</div>
-          <div className="section-title">Everything you need. Nothing you don't.</div>
-          <p className="section-subtitle">We handle the entire stack so you can focus on what you do best — creating content and building your audience.</p>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <div className="section-label">Dead simple</div>
+          <h2 className="section-title">Your only job is being you.</h2>
         </motion.div>
-
-        <div className="services-grid">
-          {services.map((s, i) => (
-            <motion.div
-              key={i}
-              className="service-item"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-            >
-              <div style={{ marginBottom: 12, color: 'var(--accent)' }}>{s.icon}</div>
+        <div className="steps-row">
+          {steps.map((s, i) => (
+            <motion.div key={i} className="step-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }}>
+              <div className="step-num">0{i + 1}</div>
+              <div className="step-icon">{s.icon}</div>
               <h3>{s.title}</h3>
               <p>{s.desc}</p>
             </motion.div>
@@ -304,82 +214,33 @@ function Services() {
   );
 }
 
-function Pricing() {
+/* ===== DEAL SECTION ===== */
+function TheDeal() {
   return (
-    <section className="section section-cream" id="pricing">
+    <section className="section the-deal">
       <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center' }}
-        >
-          <div className="section-label">Pricing</div>
-          <div className="section-title" style={{ textAlign: 'center' }}>Simple. Transparent. Worth it.</div>
-          <p className="section-subtitle" style={{ textAlign: 'center', margin: '0 auto' }}>
-            One setup fee. A small monthly platform cost. And a revenue share that goes down as you sell more.
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center' }}>
+          <div className="section-label">The deal</div>
+          <h2 className="section-title">We bet on you. Literally.</h2>
+          <p className="section-sub" style={{ margin: '0 auto' }}>
+            We don't charge a flat monthly fee. We take a percentage of sales — which means if you don't sell, we don't eat. That's how confident we are in what we build. But it also means we only work with creators who actually <em>promote</em>.
           </p>
         </motion.div>
-
-        <div className="pricing-cards">
-          <motion.div
-            className="pricing-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="pricing-tier">Starter</div>
-            <div className="pricing-price">$500</div>
-            <div className="pricing-desc">Setup fee — perfect for creators who know exactly what they want.</div>
-            <ul className="pricing-list">
-              <li>Up to 6 products</li>
-              <li>AI lifestyle photography</li>
-              <li>Full store build</li>
-              <li>Dropshipping setup</li>
-              <li>1 merch drop included</li>
-            </ul>
+        <div className="deal-cards">
+          <motion.div className="deal-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <div className="deal-emoji">🤝</div>
+            <h3>We build it</h3>
+            <p>Product designs, photography, full store, fulfillment — the entire operation, done.</p>
           </motion.div>
-
-          <motion.div
-            className="pricing-card featured"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
-            <div className="pricing-tier">Full Build</div>
-            <div className="pricing-price">$1,500</div>
-            <div className="pricing-desc">Setup fee — for creators who want the white-glove treatment.</div>
-            <ul className="pricing-list">
-              <li>Unlimited products</li>
-              <li>Custom AI image generator</li>
-              <li>Full store + branding</li>
-              <li>Email/SMS marketing setup</li>
-              <li>Quarterly merch drops</li>
-              <li>Strategy consultation</li>
-            </ul>
+          <motion.div className="deal-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+            <div className="deal-emoji">📱</div>
+            <h3>You promote it</h3>
+            <p>Go live. Post stories. Put the link in bio. Talk about your brand. This is the non-negotiable.</p>
           </motion.div>
-
-          <motion.div
-            className="pricing-card"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <div className="pricing-tier">Ongoing</div>
-            <div className="pricing-price">%</div>
-            <div className="pricing-desc">Revenue share — the more you sell, the lower the percentage.</div>
-            <ul className="pricing-list">
-              <li>Monthly platform fee</li>
-              <li>Sliding scale rev share</li>
-              <li>Ongoing design support</li>
-              <li>Store updates & maintenance</li>
-              <li>New drops & seasonal designs</li>
-              <li>Email campaigns & blasts</li>
-            </ul>
+          <motion.div className="deal-card" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
+            <div className="deal-emoji">📈</div>
+            <h3>We both win</h3>
+            <p>More sales = lower percentage for us. We're incentivized to help you grow, not just charge you.</p>
           </motion.div>
         </div>
       </div>
@@ -387,41 +248,211 @@ function Pricing() {
   );
 }
 
+/* ===== PORTFOLIO — IG STYLE ===== */
+function PortfolioPost({ img, brand, caption, likes, comments, delay = 0 }) {
+  return (
+    <motion.div className="ig-post" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay }}>
+      <div className="ig-post-header">
+        <div className="ig-avatar" />
+        <div>
+          <div className="ig-handle">@{brand}</div>
+          <div className="ig-location">Built by BBS</div>
+        </div>
+      </div>
+      <div className="ig-post-img"><img src={img} alt={brand} /></div>
+      <div className="ig-post-actions">
+        <div className="ig-actions"><Heart size={20} /> <MessageCircle size={20} /> <Send size={20} /></div>
+        <Bookmark size={20} />
+      </div>
+      <div className="ig-post-info">
+        <div className="ig-likes">{likes} likes</div>
+        <div className="ig-caption"><strong>@{brand}</strong> {caption}</div>
+        <div className="ig-comments">View all {comments} comments</div>
+      </div>
+    </motion.div>
+  );
+}
+
+function Portfolio() {
+  return (
+    <section className="section" id="work">
+      <div className="container">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+          <div className="section-label">The proof</div>
+          <h2 className="section-title">Mood boards in. Merch empires out.</h2>
+          <p className="section-sub">Real brands we built from scratch. Real stores generating real revenue.</p>
+        </motion.div>
+        <div className="portfolio-grid">
+          <PortfolioPost img="/portfolio/lumen-2.png" brand="clublumen" caption="Good Energy Club hoodie just dropped 🎧☀️ link in bio" likes="4,821" comments="347" />
+          <PortfolioPost img="/portfolio/shift-girls.png" brand="wearshift" caption="Palm trees & hoodies. The vibes are immaculate 🌴" likes="6,203" comments="512" delay={0.15} />
+          <PortfolioPost img="/portfolio/lumen-1.png" brand="clublumen" caption="Cherry lips tank is back in stock 💋 morning rave essentials" likes="3,147" comments="289" delay={0.3} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ===== BEFORE / AFTER ===== */
+function BeforeAfter() {
+  return (
+    <section className="section section-warm">
+      <div className="container">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div className="section-label">The glow up</div>
+          <h2 className="section-title">They sent a Pinterest board.<br />We sent back a brand.</h2>
+        </motion.div>
+        <div className="ba-row">
+          <motion.div className="ba-card" initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <div className="ba-label">What they gave us</div>
+            <img src="/portfolio/lumen-brandboard.png" alt="Brand board" />
+            <p className="ba-caption">A mood board and a dream</p>
+          </motion.div>
+          <div className="ba-arrow"><ArrowRight size={32} /></div>
+          <motion.div className="ba-card" initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+            <div className="ba-label ba-label-after">What we delivered</div>
+            <img src="/portfolio/lumen-5.png" alt="Finished brand" />
+            <p className="ba-caption">A whole merch line with lifestyle photos</p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ===== MINI GALLERY ===== */
+function MiniGallery() {
+  return (
+    <div className="mini-gallery">
+      {['/portfolio/lumen-3.png', '/portfolio/shift-crosswalk.png', '/portfolio/lumen-4.png', '/portfolio/shift-subway.png'].map((src, i) => (
+        <motion.div key={i} className="mini-gallery-item" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+          <img src={src} alt="" />
+          <div className="mini-gallery-overlay"><Heart size={16} fill="white" stroke="white" /></div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+/* ===== APPLICATION FORM ===== */
+function ApplicationForm() {
+  const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({ name: '', handle: '', platform: '', followers: '', vibe: '', link: '' });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  const update = (field, value) => setForm(prev => ({ ...prev, [field]: value }));
+
+  return (
+    <section className="section section-dark" id="apply">
+      <div className="container" style={{ maxWidth: 640 }}>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div className="section-label" style={{ color: 'var(--accent)' }}>Apply</div>
+          <h2 className="section-title" style={{ color: 'white' }}>We don't work with everyone.</h2>
+          <p className="section-sub" style={{ color: 'rgba(255,255,255,0.5)', margin: '0 auto' }}>
+            We invest our time and skills into your brand — so we need to know you'll actually promote it. Fill this out and we'll be in touch.
+          </p>
+        </motion.div>
+
+        {submitted ? (
+          <motion.div
+            className="form-success"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <div className="success-icon"><Check size={32} /></div>
+            <h3>Application received.</h3>
+            <p>We'll check out your profile and get back to you within 48 hours. If the vibe is right, we move fast.</p>
+          </motion.div>
+        ) : (
+          <motion.form
+            className="apply-form"
+            onSubmit={handleSubmit}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="form-row">
+              <div className="form-group">
+                <label>Your name</label>
+                <input type="text" placeholder="First & last" required value={form.name} onChange={e => update('name', e.target.value)} />
+              </div>
+              <div className="form-group">
+                <label>Main handle</label>
+                <input type="text" placeholder="@yourname" required value={form.handle} onChange={e => update('handle', e.target.value)} />
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Primary platform</label>
+                <select required value={form.platform} onChange={e => update('platform', e.target.value)}>
+                  <option value="">Select one</option>
+                  <option value="tiktok">TikTok</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="youtube">YouTube</option>
+                  <option value="twitch">Twitch</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Follower count</label>
+                <select required value={form.followers} onChange={e => update('followers', e.target.value)}>
+                  <option value="">Select range</option>
+                  <option value="10k-50k">10K — 50K</option>
+                  <option value="50k-100k">50K — 100K</option>
+                  <option value="100k-500k">100K — 500K</option>
+                  <option value="500k-1m">500K — 1M</option>
+                  <option value="1m+">1M+</option>
+                </select>
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Describe your vibe in one sentence</label>
+              <input type="text" placeholder="e.g. Desert disco meets morning coffee culture" required value={form.vibe} onChange={e => update('vibe', e.target.value)} />
+            </div>
+            <div className="form-group">
+              <label>Link to a mood board, Pinterest, or inspo (optional)</label>
+              <input type="text" placeholder="Pinterest, Google Drive, or website link" value={form.link} onChange={e => update('link', e.target.value)} />
+            </div>
+            <button type="submit" className="form-submit">
+              Submit Application <ArrowRight size={16} />
+            </button>
+            <p className="form-fine">We review every application. If it's a fit, you'll hear from us within 48 hours.</p>
+          </motion.form>
+        )}
+      </div>
+    </section>
+  );
+}
+
+/* ===== CTA ===== */
 function CTA() {
   return (
-    <section className="cta-section" id="contact">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="section-label">Ready?</div>
-        <div className="section-title">You have the audience.<br />Let's give them something to buy.</div>
-        <p className="section-subtitle">
-          DM us on Instagram or send over your mood board. We'll handle the rest.
-        </p>
-        <a href="https://www.instagram.com/brandsbystatus/" target="_blank" rel="noopener noreferrer" className="cta-btn">
-          Let's Talk <ArrowRight size={16} />
-        </a>
+    <section className="cta">
+      <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+        <h2>Stop leaving money<br />in the comments.</h2>
+        <p>Every "where'd you get that??" is a sale you're not making.</p>
+        <a href="#apply" className="cta-btn">Apply Now <ArrowRight size={16} /></a>
       </motion.div>
     </section>
   );
 }
 
+/* ===== FOOTER ===== */
 function Footer() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
         <div>
-          <div className="footer-brand">Brands by <span>Status</span></div>
-          <p className="footer-desc">Merch store creation for creators and influencers. From vision to sales in days, not months.</p>
+          <div className="footer-logo">BBS<span>.</span></div>
+          <p className="footer-desc">Merch stores for creators who are done leaving money on the table.</p>
         </div>
         <div className="footer-links">
           <a href="#work">Work</a>
-          <a href="#process">Process</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#contact">Contact</a>
+          <a href="#how">How</a>
+          <a href="#apply">Apply</a>
           <a href="https://www.instagram.com/brandsbystatus/" target="_blank" rel="noopener noreferrer">Instagram</a>
         </div>
       </div>
@@ -433,19 +464,22 @@ function Footer() {
   );
 }
 
+/* ===== APP ===== */
 export default function App() {
   return (
     <>
       <Header />
       <Hero />
-      <Marquee />
+      <Ticker items={['You bring the audience', 'We bring the merch', 'No inventory', 'No risk', 'All vibes']} />
+      <SocialProof />
+      <ThePitch />
       <HowItWorks />
-      <PortfolioSection />
+      <TheDeal />
+      <Ticker items={['Lifestyle photos', 'Dropshipping', 'TikTok Shop', 'Link in bio', 'Merch drops', 'Email blasts']} variant="light" />
+      <Portfolio />
       <BeforeAfter />
-      <Gallery />
-      <Marquee />
-      <Services />
-      <Pricing />
+      <MiniGallery />
+      <ApplicationForm />
       <CTA />
       <Footer />
     </>

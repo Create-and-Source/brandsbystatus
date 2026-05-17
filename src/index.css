@@ -26,14 +26,30 @@ body {
   position: fixed;
   inset: 0;
   z-index: 99999;
-  background: var(--bg);
+  background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .splash-logo {
-  width: 260px;
+  width: 240px;
   height: auto;
+}
+.splash-glitch {
+  animation: splashGlitch 1.4s steps(1) infinite;
+}
+@keyframes splashGlitch {
+  0%, 100% { transform: translate(0); filter: none; }
+  7% { transform: translate(-3px, 2px); filter: hue-rotate(90deg); }
+  10% { transform: translate(3px, -1px); filter: hue-rotate(-90deg); }
+  13% { transform: translate(0); filter: none; }
+  47% { transform: translate(0); filter: none; }
+  50% { transform: translate(2px, -2px) skewX(-1deg); filter: hue-rotate(180deg) saturate(2); }
+  53% { transform: translate(-2px, 1px); filter: hue-rotate(-60deg); }
+  56% { transform: translate(0); filter: none; }
+  87% { transform: translate(0); filter: none; }
+  90% { transform: translate(-1px, 2px) skewX(0.5deg); filter: hue-rotate(120deg); }
+  93% { transform: translate(2px, 0); filter: none; }
 }
 
 a { text-decoration: none; color: inherit; }

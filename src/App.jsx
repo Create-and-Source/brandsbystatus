@@ -112,7 +112,7 @@ export default function App() {
 
   useEffect(() => {
     if (showSplash) {
-      const t = setTimeout(() => setShowSplash(false), 2200);
+      const t = setTimeout(() => setShowSplash(false), 1400);
       return () => clearTimeout(t);
     }
   }, [showSplash]);
@@ -130,10 +130,10 @@ export default function App() {
             <motion.img
               src="/portfolio/bbs-logo-full.png"
               alt="Brands By Status"
-              className="splash-logo"
-              initial={{ opacity: 0, scale: 0.85 }}
+              className="splash-logo splash-glitch"
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             />
           </motion.div>
         )}

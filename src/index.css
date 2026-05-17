@@ -609,9 +609,21 @@ img { max-width: 100%; display: block; }
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .hero-content { padding: 0 24px 48px; }
-  .hero-content h1 { font-size: 36px; line-height: 1.12; margin-bottom: 20px; }
-  .hero-eyebrow { font-size: 10px; letter-spacing: 2.5px; margin-bottom: 12px; }
+  .hero {
+    height: 85vh;
+  }
+  .hero-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%);
+  }
+  .hero-content {
+    bottom: 0; left: 0; right: 0;
+    padding: 0 24px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-content h1 { font-size: 32px; line-height: 1.15; margin-bottom: 24px; letter-spacing: 1px; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 2.5px; margin-bottom: 14px; }
   .scroll-rows { padding: 32px 0; }
   .scroll-rows-label { padding: 0 24px; margin-bottom: 16px; }
   .scroll-row-img { height: 220px; }

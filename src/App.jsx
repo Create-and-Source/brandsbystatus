@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import './index.css';
 
 const fade = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-50px' }, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } };
@@ -29,6 +29,48 @@ function FloatingPill({ text, icon, x, y, delay }) {
   );
 }
 
+function Marquee({ children }) {
+  return (
+    <div className="marquee">
+      <div className="marquee-track">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="marquee-item">{children}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PhotoStrip({ images, height = '400px' }) {
+  const ref = useRef(null);
+  const scroll = (dir) => {
+    if (!ref.current) return;
+    ref.current.scrollBy({ left: dir * 400, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="strip-wrap">
+      <button className="strip-btn strip-btn-left" onClick={() => scroll(-1)}><ArrowLeft size={18} /></button>
+      <div className="strip" ref={ref}>
+        {images.map((src, i) => (
+          <motion.img
+            key={i}
+            src={src}
+            alt=""
+            className="strip-img"
+            style={{ height }}
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: i * 0.08 }}
+          />
+        ))}
+      </div>
+      <button className="strip-btn strip-btn-right" onClick={() => scroll(1)}><ArrowRight size={18} /></button>
+    </div>
+  );
+}
+
 export default function App() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', handle: '', platform: '', followers: '', vibe: '', link: '' });
@@ -50,86 +92,141 @@ export default function App() {
         {socials.map((s, i) => <FloatingPill key={i} {...s} />)}
       </section>
 
-      {/* ===== STATUS HERO IMAGE ===== */}
+      {/* ===== MARQUEE ===== */}
+      <Marquee>
+        <span className="filled">BRANDS BY STATUS</span>
+        <span className="sep">&bull;</span>
+        <span>MERCH</span>
+        <span className="sep">&bull;</span>
+        <span>PHOTOGRAPHY</span>
+        <span className="sep">&bull;</span>
+        <span>E-COMMERCE</span>
+        <span className="sep">&bull;</span>
+      </Marquee>
+
+      {/* ===== FULL BLEED — STATUS RACK ===== */}
       <section className="full-bleed">
-        <img src="/portfolio/status-rack-model.png" alt="" />
+        <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
       </section>
 
-      {/* ===== INTRO TEXT ===== */}
+      {/* ===== INTRO ===== */}
       <section className="text-block">
         <motion.div {...fade}>
           <h2>Two creators. Two visions.<br />Two brands built from scratch.</h2>
-          <p>Here's how it works — told through the stories of Club Lumen and Shift.</p>
         </motion.div>
       </section>
 
-      {/* ===== STEP 01: THEY SEND ===== */}
-      <section className="text-block">
+      {/* ===== STEP 01 — THEY SEND ===== */}
+      <section className="text-block text-block-sm">
         <motion.div {...fade}>
-          <span className="step-label">01 — They sent us the vision</span>
+          <span className="step-label">01</span>
+          <h3 className="step-title">They sent us the vision.</h3>
         </motion.div>
       </section>
 
-      <section className="side-by-side">
-        <motion.div className="story-col" {...fade}>
-          <div className="story-tag">Club Lumen</div>
-          <p className="story-desc">Started with a brand board — colors, fonts, mood photos, and a name: The Morning Rave.</p>
-          <img src="/portfolio/lumen-brandboard.png" alt="Lumen brand board" className="story-img" />
-        </motion.div>
-        <motion.div className="story-col" {...fade} transition={{ delay: 0.15 }}>
-          <div className="story-tag">Shift</div>
-          <p className="story-desc">Started with mockups — a logo and product designs in every colorway they could imagine.</p>
-          <img src="/portfolio/shift-input-2.png" alt="Shift mockups" className="story-img" />
-          <img src="/portfolio/shift-input-3.png" alt="Shift mockups" className="story-img" style={{ marginTop: 4 }} />
+      {/* Club Lumen — brand board spread */}
+      <section className="spread">
+        <div className="spread-img">
+          <motion.img src="/portfolio/lumen-brandboard.png" alt="" {...fade} />
+        </div>
+        <motion.div className="spread-text" {...fade}>
+          <div className="spread-label">Club Lumen</div>
+          <h2 className="spread-title">Started with a brand board.</h2>
+          <p className="spread-body">Colors, fonts, mood photos, and a name — The Morning Rave. A desert disco brand for festival culture.</p>
         </motion.div>
       </section>
 
-      {/* ===== STEP 02: WE CREATE ===== */}
-      <section className="text-block">
+      {/* Shift — mockups spread */}
+      <section className="spread spread-reverse">
+        <motion.div className="spread-text" {...fade}>
+          <div className="spread-label">Shift</div>
+          <h2 className="spread-title">Started with mockups.</h2>
+          <p className="spread-body">A logo and product designs in every colorway they could imagine. Life Keeps Moving — a streetwear brand built around forward motion.</p>
+        </motion.div>
+        <div className="spread-img">
+          <motion.img src="/portfolio/shift-input-2.png" alt="" {...fade} />
+        </div>
+      </section>
+
+      {/* ===== STEP 02 — WE CREATE ===== */}
+      <section className="text-block text-block-sm">
         <motion.div {...fade}>
-          <span className="step-label">02 — We created the product line</span>
+          <span className="step-label">02</span>
+          <h3 className="step-title">We created the entire product line.</h3>
+          <p>Lifestyle photography. Product designs. Everything styled and shot to match the brand.</p>
         </motion.div>
       </section>
 
-      <section className="side-by-side">
-        <motion.div className="story-col" {...fade}>
-          <div className="story-tag">Club Lumen</div>
-          <p className="story-desc">Lifestyle photography. Festival energy. Desert sunsets. Every piece styled and shot to feel like the brand.</p>
-          <div className="story-grid">
-            <img src="/portfolio/lumen-2.png" alt="" />
-            <img src="/portfolio/lumen-1.png" alt="" />
-            <img src="/portfolio/lumen-3.png" alt="" />
-            <img src="/portfolio/lumen-5.png" alt="" />
-          </div>
-        </motion.div>
-        <motion.div className="story-col" {...fade} transition={{ delay: 0.15 }}>
-          <div className="story-tag">Shift</div>
-          <p className="story-desc">Street photography. NYC energy. Real people in real places wearing the brand like they own it.</p>
-          <div className="story-grid">
-            <img src="/portfolio/shift-girls.png" alt="" />
-            <img src="/portfolio/shift-crosswalk.png" alt="" />
-            <img src="/portfolio/shift-subway.png" alt="" />
-            <img src="/portfolio/shift-pizza.png" alt="" />
-          </div>
-        </motion.div>
-      </section>
+      {/* Horizontal scroll — Lumen photos */}
+      <div className="strip-section">
+        <div className="strip-label">Club Lumen</div>
+        <PhotoStrip
+          images={[
+            '/portfolio/lumen-2.png',
+            '/portfolio/lumen-1.png',
+            '/portfolio/lumen-5.png',
+            '/portfolio/lumen-3.png',
+            '/portfolio/lumen-6.png',
+            '/portfolio/lumen-welcomed.png',
+          ]}
+        />
+      </div>
+
+      {/* Horizontal scroll — Shift photos */}
+      <div className="strip-section">
+        <div className="strip-label">Shift</div>
+        <PhotoStrip
+          images={[
+            '/portfolio/shift-girls.png',
+            '/portfolio/shift-crosswalk.png',
+            '/portfolio/shift-subway.png',
+            '/portfolio/shift-pizza.png',
+            '/portfolio/shift-4.png',
+            '/portfolio/shift-5.png',
+          ]}
+        />
+      </div>
 
       {/* ===== STATUS FLATLAY ===== */}
       <section className="full-bleed">
         <motion.img src="/portfolio/status-flatlay.png" alt="" {...fade} />
       </section>
 
-      {/* ===== STEP 03: THE STORE ===== */}
-      <section className="text-block">
+      {/* ===== PHOTO GRID — masonry ===== */}
+      <section className="photo-grid">
+        <div className="photo-grid-item tall">
+          <img src="/portfolio/shift-crosswalk.png" alt="" loading="lazy" />
+        </div>
+        <div className="photo-grid-item">
+          <img src="/portfolio/lumen-2.png" alt="" loading="lazy" />
+        </div>
+        <div className="photo-grid-item">
+          <img src="/portfolio/shift-pizza.png" alt="" loading="lazy" />
+        </div>
+        <div className="photo-grid-item">
+          <img src="/portfolio/lumen-3.png" alt="" loading="lazy" />
+        </div>
+        <div className="photo-grid-item tall">
+          <img src="/portfolio/lumen-5.png" alt="" loading="lazy" />
+        </div>
+        <div className="photo-grid-item">
+          <img src="/portfolio/shift-subway.png" alt="" loading="lazy" />
+        </div>
+      </section>
+
+      {/* ===== STEP 03 — THE STORE ===== */}
+      <section className="text-block text-block-sm">
         <motion.div {...fade}>
-          <span className="step-label">03 — We built their stores</span>
-          <p>Fully custom e-commerce — their branding, their products, checkout, and fulfillment. They send traffic, we handle the rest.</p>
+          <span className="step-label">03</span>
+          <h3 className="step-title">We built their stores.</h3>
+          <p>Fully custom e-commerce — their branding, their products, checkout, and fulfillment.</p>
         </motion.div>
       </section>
 
-      <section className="side-by-side side-by-side-browsers">
-        <motion.div className="story-col" {...fade}>
-          <div className="story-tag">Club Lumen</div>
+      {/* Scrollable browser — Lumen */}
+      <section className="browser-section">
+        <motion.div className="browser-col" {...fade}>
+          <div className="spread-label" style={{ marginBottom: 16 }}>Club Lumen</div>
           <div className="browser-scroll">
             <div className="browser-bar"><span /><span /><span /><div className="browser-url">clublumen-store.vercel.app</div></div>
             <div className="browser-body">
@@ -137,8 +234,8 @@ export default function App() {
             </div>
           </div>
         </motion.div>
-        <motion.div className="story-col" {...fade} transition={{ delay: 0.15 }}>
-          <div className="story-tag">Shift</div>
+        <motion.div className="browser-col" {...fade} transition={{ delay: 0.15 }}>
+          <div className="spread-label" style={{ marginBottom: 16 }}>Shift</div>
           <div className="browser-scroll">
             <div className="browser-bar"><span /><span /><span /><div className="browser-url">shift-store.vercel.app</div></div>
             <div className="browser-body">
@@ -148,17 +245,32 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* ===== STEP 04: THEY SELL ===== */}
-      <section className="text-block">
-        <motion.div {...fade}>
-          <span className="step-label">04 — They post. Their audience buys.</span>
-          <p>Link in bio. TikTok Shop. Go live. We take a percentage — so we only win when they do.</p>
+      {/* ===== MARQUEE 2 ===== */}
+      <Marquee>
+        <span>YOU POST</span>
+        <span className="sep">&rarr;</span>
+        <span className="filled">THEY BUY</span>
+        <span className="sep">&rarr;</span>
+        <span>WE HANDLE THE REST</span>
+        <span className="sep">&rarr;</span>
+      </Marquee>
+
+      {/* ===== STEP 04 ===== */}
+      <section className="spread">
+        <div className="spread-img">
+          <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
+        </div>
+        <motion.div className="spread-text" {...fade}>
+          <div className="spread-label">04</div>
+          <h2 className="spread-title">You post. They buy.</h2>
+          <p className="spread-body">Link in bio. TikTok Shop. Go live. Your audience finally has somewhere to throw money. We take a percentage — so we only win when you do.</p>
+          <a href="#apply" className="spread-link">Apply Now <ArrowRight size={14} /></a>
         </motion.div>
       </section>
 
-      {/* ===== STATUS HOODIE ===== */}
+      {/* ===== STATUS TVs ===== */}
       <section className="full-bleed">
-        <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
+        <motion.img src="/portfolio/status-tvs.png" alt="" {...fade} />
       </section>
 
       {/* ===== APPLY ===== */}

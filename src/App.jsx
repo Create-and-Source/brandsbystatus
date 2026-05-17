@@ -216,27 +216,6 @@ export default function App() {
         <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
       </section>
 
-      {/* ===== PHOTO GRID ===== */}
-      <section className="photo-grid">
-        <div className="photo-grid-item tall">
-          <img src="/portfolio/shift-crosswalk.png" alt="" loading="lazy" />
-        </div>
-        <div className="photo-grid-item">
-          <img src="/portfolio/lumen-2.png" alt="" loading="lazy" />
-        </div>
-        <div className="photo-grid-item">
-          <img src="/portfolio/shift-pizza.png" alt="" loading="lazy" />
-        </div>
-        <div className="photo-grid-item">
-          <img src="/portfolio/lumen-3.png" alt="" loading="lazy" />
-        </div>
-        <div className="photo-grid-item tall">
-          <img src="/portfolio/lumen-5.png" alt="" loading="lazy" />
-        </div>
-        <div className="photo-grid-item">
-          <img src="/portfolio/shift-subway.png" alt="" loading="lazy" />
-        </div>
-      </section>
 
       {/* ===== MARQUEE 2 ===== */}
       <Marquee>

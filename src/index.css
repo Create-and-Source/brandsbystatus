@@ -146,6 +146,8 @@ img { max-width: 100%; display: block; }
 }
 .full-bleed img {
   width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
   display: block;
 }
 
@@ -197,7 +199,8 @@ img { max-width: 100%; display: block; }
 .spread {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  min-height: 80vh;
+  min-height: 500px;
+  max-height: 70vh;
   border-top: 1px solid var(--border);
 }
 .spread-reverse {

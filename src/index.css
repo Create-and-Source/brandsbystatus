@@ -118,14 +118,19 @@ img { max-width: 100%; display: block; }
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
+.scroll-rows-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  margin-bottom: 24px;
+}
 .scroll-rows-label {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
-  padding: 0 48px;
-  margin-bottom: 24px;
 }
 .scroll-row {
   overflow: hidden;
@@ -150,8 +155,6 @@ img { max-width: 100%; display: block; }
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--dim);
-  padding: 0 48px;
-  margin-top: 16px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -656,7 +659,7 @@ img { max-width: 100%; display: block; }
   .hero-content h1 { font-size: 32px; line-height: 1.15; margin-bottom: 24px; letter-spacing: 1px; }
   .hero-eyebrow { font-size: 10px; letter-spacing: 2.5px; margin-bottom: 14px; }
   .scroll-rows { padding: 32px 0; }
-  .scroll-rows-label { padding: 0 24px; margin-bottom: 16px; }
+  .scroll-rows-header { padding: 0 24px; margin-bottom: 16px; }
   .scroll-row-img { height: 220px; }
   .text-block { padding: 60px 24px; }
   .text-block-sm { padding: 48px 24px 24px; }

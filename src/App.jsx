@@ -175,7 +175,10 @@ export default function App() {
 
       {/* What we've created — three auto-scrolling rows */}
       <div className="scroll-rows">
-        <div className="scroll-rows-label">What we've created</div>
+        <div className="scroll-rows-header">
+          <div className="scroll-rows-label">What we've created</div>
+          <div className="scroll-hint">Swipe <span className="scroll-hint-arrow">→</span></div>
+        </div>
         <div className="scroll-row">
           <div className="scroll-row-track">
             {[
@@ -200,7 +203,6 @@ export default function App() {
             ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
-        <div className="scroll-hint">Swipe to explore <span className="scroll-hint-arrow">→</span></div>
       </div>
 
       {/* ===== 03 — WE BUILD THE STORE ===== */}

@@ -492,22 +492,38 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 20px;
-  font-size: 14px;
+  padding: 22px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #fff;
   background: var(--black);
   cursor: pointer;
-  transition: background 0.2s;
+  animation: expandPulse 2.5s ease-in-out infinite;
 }
-.browser-expand:hover { background: #333; }
+.browser-expand:hover { animation: none; background: #333; }
 .browser-expand-dark {
   background: #E50000;
   color: #fff;
+  animation-name: expandPulseDark;
 }
-.browser-expand-dark:hover { background: #ff1a1a; }
+.browser-expand-dark:hover { animation: none; background: #ff1a1a; }
+@keyframes expandPulse {
+  0%, 100% { padding: 22px; background: var(--black); }
+  50% { padding: 28px; background: #222; }
+}
+@keyframes expandPulseDark {
+  0%, 100% { padding: 22px; background: #E50000; }
+  50% { padding: 28px; background: #ff1a1a; }
+}
+.browser-expand-arrow {
+  animation: bounceDown 1.5s ease-in-out infinite;
+}
+@keyframes bounceDown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
 
 .browser-fullscreen {
   position: fixed;

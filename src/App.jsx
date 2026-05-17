@@ -86,7 +86,7 @@ function BrowserFrame({ children, dark }) {
           {children}
         </div>
         <button className={`browser-expand${dark ? ' browser-expand-dark' : ''}`} onClick={() => setExpanded(true)}>
-          Expand to explore ↓
+          Tap to explore <span className="browser-expand-arrow">↓</span>
         </button>
       </div>
 

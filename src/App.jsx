@@ -104,85 +104,70 @@ export default function App() {
         <span className="sep">&bull;</span>
       </Marquee>
 
-      {/* ===== FULL BLEED — STATUS RACK ===== */}
+      {/* ===== FULL BLEED — STATUS RACK MODEL ===== */}
       <section className="full-bleed">
         <motion.img src="/portfolio/status-rack-model.png" alt="" {...fade} />
       </section>
 
-      {/* ===== INTRO ===== */}
+      {/* ===== HOW IT WORKS INTRO ===== */}
       <section className="text-block">
         <motion.div {...fade}>
-          <h2>Two creators. Two visions.<br />Two brands built from scratch.</h2>
+          <h2>Here's how it works.</h2>
         </motion.div>
       </section>
 
-      {/* ===== STEP 01 — THEY SEND ===== */}
-      <section className="text-block text-block-sm">
-        <motion.div {...fade}>
-          <span className="step-label">01</span>
-          <h3 className="step-title">They sent us the vision.</h3>
-        </motion.div>
-      </section>
-
-      {/* Club Lumen — brand board spread */}
+      {/* ===== 01 — SEND THE VISION ===== */}
       <section className="spread">
         <div className="spread-img">
-          <motion.img src="/portfolio/lumen-brandboard.png" alt="" {...fade} />
+          <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
         </div>
         <motion.div className="spread-text" {...fade}>
-          <div className="spread-label">Club Lumen</div>
-          <h2 className="spread-title">Started with a brand board.</h2>
-          <p className="spread-body">Colors, fonts, mood photos, and a name — The Morning Rave. A desert disco brand for festival culture.</p>
+          <div className="spread-label">01</div>
+          <h2 className="spread-title">You send us the vision.</h2>
+          <p className="spread-body">A mood board. A Pinterest link. Some screenshots. A logo on a napkin. Literally whatever you have — we take it from there.</p>
         </motion.div>
       </section>
 
-      {/* Shift — mockups spread */}
-      <section className="spread spread-reverse">
-        <motion.div className="spread-text" {...fade}>
-          <div className="spread-label">Shift</div>
-          <h2 className="spread-title">Started with mockups.</h2>
-          <p className="spread-body">A logo and product designs in every colorway they could imagine. Life Keeps Moving — a streetwear brand built around forward motion.</p>
-        </motion.div>
-        <div className="spread-img">
-          <motion.img src="/portfolio/shift-input-2.png" alt="" {...fade} />
-        </div>
-      </section>
-
-      {/* ===== STEP 02 — WE CREATE ===== */}
-      <section className="text-block text-block-sm">
-        <motion.div {...fade}>
-          <span className="step-label">02</span>
-          <h3 className="step-title">We created the entire product line.</h3>
-          <p>Lifestyle photography. Product designs. Everything styled and shot to match the brand.</p>
-        </motion.div>
-      </section>
-
-      {/* Horizontal scroll — Lumen photos */}
+      {/* Horizontal scroll — what clients have sent us */}
       <div className="strip-section">
-        <div className="strip-label">Club Lumen</div>
+        <div className="strip-label">What creators have sent us</div>
         <PhotoStrip
           images={[
-            '/portfolio/lumen-2.png',
-            '/portfolio/lumen-1.png',
-            '/portfolio/lumen-5.png',
-            '/portfolio/lumen-3.png',
-            '/portfolio/lumen-6.png',
-            '/portfolio/lumen-welcomed.png',
+            '/portfolio/lumen-brandboard.png',
+            '/portfolio/shift-input-1.jpeg',
+            '/portfolio/shift-input-2.png',
+            '/portfolio/shift-input-3.png',
           ]}
         />
       </div>
 
-      {/* Horizontal scroll — Shift photos */}
+      {/* ===== 02 — WE CREATE ===== */}
+      <section className="spread spread-reverse">
+        <motion.div className="spread-text" {...fade}>
+          <div className="spread-label">02</div>
+          <h2 className="spread-title">We create the entire product line.</h2>
+          <p className="spread-body">Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
+        </motion.div>
+        <div className="spread-img">
+          <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
+        </div>
+      </section>
+
+      {/* Horizontal scroll — what we've created */}
       <div className="strip-section">
-        <div className="strip-label">Shift</div>
+        <div className="strip-label">What we've created</div>
         <PhotoStrip
           images={[
+            '/portfolio/lumen-2.png',
             '/portfolio/shift-girls.png',
+            '/portfolio/lumen-1.png',
             '/portfolio/shift-crosswalk.png',
+            '/portfolio/lumen-3.png',
             '/portfolio/shift-subway.png',
-            '/portfolio/shift-pizza.png',
+            '/portfolio/lumen-5.png',
             '/portfolio/shift-4.png',
-            '/portfolio/shift-5.png',
+            '/portfolio/shift-pizza.png',
+            '/portfolio/lumen-welcomed.png',
           ]}
         />
       </div>
@@ -192,7 +177,19 @@ export default function App() {
         <motion.img src="/portfolio/status-flatlay.png" alt="" {...fade} />
       </section>
 
-      {/* ===== PHOTO GRID — masonry ===== */}
+      {/* ===== 03 — WE BUILD THE STORE ===== */}
+      <section className="spread">
+        <div className="spread-img">
+          <motion.img src="/portfolio/lumen-store-hero.png" alt="" {...fade} />
+        </div>
+        <motion.div className="spread-text" {...fade}>
+          <div className="spread-label">03</div>
+          <h2 className="spread-title">We build your store.</h2>
+          <p className="spread-body">Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
+        </motion.div>
+      </section>
+
+      {/* ===== PHOTO GRID ===== */}
       <section className="photo-grid">
         <div className="photo-grid-item tall">
           <img src="/portfolio/shift-crosswalk.png" alt="" loading="lazy" />
@@ -224,17 +221,17 @@ export default function App() {
         <span className="sep">&rarr;</span>
       </Marquee>
 
-      {/* ===== STEP 04 ===== */}
-      <section className="spread">
-        <div className="spread-img">
-          <motion.img src="/portfolio/status-hoodie.png" alt="" {...fade} />
-        </div>
+      {/* ===== 04 — YOU POST THEY BUY ===== */}
+      <section className="spread spread-reverse">
         <motion.div className="spread-text" {...fade}>
           <div className="spread-label">04</div>
           <h2 className="spread-title">You post. They buy.</h2>
           <p className="spread-body">Link in bio. TikTok Shop. Go live. Your audience finally has somewhere to throw money. We take a percentage — so we only win when you do.</p>
           <a href="#apply" className="spread-link">Apply Now <ArrowRight size={14} /></a>
         </motion.div>
+        <div className="spread-img">
+          <motion.img src="/portfolio/shift-store-hero.png" alt="" {...fade} />
+        </div>
       </section>
 
       {/* ===== STATUS TVs ===== */}

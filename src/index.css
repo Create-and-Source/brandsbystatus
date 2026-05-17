@@ -21,6 +21,21 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== SPLASH ===== */
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash-logo {
+  width: 260px;
+  height: auto;
+}
+
 a { text-decoration: none; color: inherit; }
 button { border: none; background: none; cursor: pointer; font-family: inherit; }
 img { max-width: 100%; display: block; }

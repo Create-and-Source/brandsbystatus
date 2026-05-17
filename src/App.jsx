@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, X } from 'lucide-react';
 import MiniShift from './showcases/MiniShift';
 import MiniLumen from './showcases/MiniLumen';
@@ -107,10 +107,38 @@ function BrowserFrame({ children, dark }) {
 export default function App() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', handle: '', platform: '', followers: '', vibe: '', link: '' });
+  const [showSplash, setShowSplash] = useState(() => window.innerWidth <= 768);
   const update = (f, v) => setForm(p => ({ ...p, [f]: v }));
+
+  useEffect(() => {
+    if (showSplash) {
+      const t = setTimeout(() => setShowSplash(false), 2200);
+      return () => clearTimeout(t);
+    }
+  }, [showSplash]);
 
   return (
     <>
+      <AnimatePresence>
+        {showSplash && (
+          <motion.div
+            className="splash"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
+          >
+            <motion.img
+              src="/portfolio/bbs-logo-full.png"
+              alt="Brands By Status"
+              className="splash-logo"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* ===== HERO ===== */}
       <section className="hero">
         <video src="/portfolio/eastwood-video.mp4" autoPlay muted loop playsInline className="hero-video hero-desktop" />

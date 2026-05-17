@@ -1,6 +1,8 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import MiniShift from './showcases/MiniShift';
+import MiniLumen from './showcases/MiniLumen';
 import './index.css';
 
 const fade = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: '-50px' }, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } };
@@ -109,7 +111,7 @@ export default function App() {
         <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
       </section>
 
-      {/* ===== HOW IT WORKS INTRO ===== */}
+      {/* ===== HOW IT WORKS ===== */}
       <section className="text-block">
         <motion.div {...fade}>
           <h2>Here's how it works.</h2>
@@ -128,19 +130,6 @@ export default function App() {
         </motion.div>
       </section>
 
-      {/* Horizontal scroll — what clients have sent us */}
-      <div className="strip-section">
-        <div className="strip-label">What creators have sent us</div>
-        <PhotoStrip
-          images={[
-            '/portfolio/lumen-brandboard.png',
-            '/portfolio/shift-input-1.jpeg',
-            '/portfolio/shift-input-2.png',
-            '/portfolio/shift-input-3.png',
-          ]}
-        />
-      </div>
-
       {/* ===== 02 — WE CREATE ===== */}
       <section className="spread spread-reverse">
         <motion.div className="spread-text" {...fade}>
@@ -153,7 +142,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Horizontal scroll — what we've created */}
+      {/* What we've created — horizontal scroll */}
       <div className="strip-section">
         <div className="strip-label">What we've created</div>
         <PhotoStrip
@@ -178,14 +167,52 @@ export default function App() {
       </section>
 
       {/* ===== 03 — WE BUILD THE STORE ===== */}
-      <section className="spread">
-        <div className="spread-img">
-          <motion.img src="/portfolio/lumen-store-hero.png" alt="" {...fade} />
-        </div>
-        <motion.div className="spread-text" {...fade}>
-          <div className="spread-label">03</div>
-          <h2 className="spread-title">We build your store.</h2>
-          <p className="spread-body">Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
+      <section className="text-block text-block-sm">
+        <motion.div {...fade}>
+          <span className="step-label">03</span>
+          <h3 className="step-title">We build your store.</h3>
+          <p>Fully custom e-commerce with your branding, your products, checkout, and fulfillment. You send traffic — we handle the rest.</p>
+        </motion.div>
+      </section>
+
+      {/* ===== LIVE STORE SHOWCASES ===== */}
+      <section className="text-block text-block-xs">
+        <motion.div {...fade}>
+          <p className="story-intro">Club Lumen wanted a morning rave merch brand — desert disco energy, coffee culture, community vibes.</p>
+        </motion.div>
+      </section>
+
+      <section className="browser-section">
+        <motion.div className="browser-showcase" {...fade}>
+          <div className="browser-scroll">
+            <div className="browser-bar">
+              <span /><span /><span />
+              <div className="browser-url">clublumen-store.vercel.app</div>
+            </div>
+            <div className="browser-body">
+              <MiniLumen />
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      <section className="text-block text-block-xs">
+        <motion.div {...fade}>
+          <p className="story-intro">Shift wanted NYC streetwear with an edge — forward motion, heavyweight premium, glitch aesthetic.</p>
+        </motion.div>
+      </section>
+
+      <section className="browser-section">
+        <motion.div className="browser-showcase" {...fade}>
+          <div className="browser-scroll">
+            <div className="browser-bar browser-bar-dark">
+              <span /><span /><span />
+              <div className="browser-url browser-url-dark">shift-store.vercel.app</div>
+            </div>
+            <div className="browser-body">
+              <MiniShift />
+            </div>
+          </div>
         </motion.div>
       </section>
 
@@ -235,13 +262,8 @@ export default function App() {
           <a href="#apply" className="spread-link">Apply Now <ArrowRight size={14} /></a>
         </motion.div>
         <div className="spread-img">
-          <motion.img src="/portfolio/shift-store-hero.png" alt="" {...fade} />
+          <motion.img src="/portfolio/status-tvs.png" alt="" {...fade} />
         </div>
-      </section>
-
-      {/* ===== STATUS TVs ===== */}
-      <section className="full-bleed">
-        <motion.img src="/portfolio/status-tvs.png" alt="" {...fade} />
       </section>
 
       {/* ===== APPLY ===== */}

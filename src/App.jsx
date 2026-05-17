@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, X } from 'lucide-react';
 import MiniShift from './showcases/MiniShift';
 import MiniLumen from './showcases/MiniLumen';
 import './index.css';
@@ -75,18 +75,32 @@ function PhotoStrip({ images, height = '400px' }) {
 
 function BrowserFrame({ children, dark }) {
   const [expanded, setExpanded] = useState(false);
+
   return (
-    <div className="browser-scroll">
-      <div className={`browser-bar${dark ? ' browser-bar-dark' : ''}`}>
-        <span /><span /><span />
+    <>
+      <div className="browser-scroll">
+        <div className={`browser-bar${dark ? ' browser-bar-dark' : ''}`}>
+          <span /><span /><span />
+        </div>
+        <div className="browser-body">
+          {children}
+        </div>
+        <button className={`browser-expand${dark ? ' browser-expand-dark' : ''}`} onClick={() => setExpanded(true)}>
+          Expand to explore ↓
+        </button>
       </div>
-      <div className={`browser-body${expanded ? ' browser-body-expanded' : ''}`}>
-        {children}
-      </div>
-      <button className={`browser-expand${dark ? ' browser-expand-dark' : ''}`} onClick={() => setExpanded(!expanded)}>
-        {expanded ? 'Collapse' : 'Expand to explore'} {expanded ? '↑' : '↓'}
-      </button>
-    </div>
+
+      {expanded && (
+        <div className="browser-fullscreen">
+          <button className="browser-close" onClick={() => setExpanded(false)}>
+            <X size={24} />
+          </button>
+          <div className="browser-fullscreen-body">
+            {children}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

@@ -195,6 +195,18 @@ img { max-width: 100%; display: block; }
   object-fit: cover;
   display: block;
 }
+.contained-img {
+  padding: 48px;
+  display: flex;
+  justify-content: center;
+}
+.contained-img img {
+  max-width: 700px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
 
 /* ===== TEXT BLOCK ===== */
 .text-block {

@@ -136,8 +136,8 @@ export default function App() {
         <span className="sep">&bull;</span>
       </Marquee>
 
-      {/* ===== FULL BLEED — STEAMING RACK ===== */}
-      <section className="full-bleed">
+      {/* ===== STEAMING RACK ===== */}
+      <section className="contained-img">
         <motion.img src="/portfolio/status-rack.png" alt="" {...fade} />
       </section>
 

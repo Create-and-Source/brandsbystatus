@@ -1,9 +1,34 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Check } from 'lucide-react';
 import './index.css';
 
 const fade = { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { duration: 0.6 } };
+
+/* Floating social elements */
+const socials = [
+  { text: '2.4K', icon: '♥', x: '8%', y: '25%', delay: 0 },
+  { text: '@jess NEED this', icon: '💬', x: '85%', y: '35%', delay: 1.2 },
+  { text: '$127 sold', icon: '🛒', x: '78%', y: '70%', delay: 2.4 },
+  { text: '1,847 views', icon: '👁', x: '12%', y: '65%', delay: 0.8 },
+  { text: '+$89', icon: '💰', x: '90%', y: '20%', delay: 1.8 },
+  { text: 'Added to cart', icon: '🛍', x: '5%', y: '80%', delay: 3.0 },
+];
+
+function FloatingElement({ text, icon, x, y, delay }) {
+  return (
+    <motion.div
+      className="float-pill"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0.8, y: 10 }}
+      animate={{ opacity: [0, 1, 1, 0], scale: [0.8, 1, 1, 0.9], y: [10, 0, -5, -15] }}
+      transition={{ duration: 4, delay, repeat: Infinity, repeatDelay: 6 }}
+    >
+      <span className="float-icon">{icon}</span>
+      <span>{text}</span>
+    </motion.div>
+  );
+}
 
 export default function App() {
   const [submitted, setSubmitted] = useState(false);
@@ -14,7 +39,7 @@ export default function App() {
     <>
       {/* ===== HERO ===== */}
       <section className="hero">
-        <video src="/portfolio/hero-video.mp4" autoPlay muted loop playsInline className="hero-video" />
+        <video src="/portfolio/eastwood-video.mp4" autoPlay muted loop playsInline className="hero-video" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <motion.div {...fade}>
@@ -22,6 +47,7 @@ export default function App() {
             <a href="#apply" className="btn">Apply Now <ArrowRight size={16} /></a>
           </motion.div>
         </div>
+        {socials.map((s, i) => <FloatingElement key={i} {...s} />)}
       </section>
 
       {/* ===== STEP 1: THEY SEND ===== */}
@@ -35,7 +61,6 @@ export default function App() {
           <motion.img src="/portfolio/lumen-brandboard.png" alt="" className="c1" {...fade} />
           <motion.img src="/portfolio/shift-input-1.jpeg" alt="" className="c2" {...fade} transition={{ delay: 0.1 }} />
           <motion.img src="/portfolio/shift-input-2.png" alt="" className="c3" {...fade} transition={{ delay: 0.2 }} />
-          <motion.img src="/portfolio/shift-input-4.png" alt="" className="c4" {...fade} transition={{ delay: 0.15 }} />
         </div>
       </section>
 
@@ -92,7 +117,7 @@ export default function App() {
 
       {/* ===== STATUS IMAGE ===== */}
       <section className="showcase">
-        <motion.img src="/portfolio/status-tvs.png" alt="Status" {...fade} />
+        <motion.img src="/portfolio/status-rack.png" alt="Status" {...fade} />
       </section>
 
       {/* ===== APPLY ===== */}

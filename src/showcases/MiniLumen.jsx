@@ -31,6 +31,19 @@ export default function MiniLumen() {
           height: 100%;
           object-fit: cover;
         }
+        .ml-hero-vid-desktop, .ml-hero-vid-mobile {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          z-index: 1;
+        }
+        .ml-hero-vid-mobile { display: none; }
+        @media (max-width: 768px) {
+          .ml-hero-vid-desktop { display: none; }
+          .ml-hero-vid-mobile { display: block; }
+        }
         .ml-hero-overlay {
           position: absolute;
           inset: 0;
@@ -478,7 +491,8 @@ export default function MiniLumen() {
       {/* HERO */}
       <div className="ml-hero">
         <img className="ml-hero-bg" src="/lumen/hero-wide.png" alt="" />
-        <video src="/lumen/hero-desktop.mp4" autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 1 }} />
+        <video src="/lumen/hero-desktop.mp4" autoPlay muted loop playsInline className="ml-hero-vid-desktop" />
+        <video src="/lumen/hero-mobile.mp4" autoPlay muted loop playsInline className="ml-hero-vid-mobile" />
         <div className="ml-hero-overlay" style={{ zIndex: 2 }} />
         <div className="ml-hero-content">
           <img src="/lumen/lumen-logo-v2.png" alt="Club Lumen" className="ml-hero-logo" />

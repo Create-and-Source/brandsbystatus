@@ -148,27 +148,27 @@ export default function App() {
       <div className="scroll-rows">
         <div className="scroll-rows-label">What we've created</div>
         <div className="scroll-row">
-          <div className="scroll-row-track scroll-left">
-            {[...Array(2)].map((_, r) => [
+          <div className="scroll-row-track">
+            {[
               '/lumen/cherry-lips-tank-lifestyle.png', '/shift/street-crossing.png', '/lumen/good-energy-hoodie-lifestyle.png',
               '/shift/pizza-shop.png', '/lumen/morning-rave-hoodie-lifestyle.png', '/shift/nyc-crosswalk.png',
-            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+            ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
         <div className="scroll-row">
-          <div className="scroll-row-track scroll-right">
-            {[...Array(2)].map((_, r) => [
+          <div className="scroll-row-track">
+            {[
               '/shift/convertible-pink-red.png', '/lumen/disco-crop-lifestyle.png', '/shift/car-meet.png',
               '/lumen/welcomed-crop-lifestyle.png', '/shift/pool-party.png', '/lumen/move-body-tee-lifestyle.png',
-            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+            ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
         <div className="scroll-row">
-          <div className="scroll-row-track scroll-left-slow">
-            {[...Array(2)].map((_, r) => [
+          <div className="scroll-row-track">
+            {[
               '/lumen/venue-friends.png', '/shift/coffee-shop.png', '/lumen/pool-party-group.png',
               '/shift/subway.png', '/lumen/coffee-shop-group.png', '/shift/chinatown.jpg',
-            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+            ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
       </div>

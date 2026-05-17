@@ -161,11 +161,6 @@ export default function App() {
         />
       </div>
 
-      {/* ===== STATUS FLATLAY ===== */}
-      <section className="full-bleed">
-        <motion.img src="/portfolio/status-flatlay.png" alt="" {...fade} />
-      </section>
-
       {/* ===== 03 — WE BUILD THE STORE ===== */}
       <section className="text-block text-block-sm">
         <motion.div {...fade}>

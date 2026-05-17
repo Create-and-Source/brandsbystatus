@@ -112,7 +112,7 @@ export default function App() {
 
   useEffect(() => {
     if (showSplash) {
-      const t = setTimeout(() => setShowSplash(false), 1400);
+      const t = setTimeout(() => setShowSplash(false), 800);
       return () => clearTimeout(t);
     }
   }, [showSplash]);

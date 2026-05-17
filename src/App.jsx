@@ -73,6 +73,23 @@ function PhotoStrip({ images, height = '400px' }) {
   );
 }
 
+function BrowserFrame({ children, dark }) {
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <div className="browser-scroll">
+      <div className={`browser-bar${dark ? ' browser-bar-dark' : ''}`}>
+        <span /><span /><span />
+      </div>
+      <div className={`browser-body${expanded ? ' browser-body-expanded' : ''}`}>
+        {children}
+      </div>
+      <button className={`browser-expand${dark ? ' browser-expand-dark' : ''}`} onClick={() => setExpanded(!expanded)}>
+        {expanded ? 'Collapse' : 'Expand to explore'} {expanded ? '↑' : '↓'}
+      </button>
+    </div>
+  );
+}
+
 export default function App() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', handle: '', platform: '', followers: '', vibe: '', link: '' });
@@ -191,14 +208,9 @@ export default function App() {
 
       <section className="browser-section">
         <motion.div className="browser-showcase" {...fade}>
-          <div className="browser-scroll">
-            <div className="browser-bar">
-              <span /><span /><span />
-            </div>
-            <div className="browser-body">
-              <MiniLumen />
-            </div>
-          </div>
+          <BrowserFrame>
+            <MiniLumen />
+          </BrowserFrame>
         </motion.div>
       </section>
 
@@ -210,14 +222,9 @@ export default function App() {
 
       <section className="browser-section">
         <motion.div className="browser-showcase" {...fade}>
-          <div className="browser-scroll">
-            <div className="browser-bar browser-bar-dark">
-              <span /><span /><span />
-            </div>
-            <div className="browser-body">
-              <MiniShift />
-            </div>
-          </div>
+          <BrowserFrame dark>
+            <MiniShift />
+          </BrowserFrame>
         </motion.div>
       </section>
 

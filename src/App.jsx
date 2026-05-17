@@ -104,7 +104,7 @@ export default function App() {
         <div className="hero-overlay" />
         <div className="hero-content">
           <motion.div {...fade}>
-            <img src="/portfolio/bbs-logo.png" alt="Brands By Status" className="hero-logo" />
+            <p className="hero-eyebrow">Brands By Status</p>
             <h1>You bring the audience.<br />We bring the merch.</h1>
             <a href="#apply" className="btn btn-white">Apply Now <ArrowRight size={16} /></a>
           </motion.div>

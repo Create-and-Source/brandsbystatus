@@ -215,6 +215,20 @@ img { max-width: 100%; display: block; }
   scroll-snap-align: start;
 }
 
+/* ===== TRIO ROW ===== */
+.trio-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  padding: 0 48px 48px;
+}
+.trio-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
 /* ===== MARQUEE ===== */
 .marquee {
   padding: 28px 0;
@@ -715,6 +729,8 @@ img { max-width: 100%; display: block; }
   .scroll-rows { padding: 32px 0; }
   .scroll-rows-header { padding: 0 24px; margin-bottom: 16px; }
   .scroll-row-img { height: 220px; }
+  .trio-row { padding: 0 16px 32px; gap: 4px; }
+  .trio-img { height: 160px; }
   .text-block { padding: 60px 24px; }
   .text-block-sm { padding: 48px 24px 24px; }
 

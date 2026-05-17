@@ -190,16 +190,18 @@ export default function App() {
       </section>
 
       {/* ===== 02 — WE CREATE ===== */}
-      <section className="spread spread-reverse">
-        <motion.div className="spread-text" {...fade}>
-          <div className="spread-label">02</div>
-          <h2 className="spread-title">We create the entire product line.</h2>
-          <p className="spread-body">Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
+      <section className="text-block text-block-sm">
+        <motion.div {...fade}>
+          <span className="step-label">02</span>
+          <h3 className="step-title">We create the entire product line.</h3>
+          <p>Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
         </motion.div>
-        <div className="spread-img">
-          <motion.img src="/eastwood/desert-truck.png" alt="" {...fade} />
-        </div>
       </section>
+      <div className="trio-row">
+        {['/eastwood/miami-day.png', '/eastwood/miami-neon.png', '/eastwood/poolside.png'].map((src, i) => (
+          <motion.img key={i} src={src} alt="" className="trio-img" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: i * 0.1 }} />
+        ))}
+      </div>
 
       {/* What we've created — three auto-scrolling rows */}
       <div className="scroll-rows">

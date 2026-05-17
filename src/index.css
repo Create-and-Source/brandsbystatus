@@ -75,6 +75,7 @@ img { max-width: 100%; display: block; }
   height: 100%;
   object-fit: cover;
 }
+.hero-mobile { display: none; }
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -350,4 +351,6 @@ img { max-width: 100%; display: block; }
   .form-row { grid-template-columns: 1fr; }
   .footer { padding: 24px; flex-direction: column; gap: 8px; }
   .float-pill { display: none; }
+  .hero-desktop { display: none; }
+  .hero-mobile { display: block; }
 }

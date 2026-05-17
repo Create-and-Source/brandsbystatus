@@ -38,7 +38,8 @@ export default function App() {
     <>
       {/* ===== HERO ===== */}
       <section className="hero">
-        <video src="/portfolio/eastwood-video.mp4" autoPlay muted loop playsInline className="hero-video" />
+        <video src="/portfolio/eastwood-video.mp4" autoPlay muted loop playsInline className="hero-video hero-desktop" />
+        <video src="/portfolio/eastwood-video-mobile.mp4" autoPlay muted loop playsInline className="hero-video hero-mobile" />
         <div className="hero-overlay" />
         <div className="hero-content">
           <motion.div {...fade}>

@@ -87,6 +87,7 @@ export default function App() {
         <div className="hero-overlay" />
         <div className="hero-content">
           <motion.div {...fade}>
+            <img src="/portfolio/bbs-logo.png" alt="Brands By Status" className="hero-logo" />
             <h1>You bring the audience.<br />We bring the merch.</h1>
             <a href="#apply" className="btn btn-white">Apply Now <ArrowRight size={16} /></a>
           </motion.div>
@@ -143,23 +144,33 @@ export default function App() {
         </div>
       </section>
 
-      {/* What we've created — horizontal scroll */}
-      <div className="strip-section">
-        <div className="strip-label">What we've created</div>
-        <PhotoStrip
-          images={[
-            '/portfolio/lumen-2.png',
-            '/portfolio/shift-girls.png',
-            '/portfolio/lumen-1.png',
-            '/portfolio/shift-crosswalk.png',
-            '/portfolio/lumen-3.png',
-            '/portfolio/shift-subway.png',
-            '/portfolio/lumen-5.png',
-            '/portfolio/shift-4.png',
-            '/portfolio/shift-pizza.png',
-            '/portfolio/lumen-welcomed.png',
-          ]}
-        />
+      {/* What we've created — three auto-scrolling rows */}
+      <div className="scroll-rows">
+        <div className="scroll-rows-label">What we've created</div>
+        <div className="scroll-row">
+          <div className="scroll-row-track scroll-left">
+            {[...Array(2)].map((_, r) => [
+              '/lumen/cherry-lips-tank-lifestyle.png', '/shift/street-crossing.png', '/lumen/good-energy-hoodie-lifestyle.png',
+              '/shift/pizza-shop.png', '/lumen/morning-rave-hoodie-lifestyle.png', '/shift/nyc-crosswalk.png',
+            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+          </div>
+        </div>
+        <div className="scroll-row">
+          <div className="scroll-row-track scroll-right">
+            {[...Array(2)].map((_, r) => [
+              '/shift/convertible-pink-red.png', '/lumen/disco-crop-lifestyle.png', '/shift/car-meet.png',
+              '/lumen/welcomed-crop-lifestyle.png', '/shift/pool-party.png', '/lumen/move-body-tee-lifestyle.png',
+            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+          </div>
+        </div>
+        <div className="scroll-row">
+          <div className="scroll-row-track scroll-left-slow">
+            {[...Array(2)].map((_, r) => [
+              '/lumen/venue-friends.png', '/shift/coffee-shop.png', '/lumen/pool-party-group.png',
+              '/shift/subway.png', '/lumen/coffee-shop-group.png', '/shift/chinatown.jpg',
+            ].map((src, i) => <img key={`${r}-${i}`} src={src} alt="" className="scroll-row-img" />))}
+          </div>
+        </div>
       </div>
 
       {/* ===== 03 — WE BUILD THE STORE ===== */}

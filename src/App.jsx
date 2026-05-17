@@ -197,7 +197,7 @@ export default function App() {
           <p className="spread-body">Lifestyle photography. Product designs. Everything styled and shot to match your brand. No studio. No models. No limits.</p>
         </motion.div>
         <div className="spread-img">
-          <motion.img src="/portfolio/status-newspaper.png" alt="" {...fade} />
+          <motion.img src="/eastwood/desert-truck.png" alt="" {...fade} />
         </div>
       </section>
 
@@ -210,24 +210,27 @@ export default function App() {
         <div className="scroll-row">
           <div className="scroll-row-track">
             {[
-              '/lumen/cherry-lips-tank-lifestyle.png', '/shift/street-crossing.png', '/lumen/good-energy-hoodie-lifestyle.png',
-              '/shift/pizza-shop.png', '/lumen/morning-rave-hoodie-lifestyle.png', '/shift/nyc-crosswalk.png',
+              '/eastwood/bar-hoodie.png', '/lumen/cherry-lips-tank-lifestyle.png', '/eastwood/rodeo-tank.png',
+              '/shift/street-crossing.png', '/eastwood/desert-cowboy-pillows.png', '/lumen/good-energy-hoodie-lifestyle.png',
+              '/eastwood/farm-tractor.png', '/shift/pizza-shop.png',
             ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
         <div className="scroll-row">
           <div className="scroll-row-track">
             {[
-              '/shift/convertible-pink-red.png', '/lumen/disco-crop-lifestyle.png', '/shift/car-meet.png',
-              '/lumen/welcomed-crop-lifestyle.png', '/shift/pool-party.png', '/lumen/move-body-tee-lifestyle.png',
+              '/eastwood/horseback.png', '/shift/convertible-pink-red.png', '/eastwood/bar-back.png',
+              '/lumen/disco-crop-lifestyle.png', '/eastwood/rodeo-fence.png', '/shift/car-meet.png',
+              '/eastwood/boat-problem.png', '/lumen/welcomed-crop-lifestyle.png',
             ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>
         <div className="scroll-row">
           <div className="scroll-row-track">
             {[
-              '/lumen/venue-friends.png', '/shift/coffee-shop.png', '/lumen/pool-party-group.png',
-              '/shift/subway.png', '/lumen/coffee-shop-group.png', '/shift/chinatown.jpg',
+              '/eastwood/fireplace-gang.png', '/lumen/venue-friends.png', '/eastwood/range-revolver.png',
+              '/shift/coffee-shop.png', '/eastwood/desert-tent.png', '/lumen/pool-party-group.png',
+              '/eastwood/bar-sweats.png', '/shift/chinatown.jpg',
             ].map((src, i) => <img key={i} src={src} alt="" className="scroll-row-img" />)}
           </div>
         </div>

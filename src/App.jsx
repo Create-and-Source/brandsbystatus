@@ -214,37 +214,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ===== STEP 03 — THE STORE ===== */}
-      <section className="text-block text-block-sm">
-        <motion.div {...fade}>
-          <span className="step-label">03</span>
-          <h3 className="step-title">We built their stores.</h3>
-          <p>Fully custom e-commerce — their branding, their products, checkout, and fulfillment.</p>
-        </motion.div>
-      </section>
-
-      {/* Scrollable browser — Lumen */}
-      <section className="browser-section">
-        <motion.div className="browser-col" {...fade}>
-          <div className="spread-label" style={{ marginBottom: 16 }}>Club Lumen</div>
-          <div className="browser-scroll">
-            <div className="browser-bar"><span /><span /><span /><div className="browser-url">clublumen-store.vercel.app</div></div>
-            <div className="browser-body">
-              <img src="/portfolio/lumen-store-full.png" alt="Club Lumen full store" />
-            </div>
-          </div>
-        </motion.div>
-        <motion.div className="browser-col" {...fade} transition={{ delay: 0.15 }}>
-          <div className="spread-label" style={{ marginBottom: 16 }}>Shift</div>
-          <div className="browser-scroll">
-            <div className="browser-bar"><span /><span /><span /><div className="browser-url">shift-store.vercel.app</div></div>
-            <div className="browser-body">
-              <img src="/portfolio/shift-store-full.png" alt="Shift full store" />
-            </div>
-          </div>
-        </motion.div>
-      </section>
-
       {/* ===== MARQUEE 2 ===== */}
       <Marquee>
         <span>YOU POST</span>

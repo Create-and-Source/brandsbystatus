@@ -1074,7 +1074,7 @@ export default function App() {
 
       <main id="top">
         <section className="hero">
-          <img className="hero-bg-img" src="/portfolio/lifestyle-01.png" alt="" />
+          <img className="hero-bg-img" src="/portfolio/hero-header.png" alt="" />
           <div className="hero-overlay" />
           <div className="hero-content">
             <img src="/portfolio/bbs-logo-new.png" alt="Brands By Status" className="hero-logo-main" />

@@ -872,7 +872,7 @@ export default function App() {
 
     async function loadPrintifyProducts() {
       try {
-        const response = await fetch('/api/printify-products');
+        const response = await fetch(`/api/printify-products?t=${Date.now()}`);
         const contentType = response.headers.get('content-type') || '';
 
         if (!contentType.includes('application/json')) {

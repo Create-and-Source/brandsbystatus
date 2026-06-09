@@ -238,19 +238,41 @@ function findPrintifyVariant(product, color, size) {
 }
 
 function ProductTile({ product, onSelect }) {
+  const [activeColor, setActiveColor] = useState('');
+  const colorEntries = Object.entries(product.colorImages || {});
+  const activeMedia = product.colorImages?.[activeColor];
+  const displayImage = activeMedia?.image || product.image;
+
   return (
     <article className="product-tile">
       <button className="product-tile-button" onClick={() => onSelect(product)}>
         <div className="tile-media">
-          <img src={product.image} alt={product.name} />
+          <img src={displayImage} alt={product.name} />
           <span>Quick View</span>
         </div>
+      </button>
+      {colorEntries.length > 1 && (
+        <div className="tile-variants">
+          {colorEntries.slice(0, 5).map(([colorName, media]) => (
+            <button
+              className={`tile-variant-thumb${colorName === activeColor ? ' active' : ''}`}
+              key={colorName}
+              onClick={() => setActiveColor(colorName === activeColor ? '' : colorName)}
+              aria-label={colorName}
+            >
+              <img src={media.image} alt={colorName} />
+            </button>
+          ))}
+          {colorEntries.length > 5 && (
+            <span className="tile-variant-more">+{colorEntries.length - 5}</span>
+          )}
+        </div>
+      )}
+      <button className="tile-copy-button" onClick={() => onSelect(product)}>
         <div className="tile-copy">
-          <p>{product.collection}</p>
           <h3>{product.name}</h3>
           <div className="tile-price-row">
             <strong>{formatCurrency(product.price)}</strong>
-            <span>Made to order</span>
           </div>
         </div>
       </button>

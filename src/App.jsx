@@ -1073,26 +1073,11 @@ export default function App() {
       </header>
 
       <main id="top">
-        <section className="hero">
+        <section className="hero hero-minimal">
           <img className="hero-bg-img" src="/portfolio/hero-header.png" alt="" />
           <div className="hero-overlay" />
           <div className="hero-content">
-            <img src="/portfolio/bbs-logo-new.png" alt="Brands By Status" className="hero-logo-main" />
-            <p className="eyebrow">Independent apparel and accessories</p>
             <h1>Wear the status.</h1>
-            <p>
-              Shop original drops, everyday statement pieces, and made-to-order goods designed
-              under the Brands By Status name.
-            </p>
-            <div className="hero-actions">
-              <a className="primary-btn" href="#shop">Shop New Arrivals <ArrowRight size={17} /></a>
-              <a className="secondary-btn" href="#collections">Shop Collections</a>
-            </div>
-            <div className="hero-trust-row" aria-label="Store features">
-              <span>Secure checkout</span>
-              <span>Made to order</span>
-              <span>US shipping</span>
-            </div>
           </div>
         </section>
 

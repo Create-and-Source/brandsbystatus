@@ -184,12 +184,20 @@ video {
   opacity: 0.35;
 }
 
+.hero-minimal .hero-bg-img {
+  opacity: 1;
+}
+
 .hero-overlay {
   position: absolute;
   inset: 0;
   background:
     linear-gradient(0deg, rgba(12, 10, 8, 0.8), rgba(12, 10, 8, 0.25) 50%, rgba(12, 10, 8, 0.4)),
     linear-gradient(90deg, rgba(12, 10, 8, 0.5), transparent 60%);
+}
+
+.hero-minimal .hero-overlay {
+  background: linear-gradient(0deg, rgba(12, 10, 8, 0.45) 0%, transparent 40%, transparent 60%, rgba(12, 10, 8, 0.15) 100%);
 }
 
 .hero-content {
@@ -205,6 +213,16 @@ video {
   padding: 96px 28px 80px;
   color: #fff;
   text-align: center;
+}
+
+.hero-minimal .hero-content {
+  justify-content: flex-end;
+  padding-bottom: 60px;
+}
+
+.hero-minimal h1 {
+  margin-bottom: 0;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
 .hero-logo-main {

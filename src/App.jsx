@@ -545,13 +545,14 @@ function AdminApp() {
       const hasCategories = Boolean(categoryNamesByProduct.get(product.id)?.length);
       const matchesCategoryStatus =
         adminCategoryFilter === 'all' ||
+        (adminCategoryFilter === 'in-category' && assignedProductIds.has(product.id)) ||
         (adminCategoryFilter === 'categorized' && hasCategories) ||
         (adminCategoryFilter === 'uncategorized' && !hasCategories);
       const matchesQuery = `${product.name} ${product.collection}`.toLowerCase().includes(adminQuery.toLowerCase());
 
       return matchesCategoryStatus && matchesQuery;
     });
-  }, [products, adminQuery, adminCategoryFilter, categoryNamesByProduct]);
+  }, [products, adminQuery, adminCategoryFilter, categoryNamesByProduct, assignedProductIds]);
 
   const adminCategoryCounts = useMemo(() => {
     return products.reduce(
@@ -570,6 +571,7 @@ function AdminApp() {
   }, [products, categoryNamesByProduct]);
 
   const categoryFilterOptions = [
+    { value: 'in-category', label: 'In Category', count: assignedProductIds.size },
     { value: 'all', label: 'All', count: adminCategoryCounts.all },
     { value: 'categorized', label: 'Categorized', count: adminCategoryCounts.categorized },
     { value: 'uncategorized', label: 'Not Categorized', count: adminCategoryCounts.uncategorized },
@@ -839,6 +841,7 @@ function AdminApp() {
                 onClick={() => {
                   setSelectedCategoryId(category.id);
                   setCategoryNameDraft(category.name);
+                  setAdminCategoryFilter('in-category');
                 }}
               >
                 <span>{category.name}</span>

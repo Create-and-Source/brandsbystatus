@@ -753,7 +753,7 @@ function MagazineFlow({ magazine, onSelectProduct }) {
         const spreadImage = spread.images[0]?.url || spread.products[0]?.image;
         const secondImage = spread.images[1]?.url;
         return (
-          <div key={spread.collection?.id || spreadIndex}>
+          <div key={spread.collection?.id || spreadIndex} id={spreadIndex === 0 ? 'brands' : undefined}>
             {/* Full-bleed divider image */}
             {spreadImage ? (
               <section className="mag-divider-spread">
@@ -2339,10 +2339,9 @@ export default function App() {
           <span>Brands By Status</span>
         </a>
         <nav>
-          <a href="#daily-status">Magazine</a>
+          <a href="#top">Magazine</a>
+          <a href="#brands">Brands</a>
           <a href="#shop">Shop</a>
-          <a href="#design-collections">Collections</a>
-          <a href="#story">Story</a>
         </nav>
         <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
           <ShoppingBag size={19} />

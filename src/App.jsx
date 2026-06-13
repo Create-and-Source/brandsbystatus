@@ -290,6 +290,96 @@ function getBrandIdentity(name = '') {
     };
   }
 
+  if (normalized.includes('anxiety') || normalized.includes('bad girl')) {
+    return {
+      brandName: 'Bad Girls Club',
+      headline: 'Anxious but make it fashion.',
+      dek: 'Graphic tees, phone cases, and statement pieces for the girls who feel everything and wear it anyway.',
+      brandStory: 'Bad Girls Club started for the chronically anxious who still show up looking like they run the room. Every piece says what you are thinking but too polite to post.',
+      scene: 'Overthinking the text. Under-thinking the outfit. Still walked in and owned it.',
+      quotes: [
+        'Anxiety is real but so is this outfit.',
+        'She said what everyone was thinking. On a tee.',
+        'Bad girl energy with a therapy appointment at 3.',
+      ],
+    };
+  }
+
+  if (normalized.includes('breakfast') || normalized.includes('pancake')) {
+    return {
+      brandName: 'Breakfast Club',
+      headline: 'Weekend energy on a weekday.',
+      dek: 'Pancakes, coffee, and pieces designed for the person who treats Saturday morning like a lifestyle.',
+      brandStory: 'Breakfast Club is for the ones who brunch like it is an event. Cozy layers, warm tones, and graphics that smell like maple syrup and poor decisions from last night.',
+      scene: 'It is 11am. She ordered a stack of pancakes and a mimosa and has no plans of leaving.',
+      quotes: [
+        'Pancakes fix everything and this crew proves it.',
+        'She showed up to brunch in the crewneck and everyone asked where she got it.',
+        'Breakfast is not a meal. It is a personality.',
+      ],
+    };
+  }
+
+  if (normalized.includes('jersey')) {
+    return {
+      brandName: 'Jerseys',
+      headline: 'Game day but elevated.',
+      dek: 'Custom jerseys that work at the bar, the tailgate, and the group photo.',
+      brandStory: 'Jerseys by Brands By Status are built for the people who take game day personally. Not a costume, not a replica. A jersey that looks like you meant it.',
+      scene: 'She showed up in the custom jersey and suddenly everyone wanted one.',
+      quotes: [
+        'It is not about the team. It is about the jersey.',
+        'She wore #1 because she was not taking suggestions.',
+        'Game day fits that go straight to the bar after.',
+      ],
+    };
+  }
+
+  if (normalized.includes('running') || normalized.includes('responsibilities')) {
+    return {
+      brandName: 'Running From Responsibilities',
+      headline: 'Accountability who?',
+      dek: 'Graphic hoodies, tees, and sweats for everyone who is avoiding something right now.',
+      brandStory: 'Running From Responsibilities is for the people who said they would get to it later. Every piece captures that energy of being productive at everything except what you are supposed to be doing.',
+      scene: 'She has 47 unread emails and just bought a crewneck instead of answering any of them.',
+      quotes: [
+        'Running late, running away, running from responsibilities.',
+        'She ignored the to-do list and looked great doing it.',
+        'Procrastination never looked this intentional.',
+      ],
+    };
+  }
+
+  if (normalized.includes('san diego') || normalized.includes('palm tree')) {
+    return {
+      brandName: 'San Diego',
+      headline: 'West coast forever.',
+      dek: 'Palm trees, sunsets, and the kind of laid-back that takes effort to look this easy.',
+      brandStory: 'San Diego is a love letter to the West Coast attitude. Sun-faded colors, relaxed silhouettes, and graphics that remind you to slow down even when you will not.',
+      scene: 'Windows down on the 5, sunset hitting different, wearing the tee she bought at the boardwalk.',
+      quotes: [
+        'She is on West Coast time and not apologizing.',
+        'Palm trees and a good tee fix most problems.',
+        'San Diego energy in every time zone.',
+      ],
+    };
+  }
+
+  if (normalized.includes('sunday') || normalized.includes('car girl')) {
+    return {
+      brandName: 'Sunday Kind Of Love',
+      headline: 'Sunday is not a day. It is a state of mind.',
+      dek: 'Slow morning pieces, car girl energy, and outfits for the drive with no destination.',
+      brandStory: 'Sunday Kind Of Love is for the romantics who treat a Sunday drive like therapy. Soft layers, oversized comfort, and the kind of outfit you wear when the only plan is no plan.',
+      scene: 'She got in the car with no destination, a cold brew, and the windows down. The outfit was already perfect.',
+      quotes: [
+        'Sunday best is a hoodie and a full tank of gas.',
+        'Car girl energy with nowhere to be and everywhere to go.',
+        'She drove for two hours and came back a different person.',
+      ],
+    };
+  }
+
   if (normalized.includes('hoodie')) {
     return {
       brandName: 'The Hoodie Edit',
@@ -715,94 +805,225 @@ function StoreCollectionFeature({ collection, horizontalImages, portraitImages, 
 function MagazineFlow({ magazine, onSelectProduct }) {
   if (!magazine?.cover) return null;
 
-  const { cover, spreads } = magazine;
+  const { cover, spreads, allSpreads: every } = magazine;
   const allSpreads = [cover, ...spreads];
   const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
-  const dayIndex = getDailyIndex(3); // rotate which quote shows
+  const dayIndex = getDailyIndex(allSpreads.length);
 
-  // standalone quote cards that float between brand cards
-  const floatingQuotes = [
-    'Status is not a logo. It is how you carry the outfit.',
-    'She got dressed today and the whole room knew.',
-    'The fit is the first thing she said and the last thing they forgot.',
-  ];
+  // Today's featured brand (cover story)
+  const featured = cover;
+  const featuredBrand = featured.editorial;
+  const featuredImage = featured.images[0]?.url || featured.products[0]?.image;
+  const featuredProducts = featured.products.slice(0, 4);
+
+  // Headlines = other brands with recent products (rotate daily, show 4)
+  const headlines = spreads.slice(0, 4);
+
+  // The Status List = trending products across all brands (rotate selection daily)
+  const allProducts = allSpreads.flatMap((s) => s.products);
+  const statusStart = getDailyIndex(Math.max(1, allProducts.length - 6));
+  const statusList = allProducts.slice(statusStart, statusStart + 6);
+  if (statusList.length < 6) statusList.push(...allProducts.slice(0, 6 - statusList.length));
+
+  // Coming soon = brands with images but fewer products
+  const comingSoon = allSpreads
+    .filter((s) => s.images.length > 0 && s.products.length < 3)
+    .slice(0, 3);
 
   return (
     <>
       {/* ── MASTHEAD ── */}
-      <section className="paper-masthead">
-        <div className="paper-masthead-inner">
-          <div className="paper-rule" />
-          <p className="paper-date">{today}</p>
-          <h1 className="paper-title">Brands By Status</h1>
-          <p className="paper-subtitle">The Daily Status</p>
-          <div className="paper-rule" />
+      <section className="drop-masthead">
+        <div className="drop-masthead-inner">
+          <div className="drop-rule" />
+          <div className="drop-masthead-row">
+            <p className="drop-edition">Vol. 1</p>
+            <p className="drop-date">{today}</p>
+            <p className="drop-edition">Daily Edition</p>
+          </div>
+          <h1 className="drop-title">Brands By Status</h1>
+          <p className="drop-tagline">Small brands. Big status.</p>
+          <div className="drop-rule" />
+          <div className="drop-nav-row">
+            <a href="#headlines">Headlines</a>
+            <span className="drop-nav-dot" />
+            <a href="#brand-feature">Brand Feature</a>
+            <span className="drop-nav-dot" />
+            <a href="#status-list">The Status List</a>
+            <span className="drop-nav-dot" />
+            <a href="#shop">Shop All</a>
+          </div>
+          <div className="drop-rule-thin" />
         </div>
       </section>
 
-      {/* ── NEWSPAPER GRID ── */}
-      <section className="paper-grid" id="brands">
-        {allSpreads.map((spread, i) => {
-          const brand = spread.editorial;
-          const quote = brand.quotes?.[dayIndex % brand.quotes.length] || brand.headline;
-          const sceneText = brand.scene || brand.dek;
-          const image = spread.images[0]?.url || spread.products[0]?.image;
-          const secondImage = spread.images[1]?.url || spread.products[1]?.image;
-          const products = spread.products.slice(0, 3);
-          const collectionUrl = spread.collection ? getCollectionUrl(spread.collection) : '#shop';
-          const isFeature = i === 0;
+      {/* ── TODAY'S HEADLINES ── */}
+      <section className="drop-section" id="headlines">
+        <div className="drop-section-inner">
+          <h2 className="drop-section-label">Today's Headlines</h2>
+          <p className="drop-section-sub">Fresh drops from the brands we are watching.</p>
 
-          return (
-            <Fragment key={spread.collection?.id || i}>
-              {/* Brand card */}
-              <article className={`paper-card ${isFeature ? 'paper-card-feature' : ''}`}>
-                {/* Quote */}
-                <blockquote className="paper-quote">{quote}</blockquote>
-
-                {/* Product images + campaign image collage */}
-                <div className="paper-collage">
-                  {image ? (
-                    <div className="paper-collage-hero">
-                      <img src={image} alt="" />
-                    </div>
-                  ) : null}
-                  {products.map((product) => (
-                    <button
-                      className="paper-collage-product"
-                      key={product.id}
-                      onClick={() => onSelectProduct(product)}
-                    >
-                      <img src={product.image} alt={product.name} />
-                      <span className="paper-product-name">{product.name}</span>
-                      <span className="paper-product-price">${product.price}</span>
-                    </button>
-                  ))}
-                  {secondImage && !products.length ? (
-                    <div className="paper-collage-secondary">
-                      <img src={secondImage} alt="" />
-                    </div>
-                  ) : null}
-                </div>
-
-                {/* Brand name + blurb */}
-                <div className="paper-card-text">
-                  <h2 className="paper-brand-name">{brand.brandName}</h2>
-                  <p className="paper-scene">{sceneText}</p>
-                  <a className="paper-read-more" href={collectionUrl}>
-                    Read the full editorial <ArrowRight size={14} />
-                  </a>
-                </div>
-              </article>
-
-              {/* Floating quote between cards */}
-              {i < allSpreads.length - 1 && i % 2 === 0 ? (
-                <div className="paper-floating-quote">
-                  <p>{floatingQuotes[i % floatingQuotes.length]}</p>
+          <div className="drop-headlines-grid">
+            {/* Lead story */}
+            <article className="drop-lead">
+              {featuredImage ? (
+                <div className="drop-lead-image">
+                  <img src={featuredImage} alt={featuredBrand.brandName} />
+                  <span className="drop-label-badge">Today's Drop</span>
                 </div>
               ) : null}
-            </Fragment>
-          );
-        })}
+              <div className="drop-lead-text">
+                <p className="drop-brand-tag">{featuredBrand.brandName}</p>
+                <h3 className="drop-lead-headline">{featuredBrand.headline}</h3>
+                <p className="drop-lead-dek">{featuredBrand.dek}</p>
+                {featuredProducts.length > 0 ? (
+                  <div className="drop-lead-products">
+                    {featuredProducts.map((product) => (
+                      <button
+                        className="drop-product-chip"
+                        key={product.id}
+                        onClick={() => onSelectProduct(product)}
+                      >
+                        <img src={product.image} alt={product.name} />
+                        <div>
+                          <span className="drop-chip-name">{product.name}</span>
+                          <span className="drop-chip-price">${product.price}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
+                <a className="drop-read-link" href={featured.collection ? getCollectionUrl(featured.collection) : '#shop'}>
+                  Read full feature <ArrowRight size={13} />
+                </a>
+              </div>
+            </article>
+
+            {/* Sidebar headlines */}
+            <div className="drop-sidebar-headlines">
+              {headlines.map((spread) => {
+                const brand = spread.editorial;
+                const img = spread.images[0]?.url || spread.products[0]?.image;
+                const url = spread.collection ? getCollectionUrl(spread.collection) : '#shop';
+                return (
+                  <a className="drop-headline-card" key={spread.collection?.id} href={url}>
+                    {img ? <img src={img} alt="" className="drop-headline-thumb" /> : null}
+                    <div>
+                      <p className="drop-brand-tag">{brand.brandName}</p>
+                      <p className="drop-headline-title">{brand.headline}</p>
+                      <span className="drop-headline-count">
+                        {spread.products.length} piece{spread.products.length !== 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── PULL QUOTE ── */}
+      <section className="drop-pull-quote">
+        <blockquote>
+          {featuredBrand.quotes?.[dayIndex % (featuredBrand.quotes?.length || 1)] || featuredBrand.scene}
+        </blockquote>
+      </section>
+
+      {/* ── BRAND FEATURE ── */}
+      <section className="drop-section drop-feature-section" id="brand-feature">
+        <div className="drop-section-inner">
+          <h2 className="drop-section-label">Brand Feature</h2>
+          <p className="drop-section-sub">One brand. The full story.</p>
+
+          <div className="drop-feature-layout">
+            <div className="drop-feature-story">
+              <p className="drop-brand-tag">{featuredBrand.brandName}</p>
+              <h3 className="drop-feature-headline">{featuredBrand.headline}</h3>
+              <p className="drop-feature-body">{featuredBrand.brandStory}</p>
+              <blockquote className="drop-feature-scene">{featuredBrand.scene}</blockquote>
+              <a className="drop-read-link" href={featured.collection ? getCollectionUrl(featured.collection) : '#shop'}>
+                Shop {featuredBrand.brandName} <ArrowRight size={13} />
+              </a>
+            </div>
+            <div className="drop-feature-gallery">
+              {featured.images.slice(0, 3).map((img, idx) => (
+                <div className={`drop-feature-img ${idx === 0 ? 'drop-feature-img-main' : ''}`} key={img.url || idx}>
+                  <img src={img.url} alt="" />
+                </div>
+              ))}
+              {featured.images.length < 2 && featuredProducts.length > 0 ? (
+                featuredProducts.slice(0, 2).map((product) => (
+                  <button className="drop-feature-product" key={product.id} onClick={() => onSelectProduct(product)}>
+                    <img src={product.image} alt={product.name} />
+                    <span>${product.price}</span>
+                  </button>
+                ))
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── THE STATUS LIST ── */}
+      <section className="drop-section" id="status-list">
+        <div className="drop-section-inner">
+          <h2 className="drop-section-label">The Status List</h2>
+          <p className="drop-section-sub">Trending pieces across all brands right now.</p>
+
+          <div className="drop-status-grid">
+            {statusList.map((product, idx) => (
+              <button className="drop-status-card" key={product.id + '-' + idx} onClick={() => onSelectProduct(product)}>
+                <span className="drop-status-rank">{String(idx + 1).padStart(2, '0')}</span>
+                <img src={product.image} alt={product.name} />
+                <div className="drop-status-info">
+                  <span className="drop-status-name">{product.name}</span>
+                  <span className="drop-status-price">${product.price}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── COMING SOON / BRANDS TO WATCH ── */}
+      {comingSoon.length > 0 ? (
+        <section className="drop-section">
+          <div className="drop-section-inner">
+            <h2 className="drop-section-label">Coming Soon</h2>
+            <p className="drop-section-sub">Brands loading new drops. Stay tuned.</p>
+
+            <div className="drop-coming-grid">
+              {comingSoon.map((spread) => {
+                const brand = spread.editorial;
+                const img = spread.images[0]?.url;
+                return (
+                  <div className="drop-coming-card" key={spread.collection?.id}>
+                    {img ? <img src={img} alt="" /> : null}
+                    <div className="drop-coming-text">
+                      <p className="drop-brand-tag">{brand.brandName}</p>
+                      <p className="drop-coming-tease">{brand.dek}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* ── APPLY FOR A FEATURE ── */}
+      <section className="drop-section drop-apply-section">
+        <div className="drop-section-inner drop-apply-inner">
+          <h2 className="drop-section-label">Apply For A Feature</h2>
+          <p className="drop-apply-pitch">
+            You have a brand, a product, a drop, a line, a vision. We give it the spotlight.
+            Brands By Status features small brands with big energy.
+          </p>
+          <a className="drop-apply-btn" href="mailto:hello@brandsbystatus.com?subject=Feature my brand">
+            Get Featured <ArrowRight size={15} />
+          </a>
+        </div>
       </section>
     </>
   );
@@ -2328,7 +2549,7 @@ export default function App() {
   return (
     <>
       <div className="announcement-bar">
-        Made-to-order apparel and accessories from Brands By Status
+        The daily drop paper for small brands
       </div>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Brands By Status home">
@@ -2337,8 +2558,9 @@ export default function App() {
         </a>
         <nav>
           <a href="#top">Today</a>
-          <a href="#brands">Brands</a>
-          <a href="#shop">Shop All</a>
+          <a href="#headlines">Headlines</a>
+          <a href="#status-list">Trending</a>
+          <a href="#shop">Shop</a>
         </nav>
         <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
           <ShoppingBag size={19} />
@@ -2347,79 +2569,82 @@ export default function App() {
       </header>
 
       <main id="top">
-        {/* ── THE MAGAZINE ── */}
+        {/* ── THE DROP PAPER ── */}
         <MagazineFlow magazine={fullMagazine} onSelectProduct={setSelectedProduct} />
 
-        {/* ── SHOP INDEX (searchable grid) ── */}
-        <section className="mag-shop-index" id="shop">
-          <div className="mag-index-header">
-            <div>
-              <p className="mag-kicker">The Index</p>
-              <h2 className="mag-index-title">Every piece, all in one place.</h2>
+        {/* ── SHOP ALL (searchable grid) ── */}
+        <section className="drop-shop-index" id="shop">
+          <div className="drop-section-inner">
+            <div className="drop-shop-header">
+              <div>
+                <h2 className="drop-section-label">Shop All</h2>
+                <p className="drop-section-sub">Every piece from every brand, all in one place.</p>
+              </div>
+              <div className="search-box">
+                <Search size={17} />
+                <input
+                  type="search"
+                  placeholder="Search products"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </div>
             </div>
-            <div className="search-box">
-              <Search size={17} />
-              <input
-                type="search"
-                placeholder="Search products"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-              />
-            </div>
-          </div>
 
-          <div className="collection-tabs" aria-label="Collections">
-            {visibleCollections.map((collection) => (
-              <button
-                className={collection === activeCollection ? 'tab tab-active' : 'tab'}
-                key={collection}
-                onClick={() => setActiveCollection(collection)}
-              >
-                {collection}
-              </button>
-            ))}
-          </div>
-
-          {visibleDesignCollections.length > 1 ? (
-            <div className="collection-tabs design-tabs" aria-label="Design collections">
-              {visibleDesignCollections.map((collection) => (
+            <div className="collection-tabs" aria-label="Filter by category">
+              {visibleCollections.map((collection) => (
                 <button
-                  className={collection === activeDesignCollection ? 'tab tab-active' : 'tab'}
+                  className={collection === activeCollection ? 'tab tab-active' : 'tab'}
                   key={collection}
-                  onClick={() => setActiveDesignCollection(collection)}
+                  onClick={() => setActiveCollection(collection)}
                 >
                   {collection}
                 </button>
               ))}
             </div>
-          ) : null}
 
-          <div className="product-grid">
-            {productsLoading ? (
-              <div className="product-state">
-                <ShoppingBag size={30} />
-                <p>Loading products...</p>
+            {visibleDesignCollections.length > 1 ? (
+              <div className="collection-tabs design-tabs" aria-label="Filter by brand">
+                {visibleDesignCollections.map((collection) => (
+                  <button
+                    className={collection === activeDesignCollection ? 'tab tab-active' : 'tab'}
+                    key={collection}
+                    onClick={() => setActiveDesignCollection(collection)}
+                  >
+                    {collection}
+                  </button>
+                ))}
               </div>
-            ) : filteredProducts.length ? (
-              filteredProducts.map((product) => (
-                <ProductTile product={product} key={product.id} onSelect={setSelectedProduct} />
-              ))
-            ) : (
-              <div className="product-state">
-                <Search size={30} />
-                <p>No products match this search.</p>
-              </div>
-            )}
+            ) : null}
+
+            <div className="product-grid">
+              {productsLoading ? (
+                <div className="product-state">
+                  <ShoppingBag size={30} />
+                  <p>Loading products...</p>
+                </div>
+              ) : filteredProducts.length ? (
+                filteredProducts.map((product) => (
+                  <ProductTile product={product} key={product.id} onSelect={setSelectedProduct} />
+                ))
+              ) : (
+                <div className="product-state">
+                  <Search size={30} />
+                  <p>No products match this search.</p>
+                </div>
+              )}
+            </div>
           </div>
         </section>
 
         {/* ── COLOPHON ── */}
-        <section className="mag-colophon">
-          <p className="mag-kicker">Brands By Status</p>
-          <h2>Status is personal.</h2>
+        <section className="drop-colophon">
+          <p className="drop-brand-tag">Brands By Status</p>
+          <h2>Small brands. Big status.</h2>
           <p>
-            Clothes and goods that carry confidence without asking for permission.
-            Made for people who like their everyday staples with a little more presence.
+            We spotlight small brands, independent creators, and emerging labels.
+            Every drop is curated, every feature is earned, and every piece carries
+            more presence than a logo ever could.
           </p>
         </section>
       </main>

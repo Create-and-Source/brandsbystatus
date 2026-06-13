@@ -2,12 +2,15 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   Check,
+  Image as ImageIcon,
   Minus,
   Plus,
   Search,
   ShoppingBag,
   Sparkles,
+  Trash2,
   Truck,
+  Upload,
   X,
 } from 'lucide-react';
 import './index.css';
@@ -120,6 +123,199 @@ function applyCustomCategories(products, catalogCategories) {
       customCategories,
       collection: customCategories[0]?.name || product.collection,
     };
+  });
+}
+
+function applyCustomCollections(products, catalogCollections) {
+  const collectionById = new Map((catalogCollections.collections || []).map((collection) => [collection.id, collection]));
+  const collectionIdsByProduct = new Map();
+
+  for (const assignment of catalogCollections.assignments || []) {
+    const current = collectionIdsByProduct.get(assignment.product_id) || [];
+    current.push(assignment.collection_id);
+    collectionIdsByProduct.set(assignment.product_id, current);
+  }
+
+  return products.map((product) => {
+    const designCollections = (collectionIdsByProduct.get(product.id) || [])
+      .map((collectionId) => collectionById.get(collectionId))
+      .filter(Boolean);
+
+    return {
+      ...product,
+      designCollections,
+    };
+  });
+}
+
+function getImagesForCollection(collectionId, catalogCollections, orientation) {
+  return (catalogCollections.images || []).filter((image) =>
+    image.collection_id === collectionId && image.orientation === orientation
+  );
+}
+
+function getCollectionUrl(collection) {
+  return `/collections/${collection.slug || normalizeCategoryName(collection.name).replace(/\s+/g, '-')}`;
+}
+
+function getProductsForDesignCollection(products, collectionName) {
+  return products.filter((product) =>
+    (product.designCollections || []).some((collection) => collection.name === collectionName)
+  );
+}
+
+function getProductCategorySummary(products) {
+  const names = new Set();
+
+  for (const product of products) {
+    for (const category of product.customCategories || []) {
+      names.add(category.name);
+    }
+  }
+
+  return [...names].slice(0, 5);
+}
+
+function getDailyIndex(length) {
+  if (!length) return 0;
+  const dayNumber = Math.floor(Date.now() / 86_400_000);
+  return dayNumber % length;
+}
+
+function getEditorialTone(name = '') {
+  const normalized = name.toLowerCase();
+
+  if (normalized.includes('afterglow') || normalized.includes('disco')) {
+    return {
+      kicker: 'After-dark essentials',
+      headline: 'The outfit starts where the night gets interesting.',
+      dek: 'A little glossy, a little nostalgic, and fully built for camera-roll evidence.',
+    };
+  }
+
+  if (normalized.includes('baby girl')) {
+    return {
+      kicker: 'Soft power',
+      headline: 'Pretty does not mean quiet.',
+      dek: 'Baby tees, cheeky graphics, and tiny accessories with a full main-character agenda.',
+    };
+  }
+
+  if (normalized.includes('wild')) {
+    return {
+      kicker: 'Untamed uniform',
+      headline: 'A collection for walking in like you own the room.',
+      dek: 'Tiger energy, vintage resort attitude, and graphics that know exactly what they are doing.',
+    };
+  }
+
+  if (normalized.includes('ocean')) {
+    return {
+      kicker: 'Coastal mood',
+      headline: 'Salt air, oversized layers, and the kind of blue that changes your plans.',
+      dek: 'The soft side of status: easy shapes, washed tones, and pieces made for slow mornings after loud nights.',
+    };
+  }
+
+  if (normalized.includes('july') || normalized.includes('america')) {
+    return {
+      kicker: 'Holiday issue',
+      headline: 'Red, white, blue, and slightly unserious.',
+      dek: 'Patriotic graphics with backyard-party energy: hot dogs, denim, sun, and outfits that came to be photographed.',
+    };
+  }
+
+  if (normalized.includes('lucky') || normalized.includes('manifest')) {
+    return {
+      kicker: 'Manifesting uniform',
+      headline: 'Dress like the plot is already working in your favor.',
+      dek: 'Leopard, little signs from the universe, and pieces that turn getting dressed into a ritual.',
+    };
+  }
+
+  if (normalized.includes('delulu')) {
+    return {
+      kicker: 'Delulu department',
+      headline: 'Reality is optional, the outfit is not.',
+      dek: 'A wink-heavy drop for the girls who understand that confidence is mostly commitment.',
+    };
+  }
+
+  if (normalized.includes('hoodie')) {
+    return {
+      kicker: 'Hoodie report',
+      headline: 'The comfort piece is doing the most.',
+      dek: 'Oversized, washed, zipped, cropped, or fleece-heavy: hoodies are the emotional support layer of the season.',
+    };
+  }
+
+  return {
+    kicker: 'Status edit',
+    headline: `${name || 'The collection'} is having a moment.`,
+    dek: 'A rotating edit of the pieces, moods, and small obsessions shaping the Brands By Status universe right now.',
+  };
+}
+
+function buildCollectionEditorial(collection, products, horizontalImages, portraitImages) {
+  const categories = getProductCategorySummary(products);
+  const tone = getEditorialTone(collection?.name);
+  const productNames = products.map((product) => product.name);
+  const leadProduct = productNames[0] || 'the first piece';
+  const secondProduct = productNames[1] || 'the matching accessory';
+  const productCount = products.length;
+  const imageCount = horizontalImages.length + portraitImages.length;
+  const categoryText = categories.length ? categories.join(', ') : 'tees, layers, and accessories';
+
+  return {
+    ...tone,
+    intro: `${collection?.name || 'This collection'} reads like a mini world: ${categoryText} moving through the same visual attitude. It starts with ${leadProduct}, then keeps widening as new products and campaign images are added.`,
+    mood: `The mood is not a single outfit; it is a repeatable point of view. ${secondProduct} can sit next to a hoodie, a journal, a tote, or a phone case and still feel like it belongs to the same story.`,
+    growth: `Right now this edit includes ${productCount || 'new'} product${productCount === 1 ? '' : 's'} and ${imageCount || 'a growing set of'} campaign image${imageCount === 1 ? '' : 's'}. As more pieces are assigned here, this page becomes a fuller editorial instead of a static collection landing page.`,
+  };
+}
+
+function buildDailyMagazineIssue(collections, products, catalogCollections, categories) {
+  const collectionIssues = (collections || []).map((collection) => {
+    const issueProducts = getProductsForDesignCollection(products, collection.name);
+    const horizontalImages = getImagesForCollection(collection.id, catalogCollections, 'horizontal');
+    const portraitImages = getImagesForCollection(collection.id, catalogCollections, 'portrait_4x5');
+    return {
+      type: 'collection',
+      collection,
+      products: issueProducts,
+      images: [...horizontalImages, ...portraitImages],
+      editorial: buildCollectionEditorial(collection, issueProducts, horizontalImages, portraitImages),
+    };
+  });
+
+  const hoodieProducts = products.filter((product) =>
+    `${product.name} ${product.collection}`.toLowerCase().includes('hoodie')
+  );
+  const categoryIssues = hoodieProducts.length
+    ? [{
+        type: 'category',
+        title: 'All Things Hoodie',
+        products: hoodieProducts,
+        images: hoodieProducts.map((product) => ({ url: product.image, alt: product.name })).filter((image) => image.url),
+        editorial: {
+          ...getEditorialTone('hoodie'),
+          intro: 'Today the magazine is giving the comfort layer its main-character edit: oversized hoodies, cropped zip-ups, soft fleece, and pieces that make staying in look intentional.',
+          mood: 'The hoodie section is where casual becomes styled. Wear it with denim, a tiny bag, a phone case that matches the mood, and absolutely no apology for choosing comfort first.',
+          growth: `${hoodieProducts.length} hoodie-adjacent product${hoodieProducts.length === 1 ? '' : 's'} are currently in the edit, and the story shifts as new layers enter the catalog.`,
+        },
+      }]
+    : [];
+
+  const issues = [...collectionIssues, ...categoryIssues].filter((issue) => issue.products.length || issue.images.length);
+  return issues[getDailyIndex(issues.length)] || null;
+}
+
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error || new Error('Unable to read image'));
+    reader.readAsDataURL(file);
   });
 }
 
@@ -378,6 +574,205 @@ function ProductDetail({ product, isOpen, onClose, onAdd }) {
   );
 }
 
+function RotatingCollectionImage({ images, className, alt }) {
+  const [index, setIndex] = useState(0);
+  const visibleImages = images.filter((image) => image.url);
+
+  useEffect(() => {
+    setIndex(0);
+    if (visibleImages.length < 2) return undefined;
+
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % visibleImages.length);
+    }, 3600);
+
+    return () => window.clearInterval(timer);
+  }, [visibleImages.length]);
+
+  const image = visibleImages[index % Math.max(visibleImages.length, 1)];
+  if (!image) return null;
+
+  return <img className={className} src={image.url} alt={image.alt || alt || ''} />;
+}
+
+function StoreCollectionFeature({ collection, horizontalImages, portraitImages, onSelect }) {
+  return (
+    <article className="design-collection-card">
+      <button type="button" className="design-collection-media" onClick={onSelect}>
+        <RotatingCollectionImage
+          images={horizontalImages}
+          className="design-collection-horizontal"
+          alt={`${collection.name} collection`}
+        />
+        <div className="design-collection-portraits">
+          <RotatingCollectionImage
+            images={portraitImages}
+            className="design-collection-portrait"
+            alt={`${collection.name} portrait`}
+          />
+          <RotatingCollectionImage
+            images={[...portraitImages].reverse()}
+            className="design-collection-portrait"
+            alt={`${collection.name} portrait`}
+          />
+        </div>
+      </button>
+      <div className="design-collection-copy">
+        <p className="eyebrow">Collection</p>
+        <h3>{collection.name}</h3>
+        {collection.description ? <p>{collection.description}</p> : null}
+        <a href={getCollectionUrl(collection)}>
+          Read the editorial <ArrowRight size={15} />
+        </a>
+        <button type="button" onClick={onSelect}>
+          Shop the edit <ArrowRight size={15} />
+        </button>
+      </div>
+    </article>
+  );
+}
+
+function DailyMagazineIssue({ issue, onShop }) {
+  if (!issue) return null;
+
+  const leadImage = issue.images[0]?.url || issue.products[0]?.image;
+  const secondaryImages = [
+    ...(issue.images.slice(1, 4).map((image) => image.url)),
+    ...(issue.products.slice(0, 3).map((product) => product.image)),
+  ].filter(Boolean).slice(0, 3);
+  const collectionUrl = issue.collection ? getCollectionUrl(issue.collection) : '#shop';
+
+  return (
+    <section className="magazine-issue-section">
+      <div className="magazine-issue-layout">
+        <div className="magazine-cover">
+          {leadImage ? <img src={leadImage} alt="" /> : null}
+          <div>
+            <p>Daily Status</p>
+            <span>{new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(new Date())}</span>
+          </div>
+        </div>
+        <article className="magazine-copy">
+          <p className="eyebrow">{issue.editorial.kicker}</p>
+          <h2>{issue.editorial.headline}</h2>
+          <p>{issue.editorial.intro}</p>
+          <p>{issue.editorial.mood}</p>
+          <div className="magazine-actions">
+            {issue.collection ? (
+              <a className="primary-btn" href={collectionUrl}>Read Collection <ArrowRight size={16} /></a>
+            ) : null}
+            <button className="secondary-inline-btn" type="button" onClick={onShop}>
+              Shop Today’s Edit <ArrowRight size={15} />
+            </button>
+          </div>
+        </article>
+        <div className="magazine-strip" aria-label="Daily issue images">
+          {secondaryImages.map((src) => (
+            <img src={src} alt="" key={src} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CollectionEditorialPage({
+  collection,
+  products,
+  horizontalImages,
+  portraitImages,
+  onSelectProduct,
+  cartCount,
+  onOpenCart,
+}) {
+  const editorial = buildCollectionEditorial(collection, products, horizontalImages, portraitImages);
+  const leadImages = horizontalImages.length ? horizontalImages : portraitImages;
+  const leadImage = leadImages[0]?.url || products[0]?.image;
+  const allImages = [...horizontalImages, ...portraitImages];
+  const categories = getProductCategorySummary(products);
+
+  return (
+    <>
+      <div className="announcement-bar">
+        Brands By Status editorial
+      </div>
+      <header className="site-header">
+        <a className="brand" href="/" aria-label="Brands By Status home">
+          <img src="/portfolio/bbs-logo-new.png" alt="Brands By Status" />
+          <span>Brands By Status</span>
+        </a>
+        <nav>
+          <a href="/">Home</a>
+          <a href="#collection-products">Products</a>
+          <a href="#collection-gallery">Gallery</a>
+        </nav>
+        <button className="bag-btn" onClick={onOpenCart} aria-label="Open cart">
+          <ShoppingBag size={19} />
+          <span>{cartCount}</span>
+        </button>
+      </header>
+
+      <main className="editorial-page">
+        <section className="editorial-hero">
+          {leadImage ? <img src={leadImage} alt="" /> : null}
+          <div className="editorial-hero-copy">
+            <p className="eyebrow">{editorial.kicker}</p>
+            <h1>{collection.name}</h1>
+            <p>{editorial.dek}</p>
+          </div>
+        </section>
+
+        <section className="editorial-body">
+          <div className="editorial-meta">
+            <span>{products.length} product{products.length === 1 ? '' : 's'}</span>
+            <span>{allImages.length} image{allImages.length === 1 ? '' : 's'}</span>
+            {categories.map((category) => <span key={category}>{category}</span>)}
+          </div>
+          <article>
+            <h2>{editorial.headline}</h2>
+            <p>{editorial.intro}</p>
+            <p>{editorial.mood}</p>
+            <p>{editorial.growth}</p>
+          </article>
+        </section>
+
+        {allImages.length ? (
+          <section className="editorial-gallery" id="collection-gallery">
+            {allImages.slice(0, 10).map((image, index) => (
+              <figure className={image.orientation === 'horizontal' ? 'wide' : ''} key={image.id || image.url}>
+                <img src={image.url} alt={image.alt || ''} />
+                <figcaption>{String(index + 1).padStart(2, '0')}</figcaption>
+              </figure>
+            ))}
+          </section>
+        ) : null}
+
+        <section className="shop-section editorial-products" id="collection-products">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">Shop the editorial</p>
+              <h2>{collection.name}</h2>
+            </div>
+            <a className="secondary-inline-btn" href="/">All Products <ArrowRight size={15} /></a>
+          </div>
+          <div className="product-grid">
+            {products.length ? (
+              products.map((product) => (
+                <ProductTile product={product} key={product.id} onSelect={onSelectProduct} />
+              ))
+            ) : (
+              <div className="product-state">
+                <ShoppingBag size={30} />
+                <p>This collection is ready for products.</p>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+    </>
+  );
+}
+
 function AdminProductDetail({ product, onClose }) {
   if (!product) return null;
 
@@ -503,16 +898,26 @@ function AdminApp() {
   const [categories, setCategories] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [hiddenProductIds, setHiddenProductIds] = useState([]);
+  const [collections, setCollections] = useState([]);
+  const [collectionAssignments, setCollectionAssignments] = useState([]);
+  const [collectionImages, setCollectionImages] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedCollectionId, setSelectedCollectionId] = useState('');
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [newCollectionName, setNewCollectionName] = useState('');
   const [categoryNameDraft, setCategoryNameDraft] = useState('');
+  const [collectionNameDraft, setCollectionNameDraft] = useState('');
+  const [collectionDescriptionDraft, setCollectionDescriptionDraft] = useState('');
   const [adminQuery, setAdminQuery] = useState('');
   const [adminCategoryFilter, setAdminCategoryFilter] = useState('all');
+  const [adminCollectionFilter, setAdminCollectionFilter] = useState('in-collection');
   const [adminStatus, setAdminStatus] = useState('');
   const [loadingAdmin, setLoadingAdmin] = useState(false);
   const [adminDetailProduct, setAdminDetailProduct] = useState(null);
+  const [draggingUploadOrientation, setDraggingUploadOrientation] = useState('');
 
   const selectedCategory = categories.find((category) => category.id === selectedCategoryId);
+  const selectedCollection = collections.find((collection) => collection.id === selectedCollectionId);
 
   const assignedProductIds = useMemo(() => {
     return new Set(
@@ -537,6 +942,34 @@ function AdminApp() {
 
     return namesByProduct;
   }, [assignments, categories]);
+
+  const assignedCollectionProductIds = useMemo(() => {
+    return new Set(
+      collectionAssignments
+        .filter((assignment) => assignment.collection_id === selectedCollectionId)
+        .map((assignment) => assignment.product_id)
+    );
+  }, [collectionAssignments, selectedCollectionId]);
+
+  const collectionNamesByProduct = useMemo(() => {
+    const collectionById = new Map(collections.map((collection) => [collection.id, collection.name]));
+    const namesByProduct = new Map();
+
+    for (const assignment of collectionAssignments) {
+      const collectionName = collectionById.get(assignment.collection_id);
+      if (!collectionName) continue;
+
+      const currentNames = namesByProduct.get(assignment.product_id) || [];
+      currentNames.push(collectionName);
+      namesByProduct.set(assignment.product_id, currentNames);
+    }
+
+    return namesByProduct;
+  }, [collectionAssignments, collections]);
+
+  const selectedCollectionImages = useMemo(() => {
+    return collectionImages.filter((image) => image.collection_id === selectedCollectionId);
+  }, [collectionImages, selectedCollectionId]);
 
   const hiddenProductIdSet = useMemo(() => new Set(hiddenProductIds), [hiddenProductIds]);
 
@@ -577,6 +1010,43 @@ function AdminApp() {
     { value: 'uncategorized', label: 'Not Categorized', count: adminCategoryCounts.uncategorized },
   ];
 
+  const visibleCollectionProducts = useMemo(() => {
+    return products.filter((product) => {
+      const hasCollections = Boolean(collectionNamesByProduct.get(product.id)?.length);
+      const matchesCollectionStatus =
+        adminCollectionFilter === 'all' ||
+        (adminCollectionFilter === 'in-collection' && assignedCollectionProductIds.has(product.id)) ||
+        (adminCollectionFilter === 'collected' && hasCollections) ||
+        (adminCollectionFilter === 'not-collected' && !hasCollections);
+      const matchesQuery = `${product.name} ${product.collection}`.toLowerCase().includes(adminQuery.toLowerCase());
+
+      return matchesCollectionStatus && matchesQuery;
+    });
+  }, [products, adminQuery, adminCollectionFilter, collectionNamesByProduct, assignedCollectionProductIds]);
+
+  const adminCollectionCounts = useMemo(() => {
+    return products.reduce(
+      (counts, product) => {
+        const hasCollections = Boolean(collectionNamesByProduct.get(product.id)?.length);
+        counts.all += 1;
+        if (hasCollections) {
+          counts.collected += 1;
+        } else {
+          counts.notCollected += 1;
+        }
+        return counts;
+      },
+      { all: 0, collected: 0, notCollected: 0 }
+    );
+  }, [products, collectionNamesByProduct]);
+
+  const collectionFilterOptions = [
+    { value: 'in-collection', label: 'In Collection', count: assignedCollectionProductIds.size },
+    { value: 'all', label: 'All', count: adminCollectionCounts.all },
+    { value: 'collected', label: 'Collected', count: adminCollectionCounts.collected },
+    { value: 'not-collected', label: 'Not Collected', count: adminCollectionCounts.notCollected },
+  ];
+
   async function adminFetch(path, options = {}) {
     const response = await fetch(path, {
       ...options,
@@ -614,35 +1084,48 @@ function AdminApp() {
     }
   }
 
-  const loadAdminData = useCallback(async (preferredCategoryId = '') => {
+  const loadAdminData = useCallback(async (preferredCategoryId = '', preferredCollectionId = '') => {
     setLoadingAdmin(true);
     setAdminStatus('Loading products and categories...');
 
     try {
-      const [productsResponse, categoriesResponse] = await Promise.all([
+      const [productsResponse, categoriesResponse, collectionsResponse] = await Promise.all([
         fetch('/api/printify-products'),
         fetch('/api/product-categories'),
+        fetch('/api/product-collections'),
       ]);
       const productsData = await productsResponse.json();
       const categoriesData = await categoriesResponse.json();
+      const collectionsData = await collectionsResponse.json();
 
       if (!productsResponse.ok) throw new Error(productsData.error || 'Unable to load products');
       if (!categoriesResponse.ok) throw new Error(categoriesData.error || 'Unable to load categories');
+      if (!collectionsResponse.ok) throw new Error(collectionsData.error || 'Unable to load collections');
 
       const nextCategories = categoriesData.categories || [];
       const selectedCategoryStillExists = nextCategories.some((category) => category.id === preferredCategoryId);
       const nextSelectedId = selectedCategoryStillExists ? preferredCategoryId : nextCategories[0]?.id || '';
       const nextSelectedCategory = nextCategories.find((category) => category.id === nextSelectedId);
+      const nextCollections = collectionsData.collections || [];
+      const selectedCollectionStillExists = nextCollections.some((collection) => collection.id === preferredCollectionId);
+      const nextSelectedCollectionId = selectedCollectionStillExists ? preferredCollectionId : nextCollections[0]?.id || '';
+      const nextSelectedCollection = nextCollections.find((collection) => collection.id === nextSelectedCollectionId);
 
       setProducts(productsData.products || []);
       setCategories(nextCategories);
       setAssignments(categoriesData.assignments || []);
       setHiddenProductIds(categoriesData.hiddenProductIds || []);
+      setCollections(nextCollections);
+      setCollectionAssignments(collectionsData.assignments || []);
+      setCollectionImages(collectionsData.images || []);
       setSelectedCategoryId(nextSelectedId);
+      setSelectedCollectionId(nextSelectedCollectionId);
       setCategoryNameDraft(nextSelectedCategory?.name || '');
+      setCollectionNameDraft(nextSelectedCollection?.name || '');
+      setCollectionDescriptionDraft(nextSelectedCollection?.description || '');
       setAdminStatus(
-        categoriesData.setupRequired
-          ? categoriesData.message || 'Supabase setup is required before categories can be saved.'
+        categoriesData.setupRequired || collectionsData.setupRequired
+          ? categoriesData.message || collectionsData.message || 'Supabase setup is required before categories and collections can be saved.'
           : `${productsData.products?.length || 0} products loaded`
       );
     } catch (error) {
@@ -788,6 +1271,151 @@ function AdminApp() {
     } catch (error) {
       setAdminStatus(error.message);
       await loadAdminData(selectedCategoryId);
+    }
+  }
+
+  async function createCollection(event) {
+    event.preventDefault();
+    if (!newCollectionName.trim()) return;
+
+    try {
+      const data = await adminFetch('/api/product-collections', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'createCollection', name: newCollectionName }),
+      });
+      setNewCollectionName('');
+      if (data.existing) {
+        setAdminStatus(`Selected existing ${data.collection.name}`);
+      }
+      const nextCollectionId = data.collection?.id || selectedCollectionId;
+      await loadAdminData(selectedCategoryId, nextCollectionId);
+    } catch (error) {
+      setAdminStatus(error.message);
+      await loadAdminData(selectedCategoryId, selectedCollectionId);
+    }
+  }
+
+  async function updateCollection(event) {
+    event.preventDefault();
+    const nextName = collectionNameDraft.trim();
+
+    if (!selectedCollectionId || !nextName) return;
+
+    try {
+      await adminFetch('/api/product-collections', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'updateCollection',
+          collectionId: selectedCollectionId,
+          name: nextName,
+          description: collectionDescriptionDraft,
+        }),
+      });
+      setAdminStatus(`Updated ${nextName}`);
+      await loadAdminData(selectedCategoryId, selectedCollectionId);
+    } catch (error) {
+      setAdminStatus(error.message);
+    }
+  }
+
+  async function deleteCollection() {
+    if (!selectedCollectionId) return;
+
+    try {
+      await adminFetch('/api/product-collections', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'deleteCollection', collectionId: selectedCollectionId }),
+      });
+      setSelectedCollectionId('');
+      await loadAdminData(selectedCategoryId, '');
+    } catch (error) {
+      setAdminStatus(error.message);
+    }
+  }
+
+  async function toggleCollectionAssignment(productId, checked) {
+    if (!selectedCollectionId) return;
+
+    const optimistic = checked
+      ? [...collectionAssignments, { product_id: productId, collection_id: selectedCollectionId }]
+      : collectionAssignments.filter(
+          (assignment) => !(assignment.product_id === productId && assignment.collection_id === selectedCollectionId)
+        );
+    setCollectionAssignments(optimistic);
+
+    try {
+      await adminFetch('/api/product-collections', {
+        method: 'POST',
+        body: JSON.stringify({
+          action: checked ? 'assignProduct' : 'unassignProduct',
+          collectionId: selectedCollectionId,
+          productId,
+        }),
+      });
+    } catch (error) {
+      setAdminStatus(error.message);
+      await loadAdminData(selectedCategoryId, selectedCollectionId);
+    }
+  }
+
+  async function uploadCollectionFiles(files, orientation) {
+    const imageFiles = Array.from(files || []).filter((file) => file.type.startsWith('image/'));
+
+    if (!imageFiles.length || !selectedCollectionId) return;
+
+    setLoadingAdmin(true);
+    setAdminStatus(
+      `Uploading ${imageFiles.length} ${orientation === 'horizontal' ? 'horizontal' : '4:5'} image${imageFiles.length === 1 ? '' : 's'}...`
+    );
+
+    try {
+      for (const file of imageFiles) {
+        const dataUrl = await readFileAsDataUrl(file);
+        await adminFetch('/api/product-collections', {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'addImage',
+            collectionId: selectedCollectionId,
+            orientation,
+            fileName: file.name,
+            dataUrl,
+            alt: `${selectedCollection?.name || 'Collection'} image`,
+          }),
+        });
+      }
+      setAdminStatus(`Uploaded ${imageFiles.length} collection image${imageFiles.length === 1 ? '' : 's'}`);
+      await loadAdminData(selectedCategoryId, selectedCollectionId);
+    } catch (error) {
+      setAdminStatus(error.message);
+    } finally {
+      setLoadingAdmin(false);
+      setDraggingUploadOrientation('');
+    }
+  }
+
+  async function uploadCollectionImage(event, orientation) {
+    const files = event.target.files;
+    event.target.value = '';
+    await uploadCollectionFiles(files, orientation);
+  }
+
+  async function dropCollectionImages(event, orientation) {
+    event.preventDefault();
+    event.stopPropagation();
+    setDraggingUploadOrientation('');
+    await uploadCollectionFiles(event.dataTransfer.files, orientation);
+  }
+
+  async function deleteCollectionImage(imageId) {
+    try {
+      await adminFetch('/api/product-collections', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'deleteImage', imageId }),
+      });
+      setCollectionImages((current) => current.filter((image) => image.id !== imageId));
+      setAdminStatus('Collection image removed');
+    } catch (error) {
+      setAdminStatus(error.message);
     }
   }
 
@@ -946,6 +1574,208 @@ function AdminApp() {
         </section>
       </section>
 
+      <section className="admin-collections-panel">
+        <div className="admin-collections-head">
+          <div>
+            <p className="eyebrow">Design Collections</p>
+            <h2>{selectedCollection?.name || 'Create a collection'}</h2>
+            <p>
+              Categories are garment types. Collections are the shared design story, drop,
+              or visual world those products belong to.
+            </p>
+          </div>
+          <button onClick={deleteCollection} disabled={!selectedCollectionId}>Delete Collection</button>
+        </div>
+
+        <div className="admin-collections-grid">
+          <aside className="admin-sidebar">
+            <form className="admin-create" onSubmit={createCollection}>
+              <label>New Collection</label>
+              <input
+                type="text"
+                placeholder="e.g. Afterglow Disco Cherries"
+                value={newCollectionName}
+                onChange={(event) => setNewCollectionName(event.target.value)}
+              />
+              <button type="submit">Add</button>
+            </form>
+
+            <div className="admin-category-list">
+              {collections.map((collection) => (
+                <button
+                  className={collection.id === selectedCollectionId ? 'admin-category active' : 'admin-category'}
+                  key={collection.id}
+                  onClick={() => {
+                    setSelectedCollectionId(collection.id);
+                    setCollectionNameDraft(collection.name);
+                    setCollectionDescriptionDraft(collection.description || '');
+                    setAdminCollectionFilter('in-collection');
+                  }}
+                >
+                  <span>{collection.name}</span>
+                  <strong>
+                    {collectionAssignments.filter((assignment) => assignment.collection_id === collection.id).length}
+                  </strong>
+                </button>
+              ))}
+            </div>
+          </aside>
+
+          <section className="admin-collection-workspace">
+            <form className="admin-edit-collection" onSubmit={updateCollection}>
+              <label htmlFor="collection-name">Collection name</label>
+              <input
+                id="collection-name"
+                type="text"
+                placeholder="Select a collection"
+                value={collectionNameDraft}
+                disabled={!selectedCollectionId}
+                onChange={(event) => setCollectionNameDraft(event.target.value)}
+              />
+              <label htmlFor="collection-description">Collection note</label>
+              <textarea
+                id="collection-description"
+                placeholder="Optional short styling note for the storefront"
+                value={collectionDescriptionDraft}
+                disabled={!selectedCollectionId}
+                onChange={(event) => setCollectionDescriptionDraft(event.target.value)}
+              />
+              <button type="submit" disabled={!selectedCollectionId || !collectionNameDraft.trim()}>
+                Save Collection
+              </button>
+            </form>
+
+            <div className="admin-image-upload-grid">
+              {[
+                ['horizontal', 'Horizontal Images', 'Best for wide collection headers and editorial banners.'],
+                ['portrait_4x5', '4:5 Images', 'Best for product-story tiles, lookbook cards, and mobile.'],
+              ].map(([orientation, title, description]) => {
+                const imagesForOrientation = selectedCollectionImages.filter((image) => image.orientation === orientation);
+
+                return (
+                  <div
+                    className={`admin-image-upload-card${draggingUploadOrientation === orientation ? ' drag-active' : ''}${!selectedCollectionId || loadingAdmin ? ' disabled' : ''}`}
+                    key={orientation}
+                    onDragEnter={(event) => {
+                      event.preventDefault();
+                      if (selectedCollectionId && !loadingAdmin) setDraggingUploadOrientation(orientation);
+                    }}
+                    onDragOver={(event) => {
+                      event.preventDefault();
+                      if (selectedCollectionId && !loadingAdmin) event.dataTransfer.dropEffect = 'copy';
+                    }}
+                    onDragLeave={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget)) {
+                        setDraggingUploadOrientation('');
+                      }
+                    }}
+                    onDrop={(event) => dropCollectionImages(event, orientation)}
+                  >
+                    <div>
+                      <ImageIcon size={19} />
+                      <h3>{title}</h3>
+                      <p>{description}</p>
+                    </div>
+                    <div className="admin-drop-zone">
+                      <Upload size={18} />
+                      <span>Drag photos here</span>
+                      <small>Drop JPG, PNG, or WebP files into this {orientation === 'horizontal' ? 'horizontal' : '4:5'} pool.</small>
+                    </div>
+                    <label className={`admin-upload-button${!selectedCollectionId || loadingAdmin ? ' disabled' : ''}`}>
+                      <Upload size={15} />
+                      Upload
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/png,image/jpeg,image/webp"
+                        disabled={!selectedCollectionId || loadingAdmin}
+                        onChange={(event) => uploadCollectionImage(event, orientation)}
+                      />
+                    </label>
+                    <div className={`admin-upload-preview ${orientation === 'portrait_4x5' ? 'portrait' : 'horizontal'}`}>
+                      {imagesForOrientation.length ? (
+                        imagesForOrientation.map((image) => (
+                          <figure key={image.id}>
+                            <img src={image.url} alt="" />
+                            <button type="button" onClick={() => deleteCollectionImage(image.id)} aria-label="Delete image">
+                              <Trash2 size={14} />
+                            </button>
+                          </figure>
+                        ))
+                      ) : (
+                        <span>No images yet</span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="admin-products admin-collection-products">
+              <div className="admin-products-head">
+                <div>
+                  <h2>Products in Collection</h2>
+                  <p>{selectedCollection ? `Add products that share the ${selectedCollection.name} design story.` : 'Choose or create a collection first.'}</p>
+                </div>
+                <div className="admin-actions compact">
+                  <input
+                    type="search"
+                    placeholder="Search products"
+                    value={adminQuery}
+                    onChange={(event) => setAdminQuery(event.target.value)}
+                  />
+                  <button onClick={() => loadAdminData(selectedCategoryId, selectedCollectionId)} disabled={loadingAdmin}>Refresh</button>
+                </div>
+                <div className="admin-filter-tabs" aria-label="Collection status filter">
+                  {collectionFilterOptions.map((option) => (
+                    <button
+                      className={adminCollectionFilter === option.value ? 'active' : ''}
+                      key={option.value}
+                      type="button"
+                      onClick={() => setAdminCollectionFilter(option.value)}
+                    >
+                      {option.label} <span>{option.count}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="admin-product-list collection-product-list">
+                {visibleCollectionProducts.map((product) => {
+                  const productCollectionNames = collectionNamesByProduct.get(product.id) || [];
+                  const productIsHidden = hiddenProductIdSet.has(product.id);
+
+                  return (
+                    <div className={`admin-product-row${productIsHidden ? ' admin-product-row-hidden' : ''}`} key={product.id}>
+                      <input
+                        type="checkbox"
+                        checked={assignedCollectionProductIds.has(product.id)}
+                        disabled={!selectedCollectionId}
+                        onChange={(event) => toggleCollectionAssignment(product.id, event.target.checked)}
+                      />
+                      <img src={product.image} alt="" onClick={() => setAdminDetailProduct(product)} style={{ cursor: 'pointer' }} />
+                      <span className="admin-product-info" onClick={() => setAdminDetailProduct(product)} style={{ cursor: 'pointer' }}>
+                        <span>{product.name}</span>
+                        <span className="admin-product-categories">
+                          {productCollectionNames.length ? (
+                            productCollectionNames.map((collectionName) => (
+                              <small key={collectionName}>{collectionName}</small>
+                            ))
+                          ) : (
+                            <small className="empty">No collection</small>
+                          )}
+                        </span>
+                      </span>
+                      <strong>{formatCurrency(product.price)}</strong>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
       {adminDetailProduct ? (
         <AdminProductDetail product={adminDetailProduct} onClose={() => setAdminDetailProduct(null)} />
       ) : null}
@@ -1012,8 +1842,10 @@ export default function App() {
   const [orderLoading, setOrderLoading] = useState(false);
   const [storeProducts, setStoreProducts] = useState(cachedProducts);
   const [catalogCategories, setCatalogCategories] = useState({ categories: [], assignments: [] });
+  const [catalogCollections, setCatalogCollections] = useState({ collections: [], assignments: [], images: [] });
   const [productsLoading, setProductsLoading] = useState(!cachedProducts.length);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [activeDesignCollection, setActiveDesignCollection] = useState('All');
 
   useEffect(() => {
     let cancelled = false;
@@ -1059,8 +1891,22 @@ export default function App() {
       }
     }
 
+    async function loadCatalogCollections() {
+      try {
+        const response = await fetch('/api/product-collections');
+        const data = await response.json();
+
+        if (!cancelled && response.ok) {
+          setCatalogCollections(data);
+        }
+      } catch {
+        // The shop can still render products if custom collections are not configured yet.
+      }
+    }
+
     loadPrintifyProducts();
     loadCatalogCategories();
+    loadCatalogCollections();
 
     return () => {
       cancelled = true;
@@ -1070,27 +1916,34 @@ export default function App() {
   const categorizedProducts = useMemo(
     () => {
       const hiddenIds = new Set(catalogCategories.hiddenProductIds || []);
-      return applyCustomCategories(
+      return applyCustomCollections(
+        applyCustomCategories(
         storeProducts.filter((product) => !hiddenIds.has(product.id)),
         catalogCategories
+        ),
+        catalogCollections
       );
     },
-    [storeProducts, catalogCategories]
+    [storeProducts, catalogCategories, catalogCollections]
   );
 
   const filteredProducts = useMemo(() => {
     return categorizedProducts.filter((product) => {
       const customCategoryNames = product.customCategories?.map((category) => category.name) || [];
+      const designCollectionNames = product.designCollections?.map((collection) => collection.name) || [];
       const matchesCollection =
         activeCollection === 'All' ||
         customCategoryNames.includes(activeCollection) ||
         product.collection === activeCollection;
+      const matchesDesignCollection =
+        activeDesignCollection === 'All' ||
+        designCollectionNames.includes(activeDesignCollection);
       const matchesQuery = `${product.name} ${product.collection} ${product.description}`
         .toLowerCase()
         .includes(query.toLowerCase());
-      return matchesCollection && matchesQuery;
+      return matchesCollection && matchesDesignCollection && matchesQuery;
     });
-  }, [activeCollection, query, categorizedProducts]);
+  }, [activeCollection, activeDesignCollection, query, categorizedProducts]);
 
   const visibleCollections = useMemo(() => {
     if (catalogCategories.categories.length) {
@@ -1102,6 +1955,49 @@ export default function App() {
 
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const featuredCollections = visibleCollections.filter((collection) => collection !== 'All').slice(0, 8);
+  const dailyMagazineIssue = useMemo(
+    () => buildDailyMagazineIssue(
+      catalogCollections.collections,
+      categorizedProducts,
+      catalogCollections,
+      catalogCategories.categories
+    ),
+    [catalogCollections, catalogCategories.categories, categorizedProducts]
+  );
+  const storefrontCollections = useMemo(() => {
+    return (catalogCollections.collections || [])
+      .map((collection) => ({
+        ...collection,
+        horizontalImages: getImagesForCollection(collection.id, catalogCollections, 'horizontal'),
+        portraitImages: getImagesForCollection(collection.id, catalogCollections, 'portrait_4x5'),
+      }))
+      .filter((collection) => collection.horizontalImages.length || collection.portraitImages.length)
+      .slice(0, 6);
+  }, [catalogCollections]);
+
+  const visibleDesignCollections = useMemo(() => {
+    return ['All', ...(catalogCollections.collections || []).map((collection) => collection.name)];
+  }, [catalogCollections.collections]);
+
+  const collectionPathSlug = window.location.pathname.match(/^\/collections\/([^/?#]+)/)?.[1] || '';
+  const pageCollection = useMemo(() => {
+    if (!collectionPathSlug) return null;
+    const decodedSlug = decodeURIComponent(collectionPathSlug);
+    return (catalogCollections.collections || []).find((collection) => {
+      const slug = collection.slug || getCollectionUrl(collection).split('/').pop();
+      return slug === decodedSlug;
+    }) || null;
+  }, [catalogCollections.collections, collectionPathSlug]);
+  const pageCollectionProducts = useMemo(
+    () => (pageCollection ? getProductsForDesignCollection(categorizedProducts, pageCollection.name) : []),
+    [categorizedProducts, pageCollection]
+  );
+  const pageHorizontalImages = pageCollection
+    ? getImagesForCollection(pageCollection.id, catalogCollections, 'horizontal')
+    : [];
+  const pagePortraitImages = pageCollection
+    ? getImagesForCollection(pageCollection.id, catalogCollections, 'portrait_4x5')
+    : [];
 
   function addToCart(product, color, size, image) {
     const variant = findPrintifyVariant(product, color, size);
@@ -1177,6 +2073,70 @@ export default function App() {
     return <CheckoutSuccess />;
   }
 
+  if (collectionPathSlug) {
+    if (!pageCollection) {
+      return (
+        <>
+          <div className="announcement-bar">Brands By Status editorial</div>
+          <header className="site-header">
+            <a className="brand" href="/" aria-label="Brands By Status home">
+              <img src="/portfolio/bbs-logo-new.png" alt="Brands By Status" />
+              <span>Brands By Status</span>
+            </a>
+            <nav>
+              <a href="/">Home</a>
+              <a href="/#design-collections">Collections</a>
+              <a href="/#shop">Shop</a>
+            </nav>
+            <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
+              <ShoppingBag size={19} />
+              <span>{cartCount}</span>
+            </button>
+          </header>
+          <main className="editorial-page">
+            <section className="editorial-missing">
+              <p className="eyebrow">Collection page</p>
+              <h1>This editorial is getting dressed.</h1>
+              <p>Once the collection is published with images or products, this page becomes its living magazine story.</p>
+              <a className="primary-btn" href="/#design-collections">View Collections <ArrowRight size={16} /></a>
+            </section>
+          </main>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <CollectionEditorialPage
+          collection={pageCollection}
+          products={pageCollectionProducts}
+          horizontalImages={pageHorizontalImages}
+          portraitImages={pagePortraitImages}
+          onSelectProduct={setSelectedProduct}
+          cartCount={cartCount}
+          onOpenCart={() => setCartOpen(true)}
+        />
+        <CartDrawer
+          cart={cart}
+          isOpen={cartOpen}
+          onClose={() => setCartOpen(false)}
+          onUpdateQty={updateQty}
+          onRemove={(cartId) => setCart((current) => current.filter((item) => item.cartId !== cartId))}
+          onSubmitOrder={startStripeCheckout}
+          orderStatus={orderStatus}
+          orderLoading={orderLoading}
+        />
+        <ProductDetail
+          key={selectedProduct?.id || 'closed'}
+          product={selectedProduct}
+          isOpen={Boolean(selectedProduct)}
+          onClose={() => setSelectedProduct(null)}
+          onAdd={addToCart}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <div className="announcement-bar">
@@ -1188,8 +2148,9 @@ export default function App() {
           <span>Brands By Status</span>
         </a>
         <nav>
+          <a href="#daily-status">Magazine</a>
           <a href="#shop">Shop</a>
-          <a href="#collections">Collections</a>
+          <a href="#design-collections">Collections</a>
           <a href="#story">Story</a>
         </nav>
         <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
@@ -1228,6 +2189,56 @@ export default function App() {
             by the way you actually shop: tees, hoodies, tanks, bags, phone cases, journals, and seasonal drops.
           </p>
         </section>
+
+        <DailyMagazineIssue
+          issue={dailyMagazineIssue}
+          onShop={() => {
+            setActiveCollection('All');
+            if (dailyMagazineIssue?.collection) {
+              setActiveDesignCollection(dailyMagazineIssue.collection.name);
+              setQuery('');
+            } else {
+              setActiveDesignCollection('All');
+              setQuery('hoodie');
+            }
+            document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+        />
+
+        {storefrontCollections.length ? (
+          <section className="design-collections-section" id="design-collections">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Shop by collection</p>
+                <h2>Stories, drops, and design worlds.</h2>
+              </div>
+              <button
+                className="secondary-inline-btn"
+                type="button"
+                onClick={() => {
+                  setActiveDesignCollection('All');
+                  document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                View All Products <ArrowRight size={15} />
+              </button>
+            </div>
+            <div className="design-collection-grid">
+              {storefrontCollections.map((collection) => (
+                <StoreCollectionFeature
+                  key={collection.id}
+                  collection={collection}
+                  horizontalImages={collection.horizontalImages}
+                  portraitImages={collection.portraitImages}
+                  onSelect={() => {
+                    setActiveDesignCollection(collection.name);
+                    document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                />
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="feature-band" id="collections">
           <div>
@@ -1298,6 +2309,20 @@ export default function App() {
               </button>
             ))}
           </div>
+
+          {visibleDesignCollections.length > 1 ? (
+            <div className="collection-tabs design-tabs" aria-label="Design collections">
+              {visibleDesignCollections.map((collection) => (
+                <button
+                  className={collection === activeDesignCollection ? 'tab tab-active' : 'tab'}
+                  key={collection}
+                  onClick={() => setActiveDesignCollection(collection)}
+                >
+                  {collection}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
           <div className="product-grid">
             {productsLoading ? (

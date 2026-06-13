@@ -7,6 +7,10 @@
     {
       "source": "/checkout-success",
       "destination": "/index.html"
+    },
+    {
+      "source": "/collections/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

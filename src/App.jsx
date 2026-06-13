@@ -1068,33 +1068,42 @@ function CollectionEditorialPage({
       </header>
 
       <main className="ed-page">
-        {/* ── COVER ── */}
-        <section className="ed-cover">
-          {leadImage ? <img src={leadImage} alt="" className="ed-cover-img" /> : null}
-          <div className="ed-cover-overlay" />
-          <div className="ed-cover-copy">
-            <p className="ed-kicker">{editorial.kicker}</p>
-            <h1 className="ed-title">{collection.name}</h1>
-            <p className="ed-dek">{editorial.dek}</p>
+        {/* ── NEWSPAPER MASTHEAD ── */}
+        <section className="ed-masthead">
+          <div className="ed-masthead-rule" />
+          <p className="ed-dateline">Brands By Status &mdash; Editorial Desk</p>
+          <h1 className="ed-title">{collection.name}</h1>
+          <p className="ed-dek">{editorial.dek}</p>
+          <div className="ed-masthead-rule" />
+        </section>
+
+        {/* ── LEAD IMAGE (newspaper-sized, captioned) ── */}
+        {leadImage ? (
+          <figure className="ed-figure ed-figure-lead">
+            <img src={leadImage} alt={collection.name} />
+            <figcaption>{editorial.kicker || 'From the current collection'}</figcaption>
+          </figure>
+        ) : null}
+
+        {/* ── OPENING BODY TEXT ── */}
+        <section className="ed-body">
+          <h2 className="ed-headline">{editorial.headline}</h2>
+          <p className="ed-byline">By the Brands By Status editorial team</p>
+          <div className="ed-columns">
+            <p>{editorial.intro}</p>
+            <p>{editorial.scene || editorial.mood}</p>
           </div>
         </section>
 
-        {/* ── OPENING TEXT ── */}
-        <section className="ed-opening">
-          <div className="ed-opening-inner">
-            <h2 className="ed-headline">{editorial.headline}</h2>
-            <div className="ed-lede">
-              <p>{editorial.intro}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ── FULL-BLEED IMAGE + PULL QUOTE ── */}
+        {/* ── INLINE PHOTO (float-style, like a newspaper insert) ── */}
         {secondImage ? (
-          <section className="ed-spread">
-            <img src={secondImage} alt="" className="ed-spread-img" />
+          <section className="ed-body">
+            <figure className="ed-figure ed-figure-inline">
+              <img src={secondImage} alt="" />
+              <figcaption>{editorial.brandName} &mdash; photographed for Brands By Status</figcaption>
+            </figure>
             <blockquote className="ed-pullquote">
-              {editorial.mood}
+              &ldquo;{editorial.quotes?.[0] || editorial.mood}&rdquo;
             </blockquote>
           </section>
         ) : null}
@@ -1145,25 +1154,32 @@ function CollectionEditorialPage({
           </section>
         ) : null}
 
-        {/* ── MID-SPREAD IMAGE ── */}
+        {/* ── MID-ARTICLE PHOTO ── */}
         {thirdImage ? (
-          <section className="ed-mid-spread">
+          <figure className="ed-figure ed-figure-mid">
             <img src={thirdImage} alt="" />
-          </section>
+            <figcaption>Continued &mdash; {collection.name}</figcaption>
+          </figure>
         ) : null}
 
         {/* ── CLOSING TEXT ── */}
-        <section className="ed-closing">
+        <section className="ed-body ed-closing">
           <p>{editorial.growth}</p>
+          {editorial.quotes?.[1] ? (
+            <blockquote className="ed-pullquote">
+              &ldquo;{editorial.quotes[1]}&rdquo;
+            </blockquote>
+          ) : null}
         </section>
 
-        {/* ── REMAINING GALLERY ── */}
+        {/* ── REMAINING GALLERY (contact sheet style) ── */}
         {remainingImages.length ? (
           <section className="ed-gallery" id="gallery">
+            <p className="ed-gallery-header">Additional images</p>
             {remainingImages.map((image, index) => (
               <figure className={image.orientation === 'horizontal' ? 'ed-gallery-wide' : ''} key={image.id || image.url}>
                 <img src={image.url} alt={image.alt || ''} />
-                <figcaption>{String(index + 4).padStart(2, '0')}</figcaption>
+                <figcaption>Fig. {index + 4}</figcaption>
               </figure>
             ))}
           </section>

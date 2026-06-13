@@ -1137,7 +1137,7 @@ function CollectionEditorialPage({
             <div className="ed-section-label">
               <span>The Edit</span>
               <span className="ed-divider" />
-              <span>Coming soon</span>
+              <span>Products loading</span>
             </div>
             <div className="floating-gallery-empty">
               {allImages.slice(0, 6).map((image, i) => (

@@ -760,12 +760,21 @@ function CollectionEditorialPage({
               products.map((product) => (
                 <ProductTile product={product} key={product.id} onSelect={onSelectProduct} />
               ))
-            ) : (
-              <div className="product-state">
-                <ShoppingBag size={30} />
-                <p>This collection is ready for products.</p>
+            ) : allImages.length ? (
+              <div className="floating-gallery-empty">
+                {allImages.slice(0, 6).map((image, i) => (
+                  <div
+                    className="floating-gallery-item"
+                    key={image.id || image.url}
+                    style={{
+                      animationDelay: `${i * 0.4}s`,
+                    }}
+                  >
+                    <img src={image.url} alt={image.alt || ''} />
+                  </div>
+                ))}
               </div>
-            )}
+            ) : null}
           </div>
         </section>
       </main>

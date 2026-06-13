@@ -1065,6 +1065,53 @@ h3 {
   font-weight: 800;
 }
 
+/* ═══ FLOATING GALLERY (empty product state) ═══ */
+.floating-gallery-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 40px 0;
+  min-height: 320px;
+  align-items: center;
+}
+
+.floating-gallery-item {
+  width: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  animation: floatDrift 4s ease-in-out infinite alternate;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.floating-gallery-item:nth-child(even) {
+  animation-name: floatDriftAlt;
+}
+
+.floating-gallery-item img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 4 / 5;
+}
+
+@keyframes floatDrift {
+  0% { transform: translateY(8px) rotate(-1deg); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translateY(-10px) rotate(1deg); opacity: 1; }
+  100% { transform: translateY(4px) rotate(-0.5deg); opacity: 1; }
+}
+
+@keyframes floatDriftAlt {
+  0% { transform: translateY(-6px) rotate(1deg); opacity: 0; }
+  15% { opacity: 1; }
+  50% { transform: translateY(12px) rotate(-1deg); opacity: 1; }
+  100% { transform: translateY(-3px) rotate(0.5deg); opacity: 1; }
+}
+
 .product-tile {
   min-width: 0;
 }

@@ -1747,31 +1747,64 @@ h3 {
 
 /* ── Editorial page responsive ── */
 @media (max-width: 768px) {
+  .ed-cover {
+    min-height: 65vh;
+  }
+
   .ed-cover-copy {
-    padding: 64px 20px 56px;
+    padding: 48px 12px 40px;
+  }
+
+  .ed-title {
+    font-size: clamp(36px, 10vw, 54px);
+  }
+
+  .ed-dek {
+    font-size: 15px;
   }
 
   .ed-opening {
-    padding: 56px 20px 48px;
+    padding: 40px 12px 32px;
+  }
+
+  .ed-headline {
+    font-size: clamp(26px, 7vw, 38px);
   }
 
   .ed-lede {
     columns: 1;
   }
 
+  .ed-lede p {
+    font-size: 15px;
+  }
+
+  .ed-spread {
+    min-height: 40vh;
+  }
+
+  .ed-spread-img {
+    min-height: 40vh;
+  }
+
   .ed-pullquote {
-    bottom: 24px;
-    left: 20px;
-    right: 20px;
+    bottom: 20px;
+    left: 12px;
+    right: 12px;
+    font-size: 18px;
   }
 
   .ed-the-edit {
-    padding: 48px 20px 64px;
+    padding: 36px 12px 48px;
+  }
+
+  .ed-section-label {
+    margin-bottom: 24px;
   }
 
   .ed-picks {
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 12px;
   }
 
   .ed-pick-feature {
@@ -1784,31 +1817,77 @@ h3 {
     height: auto;
   }
 
-  .ed-gallery {
-    grid-template-columns: 1fr 1fr;
-    padding: 0 20px 56px;
+  .ed-pick-img-btn {
+    aspect-ratio: 1 / 1;
+  }
+
+  .ed-pick-info h3 {
+    font-size: 14px;
+  }
+
+  .ed-pick-price {
+    font-size: 12px;
+  }
+
+  .ed-mid-spread img {
+    max-height: 40vh;
   }
 
   .ed-closing {
-    padding: 48px 20px 56px;
+    padding: 36px 12px 44px;
+    font-size: 15px;
+  }
+
+  .ed-gallery {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 0 12px 44px;
+  }
+
+  .ed-gallery figure {
+    min-height: 160px;
   }
 
   .floating-gallery-empty {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 }
 
 @media (max-width: 480px) {
+  .ed-cover {
+    min-height: 55vh;
+  }
+
   .ed-picks {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .ed-gallery {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    padding: 0 8px 36px;
   }
 
   .ed-gallery figure {
-    min-height: 240px;
+    min-height: 130px;
+  }
+
+  .ed-opening {
+    padding: 32px 8px 28px;
+  }
+
+  .ed-the-edit {
+    padding: 28px 8px 40px;
+  }
+
+  .ed-cover-copy {
+    padding: 36px 8px 32px;
+  }
+
+  .ed-closing {
+    padding: 28px 8px 36px;
   }
 
   .floating-gallery-empty {

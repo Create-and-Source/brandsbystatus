@@ -987,7 +987,88 @@ function MagazineFlow({ magazine, onSelectProduct }) {
         </div>
       </section>
 
-{/* Coming Soon section removed */}
+      {/* ── THE FEED (7-day newsfeed) ── */}
+      {(() => {
+        const allFeedProducts = every.flatMap((s) => s.products.map((p) => ({
+          ...p,
+          collectionName: s.collection?.name || s.title || p.collection,
+          collectionUrl: s.collection ? getCollectionUrl(s.collection) : null,
+        })));
+        const allFeedCollections = every.filter((s) => s.collection).map((s) => s.collection);
+
+        if (!allFeedProducts.length && !allFeedCollections.length) return null;
+
+        // Build 7 days of feed entries
+        const feedDays = [];
+        let productIdx = 0;
+        let collectionIdx = 0;
+
+        for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+          const date = new Date();
+          date.setDate(date.getDate() - dayOffset);
+          const dateStr = date.toLocaleDateString('en-US', { weekday: 'short', month: 'long', day: 'numeric' });
+          const entries = [];
+
+          // Day 0 (today): feature a collection + 2 products
+          // Day 1-2: 3 products each
+          // Day 3: collection announcement + 1 product
+          // Day 4-5: 2 products each
+          // Day 6: collection announcement + 2 products
+
+          if ((dayOffset === 0 || dayOffset === 3 || dayOffset === 6) && allFeedCollections[collectionIdx]) {
+            const col = allFeedCollections[collectionIdx];
+            const brand = getBrandIdentity(col.name);
+            entries.push({ type: 'collection', collection: col, brand, url: getCollectionUrl(col) });
+            collectionIdx++;
+          }
+
+          const productsToday = dayOffset === 0 ? 2 : dayOffset <= 2 ? 3 : 2;
+          for (let p = 0; p < productsToday; p++) {
+            if (productIdx < allFeedProducts.length) {
+              entries.push({ type: 'product', product: allFeedProducts[productIdx] });
+              productIdx++;
+            }
+          }
+
+          if (entries.length) {
+            feedDays.push({ date: dateStr, entries });
+          }
+        }
+
+        return (
+          <section className="drop-section" id="the-feed">
+            <div className="drop-section-inner">
+              <h2 className="drop-section-label">The Feed</h2>
+              <p className="drop-section-sub">This week at Brands By Status.</p>
+
+              <div className="home-feed">
+                {feedDays.map((day) => (
+                  <div className="home-feed-day" key={day.date}>
+                    <p className="home-feed-date">{day.date}</p>
+                    {day.entries.map((entry, ei) => entry.type === 'collection' ? (
+                      <a className="home-feed-collection" key={`col-${ei}`} href={entry.url}>
+                        <span className="home-feed-tag">New Collection</span>
+                        <h3>{entry.collection.name}</h3>
+                        <p>{entry.brand.dek}</p>
+                        <span className="home-feed-link">Read the editorial <ArrowRight size={13} /></span>
+                      </a>
+                    ) : (
+                      <button className="home-feed-product" key={entry.product.id + '-' + ei} onClick={() => onSelectProduct(entry.product)}>
+                        <img src={entry.product.image} alt={entry.product.name} />
+                        <div className="home-feed-product-copy">
+                          <span className="home-feed-tag">{entry.product.collectionName}</span>
+                          <h4>{entry.product.name}</h4>
+                          <span className="home-feed-product-price">${entry.product.price}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ── APPLY FOR A FEATURE ── */}
       <section className="drop-section drop-apply-section">

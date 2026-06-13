@@ -184,15 +184,16 @@ function getDailyIndex(length) {
 }
 
 // Returns a random index that changes every page load but stays stable during the session
-const visitSeed = Math.random();
+const visitSeed = Math.random() * 0.9999;
 function getVisitIndex(length) {
   if (!length) return 0;
-  return Math.floor(visitSeed * length);
+  return Math.floor(visitSeed * length) % length;
 }
 
 function shuffleWithSeed(arr) {
+  if (!arr || !arr.length) return [];
   const shuffled = [...arr];
-  let seed = Math.floor(visitSeed * 1000000);
+  let seed = Math.floor(visitSeed * 1000000) || 1;
   for (let i = shuffled.length - 1; i > 0; i--) {
     seed = (seed * 16807 + 0) % 2147483647;
     const j = seed % (i + 1);
@@ -822,16 +823,18 @@ function StoreCollectionFeature({ collection, horizontalImages, portraitImages, 
 }
 
 function MagazineFlow({ magazine, onSelectProduct }) {
-  if (!magazine?.cover) return null;
+  if (!magazine) return null;
+  if (!magazine.cover && !magazine.allSpreads?.length) return null;
 
   const { cover, spreads, allSpreads: every } = magazine;
-  const allSpreads = [cover, ...spreads];
+  const allSpreads = [cover, ...spreads].filter(Boolean);
   const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
 
   // Shuffle everything per visit so each page load is a different experience
   const shuffledSpreads = shuffleWithSeed(allSpreads);
   const featuredIdx = getVisitIndex(shuffledSpreads.length);
-  const featured = shuffledSpreads[featuredIdx];
+  const featured = shuffledSpreads[featuredIdx] || cover;
+  if (!featured) return null;
   const featuredBrand = featured.editorial;
   const featuredImage = featured.images[0]?.url || featured.products[0]?.image;
   const featuredProducts = featured.products.slice(0, 4);

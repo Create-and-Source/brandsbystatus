@@ -1129,6 +1129,13 @@ function CollectionEditorialPage({
           </div>
         </section>
 
+        {/* ── PULL QUOTE ── */}
+        {editorial.quotes?.[0] ? (
+          <blockquote className="ed-pullquote">
+            &ldquo;{editorial.quotes[0]}&rdquo;
+          </blockquote>
+        ) : null}
+
         {/* ── CATEGORY PILLS ── */}
         {productCategories.length > 2 ? (
           <div className="ed-filter-pills">
@@ -1181,6 +1188,29 @@ function CollectionEditorialPage({
             );
           })}
         </section>
+
+        {/* ── CLOSING ── */}
+        {editorial.scene ? (
+          <section className="ed-body ed-closing">
+            <p>{editorial.scene}</p>
+            {editorial.quotes?.[2] ? (
+              <blockquote className="ed-pullquote">
+                &ldquo;{editorial.quotes[2]}&rdquo;
+              </blockquote>
+            ) : null}
+          </section>
+        ) : null}
+
+        {/* ── GALLERY ── */}
+        {remainingImages.length ? (
+          <section className="ed-gallery" id="gallery">
+            {remainingImages.map((image, index) => (
+              <figure className={image.orientation === 'horizontal' ? 'ed-gallery-wide' : ''} key={image.id || image.url}>
+                <img src={image.url} alt={image.alt || ''} />
+              </figure>
+            ))}
+          </section>
+        ) : null}
       </main>
     </>
   );

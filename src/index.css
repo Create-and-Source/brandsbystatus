@@ -1787,6 +1787,44 @@ h3 {
   letter-spacing: 0.02em;
 }
 
+/* ── Closing ── */
+.ed-closing {
+  border-top: 1px solid var(--line);
+}
+
+.ed-closing p {
+  margin: 0 0 16px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+/* ── Gallery ── */
+.ed-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 28px 0 56px;
+  border-top: 1px solid var(--line);
+}
+
+.ed-gallery figure {
+  margin: 0;
+  overflow: hidden;
+}
+
+.ed-gallery-wide {
+  grid-column: span 2;
+}
+
+.ed-gallery img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+}
+
 /* ── Newspaper responsive ── */
 @media (max-width: 768px) {
   .ed-page {
@@ -1804,6 +1842,10 @@ h3 {
 
   .ed-feed-copy h3 {
     font-size: 14px;
+  }
+
+  .ed-gallery {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

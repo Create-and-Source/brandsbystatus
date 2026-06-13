@@ -1080,11 +1080,7 @@ function CollectionEditorialPage({
         </a>
         <nav className="ed-nav">
           <a href="/">Home</a>
-          <div
-            className="ed-nav-dropdown"
-            onMouseEnter={() => setOpenDropdown('collections')}
-            onMouseLeave={() => setOpenDropdown(null)}
-          >
+          <div className="ed-nav-dropdown">
             <button
               type="button"
               className="ed-nav-trigger"
@@ -1093,19 +1089,18 @@ function CollectionEditorialPage({
               Collections <ChevronDown size={14} />
             </button>
             {openDropdown === 'collections' ? (
-              <div className="ed-nav-menu">
-                {allCollections.map((c) => (
-                  <a key={c.id} href={getCollectionUrl(c)}>{c.name}</a>
-                ))}
-                {!allCollections.length ? <span className="ed-nav-empty">None yet</span> : null}
-              </div>
+              <>
+                <div className="ed-nav-backdrop" onClick={() => setOpenDropdown(null)} />
+                <div className="ed-nav-menu">
+                  {allCollections.map((c) => (
+                    <a key={c.id} href={getCollectionUrl(c)}>{c.name}</a>
+                  ))}
+                  {!allCollections.length ? <span className="ed-nav-empty">None yet</span> : null}
+                </div>
+              </>
             ) : null}
           </div>
-          <div
-            className="ed-nav-dropdown"
-            onMouseEnter={() => setOpenDropdown('categories')}
-            onMouseLeave={() => setOpenDropdown(null)}
-          >
+          <div className="ed-nav-dropdown">
             <button
               type="button"
               className="ed-nav-trigger"
@@ -1114,15 +1109,18 @@ function CollectionEditorialPage({
               Category <ChevronDown size={14} />
             </button>
             {openDropdown === 'categories' ? (
-              <div className="ed-nav-menu">
-                {allCategories.map((cat) => (
-                  <a key={cat} href={`/#shop`} onClick={() => setOpenDropdown(null)}>{cat}</a>
-                ))}
-                {!allCategories.length ? <span className="ed-nav-empty">None yet</span> : null}
-              </div>
+              <>
+                <div className="ed-nav-backdrop" onClick={() => setOpenDropdown(null)} />
+                <div className="ed-nav-menu">
+                  {allCategories.map((cat) => (
+                    <a key={cat} href={`/?category=${encodeURIComponent(cat)}#shop`}>{cat}</a>
+                  ))}
+                  {!allCategories.length ? <span className="ed-nav-empty">None yet</span> : null}
+                </div>
+              </>
             ) : null}
           </div>
-          <a href="/#shop">Shop All</a>
+          <a href="/?category=All#shop">Shop All</a>
         </nav>
         <button className="bag-btn" onClick={onOpenCart} aria-label="Open cart">
           <ShoppingBag size={19} />

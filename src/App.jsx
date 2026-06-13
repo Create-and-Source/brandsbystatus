@@ -912,7 +912,7 @@ function MagazineFlow({ magazine, onSelectProduct }) {
                       <p className="drop-brand-tag">{brand.brandName}</p>
                       <p className="drop-headline-title">{brand.headline}</p>
                       <span className="drop-headline-count">
-                        {spread.products.length} piece{spread.products.length !== 1 ? 's' : ''}
+                        {spread.products.length ? `${spread.products.length} piece${spread.products.length !== 1 ? 's' : ''}` : 'View collection'}
                       </span>
                     </div>
                   </a>

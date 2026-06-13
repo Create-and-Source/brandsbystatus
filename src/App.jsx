@@ -378,6 +378,123 @@ function ProductDetail({ product, isOpen, onClose, onAdd }) {
   );
 }
 
+function AdminProductDetail({ product, onClose }) {
+  if (!product) return null;
+
+  const { colorOptions, sizeOptions } = getProductOptions(product);
+  const colors = colorOptions.map((o) => o.title);
+  const sizes = sizeOptions.map((o) => o.title);
+  const gallery = product.gallery || [];
+  const source = product.source === 'shopify' ? 'Shopify' : 'Printify';
+  const sourceId = product.shopifyProductId || product.printifyProductId || product.id;
+  const variants = product.variants || [];
+  const enabledVariants = variants.filter((v) => v.isEnabled !== false);
+  const prices = enabledVariants.map((v) => v.price).filter((p) => p > 0);
+  const minPrice = prices.length ? Math.min(...prices) : product.price;
+  const maxPrice = prices.length ? Math.max(...prices) : product.price;
+
+  return (
+    <div className="admin-detail-overlay" onClick={onClose}>
+      <div className="admin-detail-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="admin-detail-close" onClick={onClose}><X size={20} /></button>
+
+        <div className="admin-detail-top">
+          <div className="admin-detail-gallery">
+            {gallery.slice(0, 8).map((src, i) => (
+              <img key={i} src={src} alt="" className="admin-detail-thumb" />
+            ))}
+            {!gallery.length && product.image ? (
+              <img src={product.image} alt="" className="admin-detail-thumb" />
+            ) : null}
+          </div>
+          <div className="admin-detail-info">
+            <span className={`admin-source-badge ${source.toLowerCase()}`}>{source}</span>
+            <h2>{product.name}</h2>
+            <p className="admin-detail-collection">{product.collection}</p>
+            <p className="admin-detail-price">
+              {minPrice === maxPrice
+                ? formatCurrency(minPrice)
+                : `${formatCurrency(minPrice)} – ${formatCurrency(maxPrice)}`}
+            </p>
+            <p className="admin-detail-id">
+              <strong>Source ID:</strong> {sourceId}
+            </p>
+            <p className="admin-detail-id">
+              <strong>Internal ID:</strong> {product.id}
+            </p>
+            {product.printProviderId ? (
+              <p className="admin-detail-id">
+                <strong>Print Provider:</strong> {product.printProviderId}
+              </p>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="admin-detail-section">
+          <h3>Description</h3>
+          <p className="admin-detail-desc">{product.description || 'No description'}</p>
+        </div>
+
+        <div className="admin-detail-row">
+          <div className="admin-detail-section">
+            <h3>Colors ({colors.length})</h3>
+            <div className="admin-detail-tags">
+              {colors.map((c) => {
+                const opt = colorOptions.find((o) => o.title === c);
+                return (
+                  <span key={c} className="admin-detail-tag">
+                    {opt?.swatches?.[0] ? (
+                      <span className="admin-swatch" style={{ background: opt.swatches[0] }} />
+                    ) : null}
+                    {c}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+          <div className="admin-detail-section">
+            <h3>Sizes ({sizes.length})</h3>
+            <div className="admin-detail-tags">
+              {sizes.map((s) => (
+                <span key={s} className="admin-detail-tag">{s}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-detail-section">
+          <h3>Variants ({enabledVariants.length} enabled / {variants.length} total)</h3>
+          <div className="admin-detail-variants">
+            <div className="admin-variant-header">
+              <span>SKU</span>
+              <span>Options</span>
+              <span>Price</span>
+              <span>Status</span>
+            </div>
+            {variants.slice(0, 50).map((v) => (
+              <div className="admin-variant-row" key={v.id}>
+                <span className="admin-variant-sku">{v.sku || '—'}</span>
+                <span>
+                  {typeof v.options === 'object' && !Array.isArray(v.options)
+                    ? Object.values(v.options).filter(Boolean).join(' / ')
+                    : '—'}
+                </span>
+                <span>{formatCurrency(v.price)}</span>
+                <span className={v.isEnabled !== false ? 'admin-variant-enabled' : 'admin-variant-disabled'}>
+                  {v.isEnabled !== false ? 'Enabled' : 'Disabled'}
+                </span>
+              </div>
+            ))}
+            {variants.length > 50 ? (
+              <p className="admin-detail-more">+{variants.length - 50} more variants</p>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AdminApp() {
   const [adminPassword, setAdminPassword] = useState(() => window.sessionStorage.getItem('bbs-admin-password') || '');
   const [draftPassword, setDraftPassword] = useState('');
@@ -393,6 +510,7 @@ function AdminApp() {
   const [adminCategoryFilter, setAdminCategoryFilter] = useState('all');
   const [adminStatus, setAdminStatus] = useState('');
   const [loadingAdmin, setLoadingAdmin] = useState(false);
+  const [adminDetailProduct, setAdminDetailProduct] = useState(null);
 
   const selectedCategory = categories.find((category) => category.id === selectedCategoryId);
 
@@ -795,11 +913,12 @@ function AdminApp() {
                     disabled={!selectedCategoryId}
                     onChange={(event) => toggleAssignment(product.id, event.target.checked)}
                   />
-                  <img src={product.image} alt="" />
-                  <span className="admin-product-info">
+                  <img src={product.image} alt="" onClick={() => setAdminDetailProduct(product)} style={{ cursor: 'pointer' }} />
+                  <span className="admin-product-info" onClick={() => setAdminDetailProduct(product)} style={{ cursor: 'pointer' }}>
                     <span>{product.name}</span>
                     <span className="admin-product-categories">
                       {productIsHidden ? <small className="hidden">Hidden</small> : null}
+                      {product.source === 'shopify' ? <small className="shopify-tag">Shopify</small> : null}
                       {productCategoryNames.length ? (
                         productCategoryNames.map((categoryName) => (
                           <small key={categoryName}>{categoryName}</small>
@@ -823,6 +942,10 @@ function AdminApp() {
           </div>
         </section>
       </section>
+
+      {adminDetailProduct ? (
+        <AdminProductDetail product={adminDetailProduct} onClose={() => setAdminDetailProduct(null)} />
+      ) : null}
     </main>
   );
 }

@@ -1114,6 +1114,13 @@ function CollectionEditorialPage({
           <div className="ed-masthead-rule" />
         </section>
 
+        {/* ── LEAD IMAGE ── */}
+        {leadImage ? (
+          <figure className="ed-figure ed-figure-lead">
+            <img src={leadImage} alt={collection.name} />
+          </figure>
+        ) : null}
+
         {/* ── INTRO ── */}
         <section className="ed-body">
           <h2 className="ed-headline">{editorial.headline}</h2>

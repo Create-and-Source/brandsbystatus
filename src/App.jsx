@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   Check,
@@ -753,7 +753,7 @@ function MagazineFlow({ magazine, onSelectProduct }) {
           const isFeature = i === 0;
 
           return (
-            <React.Fragment key={spread.collection?.id || i}>
+            <Fragment key={spread.collection?.id || i}>
               {/* Brand card */}
               <article className={`paper-card ${isFeature ? 'paper-card-feature' : ''}`}>
                 {/* Quote */}
@@ -800,7 +800,7 @@ function MagazineFlow({ magazine, onSelectProduct }) {
                   <p>{floatingQuotes[i % floatingQuotes.length]}</p>
                 </div>
               ) : null}
-            </React.Fragment>
+            </Fragment>
           );
         })}
       </section>

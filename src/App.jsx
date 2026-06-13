@@ -1156,9 +1156,9 @@ function CollectionEditorialPage({
           <div className="ed-section-label">
             <span>The Feed</span>
             <span className="ed-divider" />
-            <span>{filteredEditProducts.length} piece{filteredEditProducts.length === 1 ? '' : 's'}</span>
+            <span>{filteredEditProducts.length ? `${filteredEditProducts.length} piece${filteredEditProducts.length === 1 ? '' : 's'}` : ''}</span>
           </div>
-          {filteredEditProducts.map((product, i) => {
+          {filteredEditProducts.length ? filteredEditProducts.map((product, i) => {
             const feedDate = new Date();
             feedDate.setDate(feedDate.getDate() - (i * 2 + Math.floor(i / 3)));
             const dateStr = feedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -1185,7 +1185,15 @@ function CollectionEditorialPage({
                 </article>
               </Fragment>
             );
-          })}
+          }) : allImages.length ? (
+            <div className="ed-feed-loading">
+              {allImages.slice(0, 4).map((image, i) => (
+                <div className="ed-feed-loading-img" key={image.id || image.url} style={{ animationDelay: `${i * 0.5}s` }}>
+                  <img src={image.url} alt={image.alt || ''} />
+                </div>
+              ))}
+            </div>
+          ) : null}
         </section>
 
         {/* ── CLOSING ── */}

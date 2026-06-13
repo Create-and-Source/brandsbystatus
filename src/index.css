@@ -1787,6 +1787,39 @@ h3 {
   letter-spacing: 0.02em;
 }
 
+/* ── Feed loading (floating images) ── */
+.ed-feed-loading {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 32px 0 48px;
+}
+
+.ed-feed-loading-img {
+  width: 120px;
+  overflow: hidden;
+  animation: floatGently 3.5s ease-in-out infinite alternate;
+}
+
+.ed-feed-loading-img img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+}
+
+@keyframes floatGently {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-12px); }
+}
+
+@media (max-width: 480px) {
+  .ed-feed-loading-img {
+    width: 80px;
+  }
+}
+
 /* ── Closing ── */
 .ed-closing {
   border-top: 1px solid var(--line);

@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ArrowRight,
   Check,
+  ChevronDown,
   Image as ImageIcon,
   Minus,
   Plus,
@@ -1037,6 +1038,8 @@ function CollectionEditorialPage({
   onSelectProduct,
   cartCount,
   onOpenCart,
+  allCollections = [],
+  allCategories = [],
 }) {
   const editorial = buildCollectionEditorial(collection, products, horizontalImages, portraitImages);
   const leadImages = horizontalImages.length ? horizontalImages : portraitImages;
@@ -1045,6 +1048,7 @@ function CollectionEditorialPage({
   const secondImage = allImages[1]?.url;
   const thirdImage = allImages[2]?.url;
   const remainingImages = allImages.slice(3);
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   return (
     <>
@@ -1056,10 +1060,51 @@ function CollectionEditorialPage({
           <img src="/portfolio/bbs-logo-new.png" alt="Brands By Status" />
           <span>Brands By Status</span>
         </a>
-        <nav>
+        <nav className="ed-nav">
           <a href="/">Home</a>
-          <a href="#the-edit">The Edit</a>
-          {allImages.length > 3 ? <a href="#gallery">Gallery</a> : null}
+          <div
+            className="ed-nav-dropdown"
+            onMouseEnter={() => setOpenDropdown('collections')}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
+            <button
+              type="button"
+              className="ed-nav-trigger"
+              onClick={() => setOpenDropdown(openDropdown === 'collections' ? null : 'collections')}
+            >
+              Collections <ChevronDown size={14} />
+            </button>
+            {openDropdown === 'collections' ? (
+              <div className="ed-nav-menu">
+                {allCollections.map((c) => (
+                  <a key={c.id} href={getCollectionUrl(c)}>{c.name}</a>
+                ))}
+                {!allCollections.length ? <span className="ed-nav-empty">None yet</span> : null}
+              </div>
+            ) : null}
+          </div>
+          <div
+            className="ed-nav-dropdown"
+            onMouseEnter={() => setOpenDropdown('categories')}
+            onMouseLeave={() => setOpenDropdown(null)}
+          >
+            <button
+              type="button"
+              className="ed-nav-trigger"
+              onClick={() => setOpenDropdown(openDropdown === 'categories' ? null : 'categories')}
+            >
+              Category <ChevronDown size={14} />
+            </button>
+            {openDropdown === 'categories' ? (
+              <div className="ed-nav-menu">
+                {allCategories.map((cat) => (
+                  <a key={cat} href={`/#shop`} onClick={() => setOpenDropdown(null)}>{cat}</a>
+                ))}
+                {!allCategories.length ? <span className="ed-nav-empty">None yet</span> : null}
+              </div>
+            ) : null}
+          </div>
+          <a href="/#shop">Shop All</a>
         </nav>
         <button className="bag-btn" onClick={onOpenCart} aria-label="Open cart">
           <ShoppingBag size={19} />
@@ -2540,6 +2585,8 @@ export default function App() {
           onSelectProduct={setSelectedProduct}
           cartCount={cartCount}
           onOpenCart={() => setCartOpen(true)}
+          allCollections={catalogCollections.collections || []}
+          allCategories={visibleCollections.filter((c) => c !== 'All')}
         />
         <CartDrawer
           cart={cart}

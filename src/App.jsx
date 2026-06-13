@@ -182,95 +182,118 @@ function getDailyIndex(length) {
   return dayNumber % length;
 }
 
-function getEditorialTone(name = '') {
+function getBrandIdentity(name = '') {
   const normalized = name.toLowerCase();
 
   if (normalized.includes('afterglow') || normalized.includes('disco')) {
     return {
-      kicker: 'After-dark essentials',
+      brandName: 'Afterglow',
+      kicker: 'Brand feature',
       headline: 'The outfit starts where the night gets interesting.',
       dek: 'A little glossy, a little nostalgic, and fully built for camera-roll evidence.',
+      brandStory: 'Afterglow designs for the hours after the plan changes. Every piece is made to photograph well in low light, look good leaving somewhere interesting, and feel like you dressed on purpose without trying too hard.',
+      brandVibe: 'Night out. Camera flash. The second location.',
     };
   }
 
   if (normalized.includes('baby girl')) {
     return {
-      kicker: 'Soft power',
+      brandName: 'Baby Girl',
+      kicker: 'Brand feature',
       headline: 'Pretty does not mean quiet.',
       dek: 'Baby tees, cheeky graphics, and tiny accessories with a full main-character agenda.',
+      brandStory: 'Baby Girl started with a single baby tee and a point to make. Every piece is tiny on purpose, loud on purpose, and designed for people who know that pink is a power move, not a personality trait.',
+      brandVibe: 'Soft. Cheeky. Fully in charge.',
     };
   }
 
   if (normalized.includes('wild')) {
     return {
-      kicker: 'Untamed uniform',
+      brandName: 'Wild',
+      kicker: 'Brand feature',
       headline: 'A collection for walking in like you own the room.',
       dek: 'Tiger energy, vintage resort attitude, and graphics that know exactly what they are doing.',
+      brandStory: 'Wild is animal print without the apology. It borrows from vintage resort wear, big-cat energy, and the kind of confidence you have when the outfit was the first decision you made that day.',
+      brandVibe: 'Leopard. Tiger. Zero hesitation.',
     };
   }
 
   if (normalized.includes('ocean')) {
     return {
-      kicker: 'Coastal mood',
+      brandName: 'Ocean Mood',
+      kicker: 'Brand feature',
       headline: 'Salt air, oversized layers, and the kind of blue that changes your plans.',
       dek: 'The soft side of status: easy shapes, washed tones, and pieces made for slow mornings after loud nights.',
+      brandStory: 'Ocean Mood designs for the version of you that canceled plans to stay near water. Washed tones, soft cuts, oversized layers, and the kind of blue that makes everything else feel like it is trying too hard.',
+      brandVibe: 'Coastal. Unhurried. Already there.',
     };
   }
 
   if (normalized.includes('july') || normalized.includes('america')) {
     return {
-      kicker: 'Holiday issue',
+      brandName: 'July',
+      kicker: 'Seasonal brand',
       headline: 'Red, white, blue, and slightly unserious.',
       dek: 'Patriotic graphics with backyard-party energy: hot dogs, denim, sun, and outfits that came to be photographed.',
+      brandStory: 'July is a seasonal line that only shows up when the weather earns it. Expect cookout graphics, denim-friendly fits, and pieces designed to look great in direct sunlight with a drink in hand.',
+      brandVibe: 'Summer. Celebrations. The group photo.',
     };
   }
 
   if (normalized.includes('lucky') || normalized.includes('manifest')) {
     return {
-      kicker: 'Manifesting uniform',
+      brandName: 'Lucky Girl',
+      kicker: 'Brand feature',
       headline: 'Dress like the plot is already working in your favor.',
       dek: 'Leopard, little signs from the universe, and pieces that turn getting dressed into a ritual.',
+      brandStory: 'Lucky Girl is for the ones who treat getting dressed like manifesting. Leopard print, signs from the universe, and graphics that say you already know how this ends.',
+      brandVibe: 'Ritual. Intention. Main character confirmed.',
     };
   }
 
   if (normalized.includes('delulu')) {
     return {
-      kicker: 'Delulu department',
+      brandName: 'Delulu',
+      kicker: 'Brand feature',
       headline: 'Reality is optional, the outfit is not.',
       dek: 'A wink-heavy drop for the girls who understand that confidence is mostly commitment.',
+      brandStory: 'Delulu started as a joke and became a whole philosophy. Pieces for the ones who say it out loud, dress like it is already true, and understand that delusion is just confidence with better marketing.',
+      brandVibe: 'Confident. Unbothered. Probably right.',
     };
   }
 
   if (normalized.includes('hoodie')) {
     return {
-      kicker: 'Hoodie report',
+      brandName: 'The Hoodie Edit',
+      kicker: 'Category spotlight',
       headline: 'The comfort piece is doing the most.',
       dek: 'Oversized, washed, zipped, cropped, or fleece-heavy: hoodies are the emotional support layer of the season.',
+      brandStory: 'Not a brand, but a conviction. The hoodie edit pulls the best comfort layers from every brand under the Brands By Status umbrella and puts them in one place.',
+      brandVibe: 'Cozy. Styled. Not leaving the house but still looking good.',
     };
   }
 
   return {
-    kicker: 'Status edit',
+    brandName: name || 'Status',
+    kicker: 'Brand feature',
     headline: `${name || 'The collection'} is having a moment.`,
     dek: 'A rotating edit of the pieces, moods, and small obsessions shaping the Brands By Status universe right now.',
+    brandStory: `${name || 'This line'} is part of the Brands By Status world. Every piece is designed to carry a feeling, not just a label.`,
+    brandVibe: 'Original. Intentional. Status.',
   };
 }
 
 function buildCollectionEditorial(collection, products, horizontalImages, portraitImages) {
-  const categories = getProductCategorySummary(products);
-  const tone = getEditorialTone(collection?.name);
-  const productNames = products.map((product) => product.name);
-  const leadProduct = productNames[0] || 'the first piece';
-  const secondProduct = productNames[1] || 'the matching accessory';
+  const brand = getBrandIdentity(collection?.name);
   const productCount = products.length;
-  const imageCount = horizontalImages.length + portraitImages.length;
-  const categoryText = categories.length ? categories.join(', ') : 'tees, layers, and accessories';
 
   return {
-    ...tone,
-    intro: `Every piece in ${collection?.name || 'this collection'} was chosen to say the same thing — ${categoryText} that move together without trying too hard. ${leadProduct} sets the tone, and everything else falls in line.`,
-    mood: `This is not about one outfit. It is a point of view you can repeat: ${secondProduct} next to a hoodie, a journal, a tote, or a phone case — and it all still feels like the same story.`,
-    growth: `${productCount || 'New'} piece${productCount === 1 ? '' : 's'}, ${imageCount || 'a growing set of'} campaign image${imageCount === 1 ? '' : 's'}, and room to keep building. The edit gets richer every time something new lands here.`,
+    ...brand,
+    intro: brand.brandStory,
+    mood: brand.brandVibe,
+    growth: productCount
+      ? `${productCount} piece${productCount === 1 ? '' : 's'} in the current drop.`
+      : 'New pieces arriving soon.',
   };
 }
 
@@ -298,9 +321,9 @@ function buildDailyMagazineIssue(collections, products, catalogCollections, cate
         products: hoodieProducts,
         images: hoodieProducts.map((product) => ({ url: product.image, alt: product.name })).filter((image) => image.url),
         editorial: {
-          ...getEditorialTone('hoodie'),
+          ...getBrandIdentity('hoodie'),
           intro: 'Today the magazine is giving the comfort layer its main-character edit: oversized hoodies, cropped zip-ups, soft fleece, and pieces that make staying in look intentional.',
-          mood: 'The hoodie section is where casual becomes styled. Wear it with denim, a tiny bag, a phone case that matches the mood, and absolutely no apology for choosing comfort first.',
+          mood: 'Cozy. Styled. Not leaving the house but still looking good.',
           growth: `${hoodieProducts.length} hoodie-adjacent product${hoodieProducts.length === 1 ? '' : 's'} are currently in the edit, and the story shifts as new layers enter the catalog.`,
         },
       }]
@@ -308,6 +331,27 @@ function buildDailyMagazineIssue(collections, products, catalogCollections, cate
 
   const issues = [...collectionIssues, ...categoryIssues].filter((issue) => issue.products.length || issue.images.length);
   return issues[getDailyIndex(issues.length)] || null;
+}
+
+function buildFullMagazine(collections, products, catalogCollections) {
+  const spreads = (collections || []).map((collection) => {
+    const issueProducts = getProductsForDesignCollection(products, collection.name);
+    const horizontalImages = getImagesForCollection(collection.id, catalogCollections, 'horizontal');
+    const portraitImages = getImagesForCollection(collection.id, catalogCollections, 'portrait_4x5');
+    return {
+      collection,
+      products: issueProducts,
+      images: [...horizontalImages, ...portraitImages],
+      editorial: buildCollectionEditorial(collection, issueProducts, horizontalImages, portraitImages),
+    };
+  }).filter((spread) => spread.products.length || spread.images.length);
+
+  // Today's cover story rotates daily
+  const coverIndex = getDailyIndex(spreads.length);
+  const cover = spreads[coverIndex] || null;
+  const remaining = spreads.filter((_, i) => i !== coverIndex);
+
+  return { cover, spreads: remaining, allSpreads: spreads };
 }
 
 function readFileAsDataUrl(file) {
@@ -632,47 +676,138 @@ function StoreCollectionFeature({ collection, horizontalImages, portraitImages, 
   );
 }
 
-function DailyMagazineIssue({ issue, onShop }) {
-  if (!issue) return null;
+function MagazineFlow({ magazine, onSelectProduct }) {
+  if (!magazine?.cover) return null;
 
-  const leadImage = issue.images[0]?.url || issue.products[0]?.image;
-  const secondaryImages = [
-    ...(issue.images.slice(1, 4).map((image) => image.url)),
-    ...(issue.products.slice(0, 3).map((product) => product.image)),
-  ].filter(Boolean).slice(0, 3);
-  const collectionUrl = issue.collection ? getCollectionUrl(issue.collection) : '#shop';
+  const { cover, spreads } = magazine;
+  const coverImage = cover.images[0]?.url || cover.products[0]?.image;
+  const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date());
 
   return (
-    <section className="magazine-issue-section">
-      <div className="magazine-issue-layout">
-        <div className="magazine-cover">
-          {leadImage ? <img src={leadImage} alt="" /> : null}
-          <div>
-            <p>Daily Status</p>
-            <span>{new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric' }).format(new Date())}</span>
-          </div>
+    <>
+      {/* ── COVER ── */}
+      <section className="mag-cover">
+        {coverImage ? <img src={coverImage} alt="" className="mag-cover-img" /> : null}
+        <div className="mag-cover-overlay" />
+        <div className="mag-cover-masthead">
+          <p className="mag-date">{today}</p>
+          <p className="mag-kicker">{cover.editorial.kicker}</p>
+          <h1 className="mag-cover-title">{cover.editorial.headline}</h1>
+          <p className="mag-cover-dek">{cover.editorial.dek}</p>
         </div>
-        <article className="magazine-copy">
-          <p className="eyebrow">{issue.editorial.kicker}</p>
-          <h2>{issue.editorial.headline}</h2>
-          <p>{issue.editorial.intro}</p>
-          <p>{issue.editorial.mood}</p>
-          <div className="magazine-actions">
-            {issue.collection ? (
-              <a className="primary-btn" href={collectionUrl}>Read Collection <ArrowRight size={16} /></a>
-            ) : null}
-            <button className="secondary-inline-btn" type="button" onClick={onShop}>
-              Shop Today’s Edit <ArrowRight size={15} />
-            </button>
-          </div>
-        </article>
-        <div className="magazine-strip" aria-label="Daily issue images">
-          {secondaryImages.map((src) => (
-            <img src={src} alt="" key={src} />
+      </section>
+
+      {/* ── COVER STORY OPENING ── */}
+      <section className="mag-opening">
+        <div className="mag-opening-inner">
+          <p className="mag-collection-name">{cover.editorial.brandName || cover.collection?.name || 'Today\'s Edit'}</p>
+          <p className="mag-body-text">{cover.editorial.intro}</p>
+          <p className="mag-vibe">{cover.editorial.mood}</p>
+        </div>
+      </section>
+
+      {/* ── COVER STORY PRODUCTS (woven with images) ── */}
+      {cover.products.length ? (
+        <section className="mag-product-spread">
+          {cover.products.slice(0, 3).map((product, i) => (
+            <div className={`mag-product-card ${i === 0 ? 'mag-product-feature' : ''}`} key={product.id}>
+              <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
+                <img src={product.image} alt={product.name} />
+              </button>
+              <div className="mag-product-caption">
+                <h3>{product.name}</h3>
+                <span>${product.price}</span>
+              </div>
+            </div>
           ))}
-        </div>
-      </div>
-    </section>
+        </section>
+      ) : null}
+
+      {/* ── PULL QUOTE ── */}
+      {cover.images[1]?.url ? (
+        <section className="mag-pullquote-spread">
+          <img src={cover.images[1].url} alt="" className="mag-pullquote-img" />
+          <blockquote className="mag-pullquote">{cover.editorial.headline}</blockquote>
+        </section>
+      ) : null}
+
+      {/* ── MORE COVER PRODUCTS ── */}
+      {cover.products.length > 3 ? (
+        <section className="mag-product-row">
+          {cover.products.slice(3, 7).map((product) => (
+            <div className="mag-product-card" key={product.id}>
+              <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
+                <img src={product.image} alt={product.name} />
+              </button>
+              <div className="mag-product-caption">
+                <h3>{product.name}</h3>
+                <span>${product.price}</span>
+              </div>
+            </div>
+          ))}
+        </section>
+      ) : null}
+
+      {/* ── REMAINING COLLECTION SPREADS ── */}
+      {spreads.map((spread, spreadIndex) => {
+        const spreadImage = spread.images[0]?.url || spread.products[0]?.image;
+        const secondImage = spread.images[1]?.url;
+        return (
+          <div key={spread.collection?.id || spreadIndex}>
+            {/* Full-bleed divider image */}
+            {spreadImage ? (
+              <section className="mag-divider-spread">
+                <img src={spreadImage} alt="" />
+                <div className="mag-divider-copy">
+                  <p className="mag-kicker">{spread.editorial.kicker}</p>
+                  <h2>{spread.collection?.name || 'The Edit'}</h2>
+                  <p>{spread.editorial.dek}</p>
+                </div>
+              </section>
+            ) : null}
+
+            {/* Brand story */}
+            <section className="mag-story-block">
+              <p className="mag-collection-name">{spread.editorial.brandName}</p>
+              <h3 className="mag-story-headline">{spread.editorial.headline}</h3>
+              <p className="mag-body-text">{spread.editorial.intro}</p>
+              <p className="mag-vibe">{spread.editorial.mood}</p>
+            </section>
+
+            {/* Products woven with secondary image */}
+            {spread.products.length ? (
+              <section className="mag-woven-section">
+                {secondImage ? (
+                  <div className="mag-woven-image">
+                    <img src={secondImage} alt="" />
+                  </div>
+                ) : null}
+                <div className="mag-woven-products">
+                  {spread.products.slice(0, 4).map((product) => (
+                    <div className="mag-product-card" key={product.id}>
+                      <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
+                        <img src={product.image} alt={product.name} />
+                      </button>
+                      <div className="mag-product-caption">
+                        <h3>{product.name}</h3>
+                        <span>${product.price}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+
+            {/* Product count */}
+            {spread.editorial.growth ? (
+              <section className="mag-interlude">
+                <p>{spread.editorial.growth}</p>
+              </section>
+            ) : null}
+          </div>
+        );
+      })}
+    </>
   );
 }
 
@@ -689,7 +824,9 @@ function CollectionEditorialPage({
   const leadImages = horizontalImages.length ? horizontalImages : portraitImages;
   const leadImage = leadImages[0]?.url || products[0]?.image;
   const allImages = [...horizontalImages, ...portraitImages];
-  const categories = getProductCategorySummary(products);
+  const secondImage = allImages[1]?.url;
+  const thirdImage = allImages[2]?.url;
+  const remainingImages = allImages.slice(3);
 
   return (
     <>
@@ -703,8 +840,8 @@ function CollectionEditorialPage({
         </a>
         <nav>
           <a href="/">Home</a>
-          <a href="#collection-products">Products</a>
-          <a href="#collection-gallery">Gallery</a>
+          <a href="#the-edit">The Edit</a>
+          {allImages.length > 3 ? <a href="#gallery">Gallery</a> : null}
         </nav>
         <button className="bag-btn" onClick={onOpenCart} aria-label="Open cart">
           <ShoppingBag size={19} />
@@ -712,68 +849,103 @@ function CollectionEditorialPage({
         </button>
       </header>
 
-      <main className="editorial-page">
-        <section className="editorial-hero">
-          {leadImage ? <img src={leadImage} alt="" /> : null}
-          <div className="editorial-hero-copy">
-            <p className="eyebrow">{editorial.kicker}</p>
-            <h1>{collection.name}</h1>
-            <p>{editorial.dek}</p>
+      <main className="ed-page">
+        {/* ── COVER ── */}
+        <section className="ed-cover">
+          {leadImage ? <img src={leadImage} alt="" className="ed-cover-img" /> : null}
+          <div className="ed-cover-overlay" />
+          <div className="ed-cover-copy">
+            <p className="ed-kicker">{editorial.kicker}</p>
+            <h1 className="ed-title">{collection.name}</h1>
+            <p className="ed-dek">{editorial.dek}</p>
           </div>
         </section>
 
-        <section className="editorial-body">
-          <div className="editorial-meta">
-            <span>{products.length} product{products.length === 1 ? '' : 's'}</span>
-            <span>{allImages.length} image{allImages.length === 1 ? '' : 's'}</span>
-            {categories.map((category) => <span key={category}>{category}</span>)}
-          </div>
-          <article>
-            <h2>{editorial.headline}</h2>
-            <p>{editorial.intro}</p>
-            <p>{editorial.mood}</p>
-            <p>{editorial.growth}</p>
-          </article>
-        </section>
-
-        <section className="shop-section editorial-products" id="collection-products">
-          <div className="section-head">
-            <div>
-              <p className="eyebrow">Shop the editorial</p>
-              <h2>{collection.name}</h2>
+        {/* ── OPENING TEXT ── */}
+        <section className="ed-opening">
+          <div className="ed-opening-inner">
+            <h2 className="ed-headline">{editorial.headline}</h2>
+            <div className="ed-lede">
+              <p>{editorial.intro}</p>
             </div>
-            <a className="secondary-inline-btn" href="/">All Products <ArrowRight size={15} /></a>
-          </div>
-          <div className="product-grid">
-            {products.length ? (
-              products.map((product) => (
-                <ProductTile product={product} key={product.id} onSelect={onSelectProduct} />
-              ))
-            ) : allImages.length ? (
-              <div className="floating-gallery-empty">
-                {allImages.slice(0, 6).map((image, i) => (
-                  <div
-                    className="floating-gallery-item"
-                    key={image.id || image.url}
-                    style={{
-                      animationDelay: `${i * 0.4}s`,
-                    }}
-                  >
-                    <img src={image.url} alt={image.alt || ''} />
-                  </div>
-                ))}
-                <p className="floating-gallery-label">Products loading soon</p>
-              </div>
-            ) : null}
           </div>
         </section>
 
-        {allImages.length ? (
-          <section className="editorial-gallery" id="collection-gallery">
-            {allImages.slice(0, 10).map((image, index) => (
-              <figure className={image.orientation === 'horizontal' ? 'wide' : ''} key={image.id || image.url}>
+        {/* ── FULL-BLEED IMAGE + PULL QUOTE ── */}
+        {secondImage ? (
+          <section className="ed-spread">
+            <img src={secondImage} alt="" className="ed-spread-img" />
+            <blockquote className="ed-pullquote">
+              {editorial.mood}
+            </blockquote>
+          </section>
+        ) : null}
+
+        {/* ── THE EDIT (products as editorial picks) ── */}
+        {products.length ? (
+          <section className="ed-the-edit" id="the-edit">
+            <div className="ed-section-label">
+              <span>The Edit</span>
+              <span className="ed-divider" />
+              <span>{products.length} piece{products.length === 1 ? '' : 's'}</span>
+            </div>
+            <div className="ed-picks">
+              {products.map((product, i) => (
+                <div className={`ed-pick ${i === 0 ? 'ed-pick-feature' : ''}`} key={product.id}>
+                  <button className="ed-pick-img-btn" onClick={() => onSelectProduct(product)}>
+                    <img src={product.image} alt={product.name} />
+                    {i === 0 ? <span className="ed-pick-badge">Editor's pick</span> : null}
+                  </button>
+                  <div className="ed-pick-info">
+                    <p className="ed-pick-number">{String(i + 1).padStart(2, '0')}</p>
+                    <h3>{product.name}</h3>
+                    <p className="ed-pick-price">${product.price}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : allImages.length ? (
+          <section className="ed-the-edit" id="the-edit">
+            <div className="ed-section-label">
+              <span>The Edit</span>
+              <span className="ed-divider" />
+              <span>Coming soon</span>
+            </div>
+            <div className="floating-gallery-empty">
+              {allImages.slice(0, 6).map((image, i) => (
+                <div
+                  className="floating-gallery-item"
+                  key={image.id || image.url}
+                  style={{ animationDelay: `${i * 0.4}s` }}
+                >
+                  <img src={image.url} alt={image.alt || ''} />
+                </div>
+              ))}
+              <p className="floating-gallery-label">Products loading soon</p>
+            </div>
+          </section>
+        ) : null}
+
+        {/* ── MID-SPREAD IMAGE ── */}
+        {thirdImage ? (
+          <section className="ed-mid-spread">
+            <img src={thirdImage} alt="" />
+          </section>
+        ) : null}
+
+        {/* ── CLOSING TEXT ── */}
+        <section className="ed-closing">
+          <p>{editorial.growth}</p>
+        </section>
+
+        {/* ── REMAINING GALLERY ── */}
+        {remainingImages.length ? (
+          <section className="ed-gallery" id="gallery">
+            {remainingImages.map((image, index) => (
+              <figure className={image.orientation === 'horizontal' ? 'ed-gallery-wide' : ''} key={image.id || image.url}>
                 <img src={image.url} alt={image.alt || ''} />
-                <figcaption>{String(index + 1).padStart(2, '0')}</figcaption>
+                <figcaption>{String(index + 4).padStart(2, '0')}</figcaption>
               </figure>
             ))}
           </section>
@@ -1974,6 +2146,15 @@ export default function App() {
     ),
     [catalogCollections, catalogCategories.categories, categorizedProducts]
   );
+  const fullMagazine = useMemo(
+    () => buildFullMagazine(
+      catalogCollections.collections,
+      categorizedProducts,
+      catalogCollections
+    ),
+    [catalogCollections, categorizedProducts]
+  );
+
   const storefrontCollections = useMemo(() => {
     return (catalogCollections.collections || [])
       .map((collection) => ({
@@ -2170,124 +2351,15 @@ export default function App() {
       </header>
 
       <main id="top">
-        <section className="hero hero-minimal">
-          <img className="hero-bg-img" src="/portfolio/hero-header.png" alt="" />
-          <div className="hero-overlay" />
-          <div className="hero-content">
-            <h1>Wear the status.</h1>
-          </div>
-        </section>
+        {/* ── THE MAGAZINE ── */}
+        <MagazineFlow magazine={fullMagazine} onSelectProduct={setSelectedProduct} />
 
-        <section className="ticker" aria-label="Store highlights">
-          <div>
-            <span>Made to order</span>
-            <span>Original designs</span>
-            <span>Fresh drops</span>
-            <span>Everyday status pieces</span>
-            <span>Made to order</span>
-            <span>Original designs</span>
-            <span>Fresh drops</span>
-            <span>Everyday status pieces</span>
-          </div>
-        </section>
-
-
-        <DailyMagazineIssue
-          issue={dailyMagazineIssue}
-          onShop={() => {
-            setActiveCollection('All');
-            if (dailyMagazineIssue?.collection) {
-              setActiveDesignCollection(dailyMagazineIssue.collection.name);
-              setQuery('');
-            } else {
-              setActiveDesignCollection('All');
-              setQuery('hoodie');
-            }
-            document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-        />
-
-        {storefrontCollections.length ? (
-          <section className="design-collections-section" id="design-collections">
-            <div className="section-head">
-              <div>
-                <p className="eyebrow">Shop by collection</p>
-                <h2>Stories, drops, and design worlds.</h2>
-              </div>
-              <button
-                className="secondary-inline-btn"
-                type="button"
-                onClick={() => {
-                  setActiveDesignCollection('All');
-                  document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                View All Products <ArrowRight size={15} />
-              </button>
-            </div>
-            <div className="design-collection-grid">
-              {storefrontCollections.map((collection) => (
-                <StoreCollectionFeature
-                  key={collection.id}
-                  collection={collection}
-                  horizontalImages={collection.horizontalImages}
-                  portraitImages={collection.portraitImages}
-                  onSelect={() => {
-                    setActiveDesignCollection(collection.name);
-                    document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                />
-              ))}
-            </div>
-          </section>
-        ) : null}
-
-        <section className="feature-band" id="collections">
-          <div>
-            <p className="eyebrow">Shop by category</p>
-            <h2>Find your next status piece.</h2>
-            <p>
-              Browse the core collections, then use the product grid to filter by drop, item type,
-              or the exact design you came for.
-            </p>
-          </div>
-          <div className="collection-card-grid">
-            {featuredCollections.map((collection) => (
-              <button
-                className="collection-card"
-                key={collection}
-                onClick={() => {
-                  setActiveCollection(collection);
-                  document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <img src={getCategoryImage(collection, categorizedProducts)} alt="" />
-                <span>{collection}</span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        <section className="lifestyle-spread">
-          <div className="spread-img">
-            <img src="/portfolio/lifestyle-02.png" alt="Brands By Status lifestyle apparel" />
-          </div>
-          <div className="spread-text">
-            <p className="eyebrow">New arrivals</p>
-            <h2>Fresh designs, made for the scroll and the street.</h2>
-            <p>
-              Graphic tees, tanks, accessories, and seasonal pieces designed to look good in your closet,
-              your cart, and your camera roll.
-            </p>
-            <a className="spread-link" href="#shop">Shop the collection <ArrowRight size={15} /></a>
-          </div>
-        </section>
-
-        <section className="shop-section" id="shop">
-          <div className="section-head">
+        {/* ── SHOP INDEX (searchable grid) ── */}
+        <section className="mag-shop-index" id="shop">
+          <div className="mag-index-header">
             <div>
-              <p className="eyebrow">Shop</p>
-              <h2>Featured Products</h2>
+              <p className="mag-kicker">The Index</p>
+              <h2 className="mag-index-title">Every piece, all in one place.</h2>
             </div>
             <div className="search-box">
               <Search size={17} />
@@ -2345,64 +2417,13 @@ export default function App() {
           </div>
         </section>
 
-        <section className="lifestyle-banner">
-          <img src="/portfolio/lifestyle-03.png" alt="Brands By Status collection" />
-          <div>
-            <p className="eyebrow">Made to order</p>
-            <h2>Shop the pieces that feel like you.</h2>
-            <a className="primary-btn" href="#shop">View Products <ArrowRight size={16} /></a>
-          </div>
-        </section>
-
-        <section className="photo-grid" aria-label="Brands By Status lifestyle gallery">
-          {[
-            ['/portfolio/lifestyle-04.png', 'Fresh Brands By Status outfit'],
-            ['/portfolio/category-hoodies.png', 'Brands By Status hoodies'],
-            ['/portfolio/category-tee-shirts.png', 'Brands By Status tees'],
-            ['/portfolio/lifestyle-05.png', 'Brands By Status accessories'],
-            ['/portfolio/category-tank-tops.png', 'Brands By Status tank tops'],
-            ['/portfolio/category-bags.png', 'Brands By Status bags'],
-          ].map(([src, alt], index) => (
-            <div className={index === 0 || index === 3 ? 'photo-grid-item tall' : 'photo-grid-item'} key={src}>
-              <img src={src} alt={alt} />
-            </div>
-          ))}
-        </section>
-
-        <section className="order-panel">
-          <div>
-            <p className="eyebrow">Made to order</p>
-            <h2>Your piece is produced after checkout.</h2>
-            <p>
-              Brands By Status keeps inventory lean by making products on demand. After your order is
-              placed, production starts and shipping updates follow once your piece is on the move.
-            </p>
-          </div>
-          <div className="steps">
-            <div>
-              <Sparkles size={20} />
-              <span>Original pieces are designed for the Brands By Status catalog.</span>
-            </div>
-            <div>
-              <Check size={20} />
-              <span>Checkout confirms your selected size, color, and quantity.</span>
-            </div>
-            <div>
-              <Truck size={20} />
-              <span>Production and shipping updates are sent as your order moves forward.</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="story-section" id="story">
-          <div>
-            <p className="eyebrow">Brands By Status</p>
-            <h2>Status is personal.</h2>
-          </div>
+        {/* ── COLOPHON ── */}
+        <section className="mag-colophon">
+          <p className="mag-kicker">Brands By Status</p>
+          <h2>Status is personal.</h2>
           <p>
-            Brands By Status is built around clothes and goods that carry confidence without asking
-            for permission. The pieces are made for people who like their everyday staples with a
-            little more presence.
+            Clothes and goods that carry confidence without asking for permission.
+            Made for people who like their everyday staples with a little more presence.
           </p>
         </section>
       </main>

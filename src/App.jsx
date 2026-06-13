@@ -183,6 +183,24 @@ function getDailyIndex(length) {
   return dayNumber % length;
 }
 
+// Returns a random index that changes every page load but stays stable during the session
+const visitSeed = Math.random();
+function getVisitIndex(length) {
+  if (!length) return 0;
+  return Math.floor(visitSeed * length);
+}
+
+function shuffleWithSeed(arr) {
+  const shuffled = [...arr];
+  let seed = Math.floor(visitSeed * 1000000);
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    seed = (seed * 16807 + 0) % 2147483647;
+    const j = seed % (i + 1);
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 function getBrandIdentity(name = '') {
   const normalized = name.toLowerCase();
 
@@ -473,8 +491,8 @@ function buildFullMagazine(collections, products, catalogCollections) {
     };
   }).filter((spread) => spread.products.length || spread.images.length);
 
-  // Today's cover story rotates daily
-  const coverIndex = getDailyIndex(spreads.length);
+  // Cover story rotates every visit
+  const coverIndex = getVisitIndex(spreads.length);
   const cover = spreads[coverIndex] || null;
   const remaining = spreads.filter((_, i) => i !== coverIndex);
 
@@ -809,27 +827,21 @@ function MagazineFlow({ magazine, onSelectProduct }) {
   const { cover, spreads, allSpreads: every } = magazine;
   const allSpreads = [cover, ...spreads];
   const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
-  const dayIndex = getDailyIndex(allSpreads.length);
 
-  // Today's featured brand (cover story)
-  const featured = cover;
+  // Shuffle everything per visit so each page load is a different experience
+  const shuffledSpreads = shuffleWithSeed(allSpreads);
+  const featuredIdx = getVisitIndex(shuffledSpreads.length);
+  const featured = shuffledSpreads[featuredIdx];
   const featuredBrand = featured.editorial;
   const featuredImage = featured.images[0]?.url || featured.products[0]?.image;
   const featuredProducts = featured.products.slice(0, 4);
 
-  // Headlines = other brands with recent products (rotate daily, show 4)
-  const headlines = spreads.slice(0, 4);
+  // Headlines = different brands each visit (skip the featured one)
+  const headlines = shuffledSpreads.filter((s) => s !== featured).slice(0, 4);
 
-  // The Status List = trending products across all brands (rotate selection daily)
-  const allProducts = allSpreads.flatMap((s) => s.products);
-  const statusStart = getDailyIndex(Math.max(1, allProducts.length - 6));
-  const statusList = allProducts.slice(statusStart, statusStart + 6);
-  if (statusList.length < 6) statusList.push(...allProducts.slice(0, 6 - statusList.length));
-
-  // Coming soon = brands with images but fewer products
-  const comingSoon = allSpreads
-    .filter((s) => s.images.length > 0 && s.products.length < 3)
-    .slice(0, 3);
+  // The Status List = shuffled products across all brands, different every visit
+  const allProducts = shuffleWithSeed(allSpreads.flatMap((s) => s.products));
+  const statusList = allProducts.slice(0, 6);
 
   return (
     <>

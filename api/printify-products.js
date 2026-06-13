@@ -1,4 +1,5 @@
 import { getPrintifyConfig, printifyRequest, sendJson } from './_printify.js';
+import { getShopifyProducts } from './_shopify.js';
 
 function titleCase(value = '') {
   return String(value)
@@ -201,6 +202,24 @@ export default async function handler(req, res) {
     res.setHeader('Vercel-CDN-Cache-Control', 's-maxage=60, stale-while-revalidate=120');
   }
 
-  const result = await getPrintifyProducts();
-  sendJson(res, result.status, result.data);
+  const [printifyResult, shopifyResult] = await Promise.all([
+    getPrintifyProducts(),
+    getShopifyProducts(),
+  ]);
+
+  if (!printifyResult.ok) {
+    sendJson(res, printifyResult.status, printifyResult.data);
+    return;
+  }
+
+  const printifyProducts = printifyResult.data?.products || [];
+  const shopifyProducts = shopifyResult.data?.products || [];
+  const allProducts = [...printifyProducts, ...shopifyProducts];
+
+  sendJson(res, 200, {
+    products: allProducts,
+    sourceCount: allProducts.length,
+    printifyCount: printifyProducts.length,
+    shopifyCount: shopifyProducts.length,
+  });
 }

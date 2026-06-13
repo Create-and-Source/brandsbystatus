@@ -773,6 +773,7 @@ function CollectionEditorialPage({
                     <img src={image.url} alt={image.alt || ''} />
                   </div>
                 ))}
+                <p className="floating-gallery-label">Products loading soon</p>
               </div>
             ) : null}
           </div>

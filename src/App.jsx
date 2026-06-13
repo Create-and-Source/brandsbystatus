@@ -987,31 +987,7 @@ function MagazineFlow({ magazine, onSelectProduct }) {
         </div>
       </section>
 
-      {/* ── COMING SOON / BRANDS TO WATCH ── */}
-      {comingSoon.length > 0 ? (
-        <section className="drop-section">
-          <div className="drop-section-inner">
-            <h2 className="drop-section-label">Coming Soon</h2>
-            <p className="drop-section-sub">Brands loading new drops. Stay tuned.</p>
-
-            <div className="drop-coming-grid">
-              {comingSoon.map((spread) => {
-                const brand = spread.editorial;
-                const img = spread.images[0]?.url;
-                return (
-                  <div className="drop-coming-card" key={spread.collection?.id}>
-                    {img ? <img src={img} alt="" /> : null}
-                    <div className="drop-coming-text">
-                      <p className="drop-brand-tag">{brand.brandName}</p>
-                      <p className="drop-coming-tease">{brand.dek}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      ) : null}
+{/* Coming Soon section removed */}
 
       {/* ── APPLY FOR A FEATURE ── */}
       <section className="drop-section drop-apply-section">
@@ -1138,126 +1114,66 @@ function CollectionEditorialPage({
           <div className="ed-masthead-rule" />
         </section>
 
-        {/* ── LEAD IMAGE (newspaper-sized, captioned) ── */}
-        {leadImage ? (
-          <figure className="ed-figure ed-figure-lead">
-            <img src={leadImage} alt={collection.name} />
-            <figcaption>{editorial.kicker || 'From the current collection'}</figcaption>
-          </figure>
-        ) : null}
-
-        {/* ── OPENING BODY TEXT ── */}
+        {/* ── INTRO ── */}
         <section className="ed-body">
           <h2 className="ed-headline">{editorial.headline}</h2>
-          <p className="ed-byline">By the Brands By Status editorial team</p>
           <div className="ed-columns">
             <p>{editorial.intro}</p>
-            <p>{editorial.scene || editorial.mood}</p>
           </div>
         </section>
 
-        {/* ── INLINE PHOTO (float-style, like a newspaper insert) ── */}
-        {secondImage ? (
-          <section className="ed-body">
-            <figure className="ed-figure ed-figure-inline">
-              <img src={secondImage} alt="" />
-              <figcaption>{editorial.brandName} &mdash; photographed for Brands By Status</figcaption>
-            </figure>
-            <blockquote className="ed-pullquote">
-              &ldquo;{editorial.quotes?.[0] || editorial.mood}&rdquo;
-            </blockquote>
-          </section>
-        ) : null}
-
-        {/* ── THE EDIT (products as editorial picks) ── */}
-        {products.length ? (
-          <section className="ed-the-edit" id="the-edit">
-            <div className="ed-section-label">
-              <span>The Edit</span>
-              <span className="ed-divider" />
-              <span>{filteredEditProducts.length} piece{filteredEditProducts.length === 1 ? '' : 's'}</span>
-            </div>
-            {productCategories.length > 2 ? (
-              <div className="ed-filter-pills">
-                {productCategories.map((cat) => (
-                  <button
-                    key={cat}
-                    className={cat === editFilter ? 'ed-pill ed-pill-active' : 'ed-pill'}
-                    onClick={() => setEditFilter(cat)}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-            <div className="ed-picks">
-              {filteredEditProducts.map((product, i) => (
-                <div className={`ed-pick ${i === 0 ? 'ed-pick-feature' : ''}`} key={product.id}>
-                  <button className="ed-pick-img-btn" onClick={() => onSelectProduct(product)}>
-                    <img src={product.image} alt={product.name} />
-                    {i === 0 ? <span className="ed-pick-badge">Editor's pick</span> : null}
-                  </button>
-                  <div className="ed-pick-info">
-                    <p className="ed-pick-number">{String(i + 1).padStart(2, '0')}</p>
-                    <h3>{product.name}</h3>
-                    <p className="ed-pick-price">${product.price}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ) : allImages.length ? (
-          <section className="ed-the-edit" id="the-edit">
-            <div className="ed-section-label">
-              <span>The Edit</span>
-              <span className="ed-divider" />
-              <span>Products loading</span>
-            </div>
-            <div className="floating-gallery-empty">
-              {allImages.slice(0, 6).map((image, i) => (
-                <div
-                  className="floating-gallery-item"
-                  key={image.id || image.url}
-                  style={{ animationDelay: `${i * 0.4}s` }}
-                >
-                  <img src={image.url} alt={image.alt || ''} />
-                </div>
-              ))}
-              <p className="floating-gallery-label">Products loading soon</p>
-            </div>
-          </section>
-        ) : null}
-
-        {/* ── MID-ARTICLE PHOTO ── */}
-        {thirdImage ? (
-          <figure className="ed-figure ed-figure-mid">
-            <img src={thirdImage} alt="" />
-            <figcaption>Continued &mdash; {collection.name}</figcaption>
-          </figure>
-        ) : null}
-
-        {/* ── CLOSING TEXT ── */}
-        <section className="ed-body ed-closing">
-          <p>{editorial.growth}</p>
-          {editorial.quotes?.[1] ? (
-            <blockquote className="ed-pullquote">
-              &ldquo;{editorial.quotes[1]}&rdquo;
-            </blockquote>
-          ) : null}
-        </section>
-
-        {/* ── REMAINING GALLERY (contact sheet style) ── */}
-        {remainingImages.length ? (
-          <section className="ed-gallery" id="gallery">
-            <p className="ed-gallery-header">Additional images</p>
-            {remainingImages.map((image, index) => (
-              <figure className={image.orientation === 'horizontal' ? 'ed-gallery-wide' : ''} key={image.id || image.url}>
-                <img src={image.url} alt={image.alt || ''} />
-                <figcaption>Fig. {index + 4}</figcaption>
-              </figure>
+        {/* ── CATEGORY PILLS ── */}
+        {productCategories.length > 2 ? (
+          <div className="ed-filter-pills">
+            {productCategories.map((cat) => (
+              <button
+                key={cat}
+                className={cat === editFilter ? 'ed-pill ed-pill-active' : 'ed-pill'}
+                onClick={() => setEditFilter(cat)}
+              >
+                {cat}
+              </button>
             ))}
-          </section>
+          </div>
         ) : null}
+
+        {/* ── NEWSFEED TIMELINE ── */}
+        <section className="ed-feed" id="the-edit">
+          <div className="ed-section-label">
+            <span>The Feed</span>
+            <span className="ed-divider" />
+            <span>{filteredEditProducts.length} piece{filteredEditProducts.length === 1 ? '' : 's'}</span>
+          </div>
+          {filteredEditProducts.map((product, i) => {
+            const feedDate = new Date();
+            feedDate.setDate(feedDate.getDate() - (i * 2 + Math.floor(i / 3)));
+            const dateStr = feedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            const isWide = i % 5 === 0;
+            const quoteIndex = i % (editorial.quotes?.length || 1);
+            const showQuote = i > 0 && i % 4 === 0 && editorial.quotes?.[quoteIndex];
+
+            return (
+              <Fragment key={product.id}>
+                {showQuote ? (
+                  <blockquote className="ed-pullquote">
+                    &ldquo;{editorial.quotes[quoteIndex]}&rdquo;
+                  </blockquote>
+                ) : null}
+                <article className={`ed-feed-item ${isWide ? 'ed-feed-item-wide' : ''}`}>
+                  <p className="ed-feed-date">{dateStr}</p>
+                  <button className="ed-feed-img" onClick={() => onSelectProduct(product)}>
+                    <img src={product.image} alt={product.name} />
+                  </button>
+                  <div className="ed-feed-copy">
+                    <h3>{product.name}</h3>
+                    <p className="ed-feed-price">${product.price}</p>
+                    <p className="ed-feed-cat">{product.collection}</p>
+                  </div>
+                </article>
+              </Fragment>
+            );
+          })}
+        </section>
       </main>
     </>
   );

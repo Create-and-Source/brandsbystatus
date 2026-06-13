@@ -188,98 +188,134 @@ function getBrandIdentity(name = '') {
   if (normalized.includes('afterglow') || normalized.includes('disco')) {
     return {
       brandName: 'Afterglow',
-      kicker: 'Brand feature',
       headline: 'The outfit starts where the night gets interesting.',
       dek: 'A little glossy, a little nostalgic, and fully built for camera-roll evidence.',
       brandStory: 'Afterglow designs for the hours after the plan changes. Every piece is made to photograph well in low light, look good leaving somewhere interesting, and feel like you dressed on purpose without trying too hard.',
-      brandVibe: 'Night out. Camera flash. The second location.',
+      scene: 'It is 11pm and someone just said "actually, let\'s go somewhere else." You grab the jacket. You already look right.',
+      quotes: [
+        'The after-party called. She was already dressed.',
+        'Disco lights, cherry lip gloss, and a hoodie that photographs better than you do.',
+        'She showed up at 11 and the whole energy shifted.',
+      ],
     };
   }
 
   if (normalized.includes('baby girl')) {
     return {
       brandName: 'Baby Girl',
-      kicker: 'Brand feature',
       headline: 'Pretty does not mean quiet.',
       dek: 'Baby tees, cheeky graphics, and tiny accessories with a full main-character agenda.',
       brandStory: 'Baby Girl started with a single baby tee and a point to make. Every piece is tiny on purpose, loud on purpose, and designed for people who know that pink is a power move, not a personality trait.',
-      brandVibe: 'Soft. Cheeky. Fully in charge.',
+      scene: 'Iced latte in hand, tiny bag, lip gloss reapplied at every red light. Running five minutes late on purpose.',
+      quotes: [
+        'The baby tee is doing all the talking today.',
+        'She wore pink to the meeting and closed the deal.',
+        'Soft? Sure. But she meant every word.',
+      ],
     };
   }
 
   if (normalized.includes('wild')) {
     return {
       brandName: 'Wild',
-      kicker: 'Brand feature',
-      headline: 'A collection for walking in like you own the room.',
+      headline: 'Walk in like you own the room.',
       dek: 'Tiger energy, vintage resort attitude, and graphics that know exactly what they are doing.',
       brandStory: 'Wild is animal print without the apology. It borrows from vintage resort wear, big-cat energy, and the kind of confidence you have when the outfit was the first decision you made that day.',
-      brandVibe: 'Leopard. Tiger. Zero hesitation.',
+      scene: 'She walked into brunch 20 minutes late in a leopard tee and nobody said a word. They just moved the mimosas.',
+      quotes: [
+        'Leopard is a neutral if you believe hard enough.',
+        'She matched the energy of the room by raising it.',
+        'The fit was loud. The attitude was louder.',
+      ],
     };
   }
 
   if (normalized.includes('ocean')) {
     return {
       brandName: 'Ocean Mood',
-      kicker: 'Brand feature',
-      headline: 'Salt air, oversized layers, and the kind of blue that changes your plans.',
-      dek: 'The soft side of status: easy shapes, washed tones, and pieces made for slow mornings after loud nights.',
+      headline: 'The kind of blue that changes your plans.',
+      dek: 'Easy shapes, washed tones, and pieces made for slow mornings after loud nights.',
       brandStory: 'Ocean Mood designs for the version of you that canceled plans to stay near water. Washed tones, soft cuts, oversized layers, and the kind of blue that makes everything else feel like it is trying too hard.',
-      brandVibe: 'Coastal. Unhurried. Already there.',
+      scene: 'Sunday morning. Windows down, hair still damp, coffee getting cold in the cupholder. No plans. No rush.',
+      quotes: [
+        'She canceled brunch and drove to the water instead.',
+        'The oversized hoodie is giving lazy Sunday in the car.',
+        'Salt air and an outfit that said: I am not going anywhere.',
+      ],
     };
   }
 
   if (normalized.includes('july') || normalized.includes('america')) {
     return {
       brandName: 'July',
-      kicker: 'Seasonal brand',
       headline: 'Red, white, blue, and slightly unserious.',
-      dek: 'Patriotic graphics with backyard-party energy: hot dogs, denim, sun, and outfits that came to be photographed.',
-      brandStory: 'July is a seasonal line that only shows up when the weather earns it. Expect cookout graphics, denim-friendly fits, and pieces designed to look great in direct sunlight with a drink in hand.',
-      brandVibe: 'Summer. Celebrations. The group photo.',
+      dek: 'Patriotic graphics with backyard-party energy.',
+      brandStory: 'July is a seasonal line that only shows up when the weather earns it. Cookout graphics, denim-friendly fits, and pieces designed to look great in direct sunlight with a drink in hand.',
+      scene: 'Backyard, sparklers, someone\'s playlist, and an outfit that was definitely planned but looks effortless.',
+      quotes: [
+        'She brought the flag tee and the fireworks.',
+        'Hot dogs, denim cutoffs, and main-character energy.',
+        'The Fourth of July is her runway and she knows it.',
+      ],
     };
   }
 
   if (normalized.includes('lucky') || normalized.includes('manifest')) {
     return {
       brandName: 'Lucky Girl',
-      kicker: 'Brand feature',
       headline: 'Dress like the plot is already working in your favor.',
       dek: 'Leopard, little signs from the universe, and pieces that turn getting dressed into a ritual.',
       brandStory: 'Lucky Girl is for the ones who treat getting dressed like manifesting. Leopard print, signs from the universe, and graphics that say you already know how this ends.',
-      brandVibe: 'Ritual. Intention. Main character confirmed.',
+      scene: 'She lit the candle, put on the hoodie, wrote it down, and went about her day like it was already done.',
+      quotes: [
+        'Manifesting in a crewneck and calling it a vision board.',
+        'The universe sent a sign. She was already wearing it.',
+        'Lucky is not luck. Lucky is the outfit plus the intention.',
+      ],
     };
   }
 
   if (normalized.includes('delulu')) {
     return {
       brandName: 'Delulu',
-      kicker: 'Brand feature',
       headline: 'Reality is optional, the outfit is not.',
-      dek: 'A wink-heavy drop for the girls who understand that confidence is mostly commitment.',
+      dek: 'For the girls who understand that confidence is mostly commitment.',
       brandStory: 'Delulu started as a joke and became a whole philosophy. Pieces for the ones who say it out loud, dress like it is already true, and understand that delusion is just confidence with better marketing.',
-      brandVibe: 'Confident. Unbothered. Probably right.',
+      scene: 'She told the group chat she was booked all summer. She was not. But now she believes it.',
+      quotes: [
+        'Delulu is the solulu and the outfit proves it.',
+        'She manifested the invite by dressing like she already had one.',
+        'The confidence is not delusional if the fit backs it up.',
+      ],
     };
   }
 
   if (normalized.includes('hoodie')) {
     return {
       brandName: 'The Hoodie Edit',
-      kicker: 'Category spotlight',
       headline: 'The comfort piece is doing the most.',
-      dek: 'Oversized, washed, zipped, cropped, or fleece-heavy: hoodies are the emotional support layer of the season.',
-      brandStory: 'Not a brand, but a conviction. The hoodie edit pulls the best comfort layers from every brand under the Brands By Status umbrella and puts them in one place.',
-      brandVibe: 'Cozy. Styled. Not leaving the house but still looking good.',
+      dek: 'Oversized, washed, zipped, cropped, or fleece-heavy.',
+      brandStory: 'Not a brand, but a conviction. The hoodie edit pulls the best comfort layers from every brand under the Brands By Status umbrella.',
+      scene: 'Couch, blanket, hood up, still somehow looking like a campaign.',
+      quotes: [
+        'She wore the hoodie to everything and nobody complained.',
+        'Comfort is the new flex and this hoodie knows it.',
+        'Hood up, coffee in hand, main character of nothing and everything.',
+      ],
     };
   }
 
   return {
     brandName: name || 'Status',
-    kicker: 'Brand feature',
     headline: `${name || 'The collection'} is having a moment.`,
-    dek: 'A rotating edit of the pieces, moods, and small obsessions shaping the Brands By Status universe right now.',
+    dek: 'The pieces, moods, and small obsessions shaping the Brands By Status universe.',
     brandStory: `${name || 'This line'} is part of the Brands By Status world. Every piece is designed to carry a feeling, not just a label.`,
-    brandVibe: 'Original. Intentional. Status.',
+    scene: 'She got dressed today and the outfit had something to say.',
+    quotes: [
+      'Status is not a brand. It is how you carry the outfit.',
+      'She wore it like she designed it herself.',
+      'The fit speaks. You just have to let it.',
+    ],
   };
 }
 
@@ -680,133 +716,94 @@ function MagazineFlow({ magazine, onSelectProduct }) {
   if (!magazine?.cover) return null;
 
   const { cover, spreads } = magazine;
-  const coverImage = cover.images[0]?.url || cover.products[0]?.image;
-  const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric' }).format(new Date());
+  const allSpreads = [cover, ...spreads];
+  const today = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }).format(new Date());
+  const dayIndex = getDailyIndex(3); // rotate which quote shows
+
+  // standalone quote cards that float between brand cards
+  const floatingQuotes = [
+    'Status is not a logo. It is how you carry the outfit.',
+    'She got dressed today and the whole room knew.',
+    'The fit is the first thing she said and the last thing they forgot.',
+  ];
 
   return (
     <>
-      {/* ── COVER ── */}
-      <section className="mag-cover">
-        {coverImage ? <img src={coverImage} alt="" className="mag-cover-img" /> : null}
-        <div className="mag-cover-overlay" />
-        <div className="mag-cover-masthead">
-          <p className="mag-date">{today}</p>
-          <p className="mag-kicker">{cover.editorial.kicker}</p>
-          <h1 className="mag-cover-title">{cover.editorial.headline}</h1>
-          <p className="mag-cover-dek">{cover.editorial.dek}</p>
+      {/* ── MASTHEAD ── */}
+      <section className="paper-masthead">
+        <div className="paper-masthead-inner">
+          <div className="paper-rule" />
+          <p className="paper-date">{today}</p>
+          <h1 className="paper-title">Brands By Status</h1>
+          <p className="paper-subtitle">The Daily Status</p>
+          <div className="paper-rule" />
         </div>
       </section>
 
-      {/* ── COVER STORY OPENING ── */}
-      <section className="mag-opening">
-        <div className="mag-opening-inner">
-          <p className="mag-collection-name">{cover.editorial.brandName || cover.collection?.name || 'Today\'s Edit'}</p>
-          <p className="mag-body-text">{cover.editorial.intro}</p>
-          <p className="mag-vibe">{cover.editorial.mood}</p>
-        </div>
-      </section>
+      {/* ── NEWSPAPER GRID ── */}
+      <section className="paper-grid" id="brands">
+        {allSpreads.map((spread, i) => {
+          const brand = spread.editorial;
+          const quote = brand.quotes?.[dayIndex % brand.quotes.length] || brand.headline;
+          const sceneText = brand.scene || brand.dek;
+          const image = spread.images[0]?.url || spread.products[0]?.image;
+          const secondImage = spread.images[1]?.url || spread.products[1]?.image;
+          const products = spread.products.slice(0, 3);
+          const collectionUrl = spread.collection ? getCollectionUrl(spread.collection) : '#shop';
+          const isFeature = i === 0;
 
-      {/* ── COVER STORY PRODUCTS (woven with images) ── */}
-      {cover.products.length ? (
-        <section className="mag-product-spread">
-          {cover.products.slice(0, 3).map((product, i) => (
-            <div className={`mag-product-card ${i === 0 ? 'mag-product-feature' : ''}`} key={product.id}>
-              <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
-                <img src={product.image} alt={product.name} />
-              </button>
-              <div className="mag-product-caption">
-                <h3>{product.name}</h3>
-                <span>${product.price}</span>
-              </div>
-            </div>
-          ))}
-        </section>
-      ) : null}
+          return (
+            <React.Fragment key={spread.collection?.id || i}>
+              {/* Brand card */}
+              <article className={`paper-card ${isFeature ? 'paper-card-feature' : ''}`}>
+                {/* Quote */}
+                <blockquote className="paper-quote">{quote}</blockquote>
 
-      {/* ── PULL QUOTE ── */}
-      {cover.images[1]?.url ? (
-        <section className="mag-pullquote-spread">
-          <img src={cover.images[1].url} alt="" className="mag-pullquote-img" />
-          <blockquote className="mag-pullquote">{cover.editorial.headline}</blockquote>
-        </section>
-      ) : null}
-
-      {/* ── MORE COVER PRODUCTS ── */}
-      {cover.products.length > 3 ? (
-        <section className="mag-product-row">
-          {cover.products.slice(3, 7).map((product) => (
-            <div className="mag-product-card" key={product.id}>
-              <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
-                <img src={product.image} alt={product.name} />
-              </button>
-              <div className="mag-product-caption">
-                <h3>{product.name}</h3>
-                <span>${product.price}</span>
-              </div>
-            </div>
-          ))}
-        </section>
-      ) : null}
-
-      {/* ── REMAINING COLLECTION SPREADS ── */}
-      {spreads.map((spread, spreadIndex) => {
-        const spreadImage = spread.images[0]?.url || spread.products[0]?.image;
-        const secondImage = spread.images[1]?.url;
-        return (
-          <div key={spread.collection?.id || spreadIndex} id={spreadIndex === 0 ? 'brands' : undefined}>
-            {/* Full-bleed divider image */}
-            {spreadImage ? (
-              <section className="mag-divider-spread">
-                <img src={spreadImage} alt="" />
-                <div className="mag-divider-copy">
-                  <p className="mag-kicker">{spread.editorial.kicker}</p>
-                  <h2>{spread.collection?.name || 'The Edit'}</h2>
-                  <p>{spread.editorial.dek}</p>
-                </div>
-              </section>
-            ) : null}
-
-            {/* Brand story */}
-            <section className="mag-story-block">
-              <p className="mag-collection-name">{spread.editorial.brandName}</p>
-              <h3 className="mag-story-headline">{spread.editorial.headline}</h3>
-              <p className="mag-body-text">{spread.editorial.intro}</p>
-              <p className="mag-vibe">{spread.editorial.mood}</p>
-            </section>
-
-            {/* Products woven with secondary image */}
-            {spread.products.length ? (
-              <section className="mag-woven-section">
-                {secondImage ? (
-                  <div className="mag-woven-image">
-                    <img src={secondImage} alt="" />
-                  </div>
-                ) : null}
-                <div className="mag-woven-products">
-                  {spread.products.slice(0, 4).map((product) => (
-                    <div className="mag-product-card" key={product.id}>
-                      <button className="mag-product-img-btn" onClick={() => onSelectProduct(product)}>
-                        <img src={product.image} alt={product.name} />
-                      </button>
-                      <div className="mag-product-caption">
-                        <h3>{product.name}</h3>
-                        <span>${product.price}</span>
-                      </div>
+                {/* Product images + campaign image collage */}
+                <div className="paper-collage">
+                  {image ? (
+                    <div className="paper-collage-hero">
+                      <img src={image} alt="" />
                     </div>
+                  ) : null}
+                  {products.map((product) => (
+                    <button
+                      className="paper-collage-product"
+                      key={product.id}
+                      onClick={() => onSelectProduct(product)}
+                    >
+                      <img src={product.image} alt={product.name} />
+                      <span className="paper-product-name">{product.name}</span>
+                      <span className="paper-product-price">${product.price}</span>
+                    </button>
                   ))}
+                  {secondImage && !products.length ? (
+                    <div className="paper-collage-secondary">
+                      <img src={secondImage} alt="" />
+                    </div>
+                  ) : null}
                 </div>
-              </section>
-            ) : null}
 
-            {/* Product count */}
-            {spread.editorial.growth ? (
-              <section className="mag-interlude">
-                <p>{spread.editorial.growth}</p>
-              </section>
-            ) : null}
-          </div>
-        );
-      })}
+                {/* Brand name + blurb */}
+                <div className="paper-card-text">
+                  <h2 className="paper-brand-name">{brand.brandName}</h2>
+                  <p className="paper-scene">{sceneText}</p>
+                  <a className="paper-read-more" href={collectionUrl}>
+                    Read the full editorial <ArrowRight size={14} />
+                  </a>
+                </div>
+              </article>
+
+              {/* Floating quote between cards */}
+              {i < allSpreads.length - 1 && i % 2 === 0 ? (
+                <div className="paper-floating-quote">
+                  <p>{floatingQuotes[i % floatingQuotes.length]}</p>
+                </div>
+              ) : null}
+            </React.Fragment>
+          );
+        })}
+      </section>
     </>
   );
 }
@@ -2339,9 +2336,9 @@ export default function App() {
           <span>Brands By Status</span>
         </a>
         <nav>
-          <a href="#top">Magazine</a>
+          <a href="#top">Today</a>
           <a href="#brands">Brands</a>
-          <a href="#shop">Shop</a>
+          <a href="#shop">Shop All</a>
         </nav>
         <button className="bag-btn" onClick={() => setCartOpen(true)} aria-label="Open cart">
           <ShoppingBag size={19} />

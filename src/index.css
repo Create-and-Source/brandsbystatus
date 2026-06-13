@@ -609,335 +609,238 @@ h3 {
   margin-top: -18px;
 }
 
-/* ═══ MAGAZINE FLOW ═══ */
+/* ═══ NEWSPAPER FRONT PAGE ═══ */
 
-/* Cover */
-.mag-cover {
-  position: relative;
-  min-height: 100vh;
-  display: grid;
-  place-items: end start;
-  overflow: hidden;
-  background: var(--ink);
-}
-
-.mag-cover-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.78;
-}
-
-.mag-cover-overlay {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(0deg, rgba(12, 10, 8, 0.88), rgba(12, 10, 8, 0.12) 55%),
-    linear-gradient(90deg, rgba(12, 10, 8, 0.52), transparent 65%);
-}
-
-.mag-cover-masthead {
-  position: relative;
-  z-index: 1;
-  max-width: 960px;
-  padding: 0 42px 72px;
-  color: var(--paper-strong);
-}
-
-.mag-date {
-  margin-bottom: 16px;
-  color: var(--gold-light);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.mag-kicker {
-  margin-bottom: 12px;
-  color: var(--gold);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.mag-cover-title {
-  max-width: 880px;
-  margin-bottom: 20px;
-  font-size: clamp(48px, 9vw, 120px);
-  line-height: 0.92;
-  font-weight: 400;
-  font-style: italic;
-  color: inherit;
-}
-
-.mag-cover-dek {
-  max-width: 600px;
-  color: rgba(250, 247, 240, 0.78);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.65;
-}
-
-/* Opening text */
-.mag-opening {
-  padding: 96px 42px 80px;
+/* Masthead */
+.paper-masthead {
+  padding: 32px 28px 0;
   background: var(--paper);
 }
 
-.mag-opening-inner {
-  max-width: 820px;
+.paper-masthead-inner {
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
 }
 
-.mag-collection-name {
-  margin-bottom: 10px;
+.paper-rule {
+  height: 2px;
+  background: var(--ink);
+}
+
+.paper-date {
+  margin: 10px 0 4px;
+  color: var(--muted);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.paper-title {
+  margin: 0;
+  font-size: clamp(42px, 8vw, 96px);
+  line-height: 0.95;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -0.02em;
+}
+
+.paper-subtitle {
+  margin: 6px 0 12px;
   color: var(--gold);
   font-family: Inter, system-ui, sans-serif;
   font-size: 12px;
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-.mag-body-text {
-  color: var(--muted);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.85;
-}
-
-.mag-vibe {
-  margin-top: 18px;
-  color: var(--gold);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-/* Product spread (featured products in a row) */
-.mag-product-spread {
+/* Newspaper grid */
+.paper-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 28px 64px;
   background: var(--paper);
 }
 
-.mag-product-feature {
-  grid-row: span 2;
-}
-
-.mag-product-card {
-  position: relative;
+/* Brand card */
+.paper-card {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  padding: 22px;
   background: var(--paper-strong);
 }
 
-.mag-product-img-btn {
-  display: block;
-  width: 100%;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
+.paper-card-feature {
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
 }
 
-.mag-product-img-btn img {
+.paper-card-feature .paper-collage {
+  grid-row: 1 / 3;
+}
+
+.paper-card-feature .paper-quote {
+  font-size: clamp(28px, 4vw, 48px);
+}
+
+/* Quote */
+.paper-quote {
+  margin: 0 0 18px;
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.15;
+  font-weight: 400;
+  font-style: italic;
+}
+
+/* Collage */
+.paper-collage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.paper-collage-hero {
+  grid-column: span 2;
+  overflow: hidden;
+}
+
+.paper-collage-hero img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.paper-collage-product {
+  display: block;
+  border: 0;
+  padding: 0;
+  background: var(--paper);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.2s;
+}
+
+.paper-collage-product:hover {
+  transform: scale(1.02);
+}
+
+.paper-collage-product img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   display: block;
-  transition: opacity 0.3s;
 }
 
-.mag-product-img-btn:hover img {
-  opacity: 0.88;
-}
-
-.mag-product-caption {
-  padding: 14px 18px 18px;
-}
-
-.mag-product-caption h3 {
-  margin: 0 0 4px;
-  font-size: 15px;
+.paper-product-name {
+  display: block;
+  padding: 6px 8px 2px;
+  font-size: 12px;
   font-weight: 400;
   font-style: italic;
   line-height: 1.3;
+  color: var(--ink);
 }
 
-.mag-product-caption span {
+.paper-product-price {
+  display: block;
+  padding: 0 8px 8px;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.paper-collage-secondary {
+  grid-column: span 2;
+  overflow: hidden;
+}
+
+.paper-collage-secondary img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+/* Card text */
+.paper-card-text {
+  margin-top: auto;
+}
+
+.paper-brand-name {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: Inter, system-ui, sans-serif;
+  color: var(--gold);
+}
+
+.paper-scene {
+  margin: 0 0 12px;
   color: var(--muted);
   font-family: Inter, system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-}
-
-/* Pull quote spread */
-.mag-pullquote-spread {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 520px;
-  background: var(--ink);
-  overflow: hidden;
-}
-
-.mag-pullquote-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.88;
-}
-
-.mag-pullquote {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 64px 52px;
-  color: var(--paper-strong);
-  font-size: clamp(26px, 3.5vw, 46px);
-  line-height: 1.22;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.mag-pullquote-solo {
-  padding: 80px 42px;
-  background: var(--ink);
-  text-align: center;
-}
-
-.mag-pullquote-solo .mag-pullquote {
-  max-width: 900px;
-  margin: 0 auto;
-  justify-content: center;
-}
-
-/* Product row */
-.mag-product-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 2px;
-  background: var(--paper);
-}
-
-/* Divider spread (full bleed image with overlay text) */
-.mag-divider-spread {
-  position: relative;
-  min-height: 70vh;
-  display: grid;
-  place-items: end start;
-  overflow: hidden;
-  background: var(--ink);
-}
-
-.mag-divider-spread > img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.72;
-}
-
-.mag-divider-spread::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(12, 10, 8, 0.82), transparent 55%);
-}
-
-.mag-divider-copy {
-  position: relative;
-  z-index: 1;
-  max-width: 780px;
-  padding: 0 42px 62px;
-  color: var(--paper-strong);
-}
-
-.mag-divider-copy h2 {
-  margin-bottom: 14px;
-  font-size: clamp(36px, 6vw, 82px);
-  line-height: 0.94;
-  font-weight: 400;
-  font-style: italic;
-  color: inherit;
-}
-
-.mag-divider-copy p:not(.mag-kicker) {
-  max-width: 560px;
-  color: rgba(250, 247, 240, 0.76);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
-/* Story block (centered text between spreads) */
-.mag-story-block {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 72px 42px;
-  text-align: center;
+.paper-read-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 2px;
+  transition: color 0.2s;
 }
 
-.mag-story-headline {
-  margin-bottom: 22px;
-  font-size: clamp(28px, 4vw, 52px);
-  line-height: 1.05;
+.paper-read-more:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+}
+
+/* Floating quote */
+.paper-floating-quote {
+  grid-column: span 12;
+  padding: 36px 28px;
+  text-align: center;
+  border-block: 1px solid var(--line);
+}
+
+.paper-floating-quote p {
+  margin: 0;
+  font-size: clamp(24px, 3.5vw, 42px);
+  line-height: 1.15;
   font-weight: 400;
   font-style: italic;
-}
-
-/* Woven section (image + products side by side) */
-.mag-woven-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  background: var(--paper);
-}
-
-.mag-woven-image {
-  min-height: 480px;
-  overflow: hidden;
-}
-
-.mag-woven-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.mag-woven-products {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-}
-
-/* Interlude (italic text between sections) */
-.mag-interlude {
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 56px 42px;
-  text-align: center;
-  color: var(--muted);
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.82;
-  font-style: italic;
+  color: var(--ink);
 }
 
 /* Shop index */
 .mag-shop-index {
-  border-top: 1px solid var(--line);
-  padding: 72px 28px 64px;
+  border-top: 2px solid var(--ink);
+  padding: 52px 28px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .mag-index-header {
@@ -956,12 +859,23 @@ h3 {
   font-style: italic;
 }
 
+.mag-kicker {
+  color: var(--gold);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
 /* Colophon */
 .mag-colophon {
   max-width: 680px;
   margin: 0 auto;
-  padding: 96px 28px;
+  padding: 72px 28px 96px;
   text-align: center;
+  border-top: 1px solid var(--line);
 }
 
 .mag-colophon h2 {
@@ -2589,24 +2503,12 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  .mag-product-spread {
-    grid-template-columns: 1fr 1fr;
+  .paper-card {
+    grid-column: span 12;
   }
 
-  .mag-pullquote-spread {
+  .paper-card-feature {
     grid-template-columns: 1fr;
-  }
-
-  .mag-pullquote-img {
-    max-height: 420px;
-  }
-
-  .mag-woven-section {
-    grid-template-columns: 1fr;
-  }
-
-  .mag-woven-products {
-    grid-template-columns: 1fr 1fr;
   }
 
   .editorial-body {
@@ -2733,40 +2635,30 @@ footer {
     padding-right: 18px;
   }
 
-  .mag-cover {
-    min-height: 85vh;
+  .paper-grid {
+    padding: 16px 14px 48px;
   }
 
-  .mag-product-spread {
+  .paper-card {
+    padding: 16px;
+  }
+
+  .paper-collage {
     grid-template-columns: 1fr;
   }
 
-  .mag-product-feature {
-    grid-row: auto;
+  .paper-collage-hero {
+    grid-column: auto;
   }
 
-  .mag-pullquote {
-    font-size: clamp(22px, 6vw, 32px);
-    padding: 42px 24px;
-  }
-
-  .mag-woven-products {
-    grid-template-columns: 1fr;
-  }
-
-  .mag-divider-spread {
-    min-height: 50vh;
+  .paper-floating-quote {
+    padding: 24px 14px;
   }
 
   .editorial-body,
   .editorial-gallery {
     padding-left: 18px;
     padding-right: 18px;
-  }
-
-  .magazine-strip {
-    min-height: 150px;
-    gap: 4px;
   }
 
   .editorial-hero {

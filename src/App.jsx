@@ -2369,6 +2369,7 @@ export default function App() {
   const [query, setQuery] = useState('');
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [catalogOpen, setCatalogOpen] = useState(false);
   const [orderStatus, setOrderStatus] = useState('');
   const [orderLoading, setOrderLoading] = useState(false);
   const [storeProducts, setStoreProducts] = useState(cachedProducts);
@@ -2705,13 +2706,24 @@ export default function App() {
         {/* ── THE DROP PAPER ── */}
         <MagazineFlow magazine={fullMagazine} onSelectProduct={setSelectedProduct} />
 
-        {/* ── SHOP ALL (searchable grid) ── */}
-        <section className="drop-shop-index" id="shop">
-          <div className="drop-section-inner">
-            <div className="drop-shop-header">
+        {/* ── SHOP ALL BUTTON ── */}
+        <section className="drop-shop-trigger" id="shop">
+          <button className="drop-shop-trigger-btn" onClick={() => setCatalogOpen(true)}>
+            Browse Full Catalogue <ArrowRight size={15} />
+          </button>
+          <p className="drop-shop-trigger-sub">{storeProducts.length} pieces across all brands</p>
+        </section>
+
+        {/* ── SHOP ALL SHEET ── */}
+        {catalogOpen ? (
+          <div className={`catalog-sheet catalog-sheet-open`}>
+            <div className="catalog-sheet-handle" onClick={() => setCatalogOpen(false)}>
+              <div className="catalog-sheet-bar" />
+            </div>
+            <div className="catalog-sheet-header">
               <div>
-                <h2 className="drop-section-label">Shop All</h2>
-                <p className="drop-section-sub">Every piece from every brand, all in one place.</p>
+                <h2>Full Catalogue</h2>
+                <p>{filteredProducts.length} piece{filteredProducts.length === 1 ? '' : 's'}</p>
               </div>
               <div className="search-box">
                 <Search size={17} />
@@ -2724,33 +2736,35 @@ export default function App() {
               </div>
             </div>
 
-            <div className="collection-tabs" aria-label="Filter by category">
-              {visibleCollections.map((collection) => (
-                <button
-                  className={collection === activeCollection ? 'tab tab-active' : 'tab'}
-                  key={collection}
-                  onClick={() => setActiveCollection(collection)}
-                >
-                  {collection}
-                </button>
-              ))}
-            </div>
-
-            {visibleDesignCollections.length > 1 ? (
-              <div className="collection-tabs design-tabs" aria-label="Filter by brand">
-                {visibleDesignCollections.map((collection) => (
+            <div className="catalog-sheet-filters">
+              <div className="collection-tabs" aria-label="Filter by category">
+                {visibleCollections.map((collection) => (
                   <button
-                    className={collection === activeDesignCollection ? 'tab tab-active' : 'tab'}
+                    className={collection === activeCollection ? 'tab tab-active' : 'tab'}
                     key={collection}
-                    onClick={() => setActiveDesignCollection(collection)}
+                    onClick={() => setActiveCollection(collection)}
                   >
                     {collection}
                   </button>
                 ))}
               </div>
-            ) : null}
 
-            <div className="product-grid">
+              {visibleDesignCollections.length > 1 ? (
+                <div className="collection-tabs design-tabs" aria-label="Filter by brand">
+                  {visibleDesignCollections.map((collection) => (
+                    <button
+                      className={collection === activeDesignCollection ? 'tab tab-active' : 'tab'}
+                      key={collection}
+                      onClick={() => setActiveDesignCollection(collection)}
+                    >
+                      {collection}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+
+            <div className="catalog-sheet-grid">
               {productsLoading ? (
                 <div className="product-state">
                   <ShoppingBag size={30} />
@@ -2768,7 +2782,7 @@ export default function App() {
               )}
             </div>
           </div>
-        </section>
+        ) : null}
 
         {/* ── COLOPHON ── */}
         <section className="drop-colophon">

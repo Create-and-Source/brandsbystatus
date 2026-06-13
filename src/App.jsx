@@ -1162,7 +1162,6 @@ function CollectionEditorialPage({
             const feedDate = new Date();
             feedDate.setDate(feedDate.getDate() - (i * 2 + Math.floor(i / 3)));
             const dateStr = feedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-            const isWide = i % 5 === 0;
             const quoteIndex = i % (editorial.quotes?.length || 1);
             const showQuote = i > 0 && i % 4 === 0 && editorial.quotes?.[quoteIndex];
 
@@ -1173,7 +1172,7 @@ function CollectionEditorialPage({
                     &ldquo;{editorial.quotes[quoteIndex]}&rdquo;
                   </blockquote>
                 ) : null}
-                <article className={`ed-feed-item ${isWide ? 'ed-feed-item-wide' : ''}`}>
+                <article className="ed-feed-item">
                   <p className="ed-feed-date">{dateStr}</p>
                   <button className="ed-feed-img" onClick={() => onSelectProduct(product)}>
                     <img src={product.image} alt={product.name} />

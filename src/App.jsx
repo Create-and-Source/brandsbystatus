@@ -1049,6 +1049,24 @@ function CollectionEditorialPage({
   const thirdImage = allImages[2]?.url;
   const remainingImages = allImages.slice(3);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [editFilter, setEditFilter] = useState('All');
+
+  const productCategories = useMemo(() => {
+    const cats = new Set();
+    products.forEach((product) => {
+      if (product.collection) cats.add(product.collection);
+      (product.customCategories || []).forEach((c) => cats.add(c.name));
+    });
+    return ['All', ...cats];
+  }, [products]);
+
+  const filteredEditProducts = useMemo(() => {
+    if (editFilter === 'All') return products;
+    return products.filter((product) => {
+      const customNames = (product.customCategories || []).map((c) => c.name);
+      return product.collection === editFilter || customNames.includes(editFilter);
+    });
+  }, [products, editFilter]);
 
   return (
     <>
@@ -1159,10 +1177,23 @@ function CollectionEditorialPage({
             <div className="ed-section-label">
               <span>The Edit</span>
               <span className="ed-divider" />
-              <span>{products.length} piece{products.length === 1 ? '' : 's'}</span>
+              <span>{filteredEditProducts.length} piece{filteredEditProducts.length === 1 ? '' : 's'}</span>
             </div>
+            {productCategories.length > 2 ? (
+              <div className="ed-filter-pills">
+                {productCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    className={cat === editFilter ? 'ed-pill ed-pill-active' : 'ed-pill'}
+                    onClick={() => setEditFilter(cat)}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            ) : null}
             <div className="ed-picks">
-              {products.map((product, i) => (
+              {filteredEditProducts.map((product, i) => (
                 <div className={`ed-pick ${i === 0 ? 'ed-pick-feature' : ''}`} key={product.id}>
                   <button className="ed-pick-img-btn" onClick={() => onSelectProduct(product)}>
                     <img src={product.image} alt={product.name} />

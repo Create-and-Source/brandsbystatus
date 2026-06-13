@@ -1658,6 +1658,42 @@ h3 {
   background: var(--line);
 }
 
+.ed-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.ed-pill {
+  padding: 7px 16px;
+  border: 1px solid var(--line);
+  background: none;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.ed-pill:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
+.ed-pill-active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-strong);
+}
+
+.ed-pill-active:hover {
+  background: var(--ink);
+  color: var(--paper-strong);
+}
+
 .ed-picks {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));

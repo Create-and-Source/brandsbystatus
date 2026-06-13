@@ -268,9 +268,9 @@ function buildCollectionEditorial(collection, products, horizontalImages, portra
 
   return {
     ...tone,
-    intro: `${collection?.name || 'This collection'} reads like a mini world: ${categoryText} moving through the same visual attitude. It starts with ${leadProduct}, then keeps widening as new products and campaign images are added.`,
-    mood: `The mood is not a single outfit; it is a repeatable point of view. ${secondProduct} can sit next to a hoodie, a journal, a tote, or a phone case and still feel like it belongs to the same story.`,
-    growth: `Right now this edit includes ${productCount || 'new'} product${productCount === 1 ? '' : 's'} and ${imageCount || 'a growing set of'} campaign image${imageCount === 1 ? '' : 's'}. As more pieces are assigned here, this page becomes a fuller editorial instead of a static collection landing page.`,
+    intro: `Every piece in ${collection?.name || 'this collection'} was chosen to say the same thing — ${categoryText} that move together without trying too hard. ${leadProduct} sets the tone, and everything else falls in line.`,
+    mood: `This is not about one outfit. It is a point of view you can repeat: ${secondProduct} next to a hoodie, a journal, a tote, or a phone case — and it all still feels like the same story.`,
+    growth: `${productCount || 'New'} piece${productCount === 1 ? '' : 's'}, ${imageCount || 'a growing set of'} campaign image${imageCount === 1 ? '' : 's'}, and room to keep building. The edit gets richer every time something new lands here.`,
   };
 }
 

@@ -2181,14 +2181,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="brand-intro">
-          <p className="eyebrow">The drop</p>
-          <h2>Everyday pieces with main-character energy.</h2>
-          <p>
-            Built like a real store, stocked with original Brands By Status designs, and organized
-            by the way you actually shop: tees, hoodies, tanks, bags, phone cases, journals, and seasonal drops.
-          </p>
-        </section>
 
         <DailyMagazineIssue
           issue={dailyMagazineIssue}

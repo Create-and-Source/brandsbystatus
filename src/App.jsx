@@ -736,17 +736,6 @@ function CollectionEditorialPage({
           </article>
         </section>
 
-        {allImages.length ? (
-          <section className="editorial-gallery" id="collection-gallery">
-            {allImages.slice(0, 10).map((image, index) => (
-              <figure className={image.orientation === 'horizontal' ? 'wide' : ''} key={image.id || image.url}>
-                <img src={image.url} alt={image.alt || ''} />
-                <figcaption>{String(index + 1).padStart(2, '0')}</figcaption>
-              </figure>
-            ))}
-          </section>
-        ) : null}
-
         <section className="shop-section editorial-products" id="collection-products">
           <div className="section-head">
             <div>
@@ -778,6 +767,17 @@ function CollectionEditorialPage({
             ) : null}
           </div>
         </section>
+
+        {allImages.length ? (
+          <section className="editorial-gallery" id="collection-gallery">
+            {allImages.slice(0, 10).map((image, index) => (
+              <figure className={image.orientation === 'horizontal' ? 'wide' : ''} key={image.id || image.url}>
+                <img src={image.url} alt={image.alt || ''} />
+                <figcaption>{String(index + 1).padStart(2, '0')}</figcaption>
+              </figure>
+            ))}
+          </section>
+        ) : null}
       </main>
     </>
   );
